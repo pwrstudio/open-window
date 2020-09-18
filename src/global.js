@@ -1,15 +1,3 @@
-export const STATE = {
-  ERROR: 0,
-  READY: 1,
-  PROGRAM_WEEK: 2,
-  PROGRAM_DAY: 3,
-  PROGRAM_EVENT: 4,
-  ARCHIVE: 5,
-  ARCHIVE_EVENT: 6,
-  ABOUT: 7,
-  ABOUT_PAGE: 8,
-}
-
 export const SANITY_PROJECT_ID = "mm4gom7h"
 
 export const QUERY = {

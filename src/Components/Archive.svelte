@@ -6,8 +6,11 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fade } from "svelte/transition"
-  import { links } from "svelte-routing"
+  import { fade, slide } from "svelte/transition"
+  import { Router, Route, links } from "svelte-routing"
+
+  // *** COMPONENTS
+  import Slideshow from "./Slideshow.svelte"
 </script>
 
 <style lang="scss">
@@ -20,7 +23,8 @@
     z-index: 1000;
     width: 100vw;
     height: 100vh;
-    background: cyan;
+    background: $white;
+    padding: 20px;
 
     @include screen-size("small") {
       //   padding-bottom: 40px;
@@ -28,4 +32,11 @@
   }
 </style>
 
-<div class="archive" use:links><a href="/">close</a></div>
+<Router>
+  <div class="archive" use:links transition:slide>
+    <a href="/">close</a>
+    <br />
+    <a href="/archive/a-slug">slideshow</a>
+    <Route path=":slug" component={Slideshow} />
+  </div>
+</Router>

@@ -7,7 +7,8 @@
 
   // IMPORTS
   import { onMount } from "svelte"
-  import { links, navigate } from "svelte-routing"
+  import { Router, Route, links } from "svelte-routing"
+  import { slide } from "svelte/transition"
 
   // *** SANITY
   import { urlFor, loadData } from "./sanity.js"
@@ -16,7 +17,7 @@
   // import { globalSeed, generation, epoch } from "./stores.js"
 
   // *** GLOBAL
-  import { STATE, QUERY } from "./global.js"
+  import { QUERY } from "./global.js"
 
   // *** PROPS
   export let section = false
@@ -36,105 +37,24 @@
 
   // *** DOM REFERENCES
 
-  // WRITABLE
-  const UI = { state: false, slug: false, errorMessage: false }
-  const setUIState = (newState, newSlug = false, errorMessage = false) => {
-    switch (newState) {
-      case STATE.READY:
-        UI.state = STATE.READY
-        UI.slug = false
-        history.pushState({}, "", "/")
-        break
-      case STATE.PROGRAM_WEEK:
-        UI.state = STATE.PROGRAM_WEEK
-        UI.slug = false
-        history.pushState({}, "", "/program/")
-        break
-      case STATE.PROGRAM_DAY:
-        UI.state = STATE.PROGRAM_DAY
-        UI.slug = newSlug
-        history.pushState({}, "", "/program/" + UI.slug)
-        break
-      case STATE.PROGRAM_EVENT:
-        UI.state = STATE.PROGRAM_EVENT
-        UI.slug = newSlug
-        history.pushState({}, "", "/program/" + UI.slug)
-        break
-      case STATE.ARCHIVE:
-        UI.state = STATE.ARCHIVE
-        UI.slug = false
-        history.pushState({}, "", "/archive/")
-        break
-      case STATE.ARCHIVE_EVENT:
-        UI.state = STATE.ARCHIVE_EVENT
-        UI.slug = newSlug
-        history.pushState({}, "", "/archive/" + UI.slug)
-        break
-      case STATE.ABOUT:
-        UI.state = STATE.ABOUT
-        UI.slug = false
-        history.pushState({}, "", "/about/")
-        break
-      case STATE.ABOUT_PAGE:
-        UI.state = STATE.ABOUT_PAGE
-        UI.slug = newSlug
-        history.pushState({}, "", "/about/" + UI.slug)
-        break
-      default:
-        UI.state = STATE.ERROR
-        UI.slug = false
-        UI.errorMessage = errorMessage
-        history.pushState({}, "", "/error/")
-    }
-  }
-
-  $: {
-    console.log("STATE: ", UI.state)
-  }
-
-  $: {
-    if (section || slug) {
-      urlParamsToState()
-    }
-  }
-
   // Load data
   // let projectPost = false
   // let authorPost = false
   // let projects = []
   // let authors = []
   // let metaPost = false
+  let pages = []
+  let events = []
   let posts = loadData(QUERY.ALL)
-
-  const urlParamsToState = () => {
-    console.log("URL TO PARAMS !!!")
-    switch (section) {
-      case "program":
-        slug
-          ? setUIState(STATE.PROGRAM_EVENT, slug)
-          : setUIState(STATE.PROGRAM_WEEK)
-        break
-      case "about":
-        slug ? setUIState(STATE.ABOUT_PAGE, slug) : setUIState(STATE.ABOUT)
-        break
-      case "archive":
-        slug ? setUIState(STATE.ARCHIVE_EVENT, slug) : setUIState(STATE.ARCHIVE)
-        break
-      default:
-        setUIState(STATE.READY)
-    }
-  }
 
   onMount(async () => {
     posts.then((posts) => {
-      console.dir(posts)
-      // metaPost = posts.find((p) => p._type === "introduction")
-      // authors = posts.filter((p) => p._type === "author")
-      // projects = posts.filter((p) => p._type === "project")
-      // // console.dir(metaPost)
-      // // console.dir(projects)
-      // // console.dir(authors)
-      urlParamsToState()
+      // console.dir(posts)
+      // pages = posts.find((p) => p._type === "introduction")
+      pages = posts.filter((p) => p._type === "page")
+      events = posts.filter((p) => p._type === "event")
+      console.dir(pages)
+      console.dir(events)
     })
   })
 </script>
@@ -150,48 +70,50 @@
     left: 0;
   }
 
-  .bar {
+  .bottom-bars {
     position: fixed;
-    width: 100vw;
-    height: 40px;
+    bottom: 0px;
     left: 0;
+    height: 80px;
+    width: 100vw;
+  }
 
-    &.first {
-      bottom: 40px;
-    }
-
-    &.second {
-      bottom: 0;
-    }
+  .bar {
+    width: 100%;
+    height: 40px;
   }
 </style>
 
-<!-- PROGRAM -->
-{#if UI.state === STATE.PROGRAM_WEEK || UI.state === STATE.PROGRAM_EVENT}
-  <Program />
-{/if}
+<Router>
+  <!-- MAIN -->
+  <main class="main" use:links>
+    <Cloud />
+  </main>
 
-<!-- ARCHIVE -->
-{#if UI.state === STATE.ARCHIVE || UI.state === STATE.ARCHIVE_EVENT}
-  <Archive />
-{/if}
+  <!-- MENU -->
+  <Route path="">
+    <div class="bottom-bars" transition:slide>
+      <div class="bar">
+        <MenuBar />
+      </div>
+      <div class="bar">
+        <InfoBar />
+      </div>
+    </div>
+  </Route>
 
-<!-- ABOUT -->
-{#if UI.state === STATE.ABOUT || UI.state === STATE.ABOUT_PAGE}
-  <About />
-{/if}
+  <!-- PROGRAM -->
+  <Route path="program/*">
+    <Program />
+  </Route>
 
-<!-- MAIN -->
-<main class="main" use:links>
-  <Cloud />
-</main>
+  <!-- ARCHIVE -->
+  <Route path="archive/*">
+    <Archive />
+  </Route>
 
-<!-- MENU -->
-{#if UI.state === STATE.READY}
-  <div class="bar first">
-    <MenuBar />
-  </div>
-  <div class="bar second">
-    <InfoBar />
-  </div>
-{/if}
+  <!-- ABOUT -->
+  <Route path="about/*">
+    <About />
+  </Route>
+</Router>

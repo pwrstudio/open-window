@@ -20,8 +20,6 @@
 
 <main>
   <Router>
-    <Route path="/" component={Main} />
-    <Route path="/:section" component={Main} />
-    <Route path="/:section/:slug" component={Main} />
+    <Route path="/*" component={Main} />
   </Router>
 </main>
