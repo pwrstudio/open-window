@@ -9,6 +9,7 @@
   import { onMount } from "svelte"
   import { Router, Route, links } from "svelte-routing"
   import { slide } from "svelte/transition"
+  import { quintOut } from "svelte/easing"
 
   // *** SANITY
   import { urlFor, loadData } from "./sanity.js"
@@ -92,7 +93,10 @@
 
   <!-- MENU -->
   <Route path="">
-    <div class="bottom-bars" transition:slide>
+    <div
+      class="bottom-bars"
+      in:slide={{ easing: quintOut, delay: 300, duration: 500 }}
+      out:slide={{ easing: quintOut, duration: 500 }}>
       <div class="bar">
         <MenuBar />
       </div>
@@ -103,9 +107,7 @@
   </Route>
 
   <!-- PROGRAM -->
-  <Route path="program/*">
-    <Program />
-  </Route>
+  <Route path="program/*" component={Program} />
 
   <!-- ARCHIVE -->
   <Route path="archive/*">

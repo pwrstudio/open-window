@@ -8,6 +8,10 @@
   // IMPORTS
   import { fade } from "svelte/transition"
   import { links } from "svelte-routing"
+
+  // *** GRAPHICS
+  import ArrowLeft from "./Graphics/ArrowLeft.svelte"
+  import ArrowRight from "./Graphics/ArrowRight.svelte"
 </script>
 
 <style lang="scss">
@@ -20,7 +24,7 @@
     z-index: 10000;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 0, 0, 0.9);
+    background: rgba(255, 255, 255, 1);
     padding: 40px;
     @include screen-size("small") {
       //   padding-bottom: 40px;

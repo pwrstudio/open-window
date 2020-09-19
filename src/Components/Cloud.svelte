@@ -16,7 +16,7 @@
   .cloud {
     width: 100%;
     height: 100%;
-    padding-bottom: 80px;
+    // padding-bottom: 80px;
     background: $black;
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@
 </style>
 
 <div class="cloud" use:links>
-  <div class="vimeo-container">
+  <!-- <div class="vimeo-container">
     <iframe
       width="1080"
       height="720"
@@ -66,6 +66,6 @@
       color="#ffffff"
       allow="autoplay; fullscreen"
       allowfullscreen />
-  </div>
-  <!-- <img src="/sky.jpg" /> -->
+  </div> -->
+  <img src="/sky.jpg" />
 </div>

@@ -7,20 +7,35 @@
 
   // IMPORTS
   import { fly } from "svelte/transition"
-  import { Router, Route, links } from "svelte-routing"
+  import { quintOut } from "svelte/easing"
+  import { Router, Route, links, navigate } from "svelte-routing"
+
+  import { getContext } from "svelte"
+  import { ROUTER } from "svelte-routing/src/contexts"
+  const { activeRoute } = getContext(ROUTER)
+
+  // $: {
+  //   console.log($activeRoute)
+  // }
+
+  export let location = "XXX"
+
+  console.dir(location)
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
   import ArrowDown from "./Graphics/ArrowDown.svelte"
   import LiveIcon from "./Graphics/LiveIcon.svelte"
+  import { alert } from "lodash/_freeGlobal"
 
   let weekdays = [
     { weekday: "Monday", date: "19" },
-    { weekday: "Monday", date: "19" },
-    { weekday: "Monday", date: "19" },
-    { weekday: "Monday", date: "19" },
-    { weekday: "Monday", date: "19" },
-    { weekday: "Monday", date: "19" },
+    { weekday: "Tuesday", date: "20" },
+    { weekday: "Wednesday", date: "21" },
+    { weekday: "Thursday", date: "22" },
+    { weekday: "Friday", date: "23" },
+    { weekday: "Saturday", date: "24" },
+    { weekday: "Sunday", date: "25" },
   ]
 
   let events = [
@@ -84,6 +99,7 @@
         position: absolute;
         top: 10px;
         right: 15px;
+        cursor: pointer;
         // background: red;
       }
 
@@ -264,10 +280,31 @@
     <!-- PANEL 1 => WEEK -->
     <div
       class="panel week"
-      transition:fly={{ x: -window.innerWidth / 3, opacity: 0.8 }}>
-      <a href="/" class="close"><X /></a>
+      transition:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}>
+      <div
+        class="close"
+        on:click={(e) => {
+          console.dir($activeRoute.params['*'])
+          if ($activeRoute.params['*'].includes('/')) {
+            navigate('/program/' + $activeRoute.params['*'].split('/')[0])
+            setTimeout(() => {
+              navigate('/program/')
+              setTimeout(() => {
+                navigate('/')
+              }, 500)
+            }, 500)
+          } else if ($activeRoute.params['*'].length > 0) {
+            navigate('/program/')
+            setTimeout(() => {
+              navigate('/')
+            }, 500)
+          } else {
+            navigate('/')
+          }
+        }}>
+        <X />
+      </div>
       <div class="header"><img src="/img/program.svg" alt="Program" /></div>
-
       <div class="week-container">
         <div class="navigation">
           <div><span class="arrow">&lt;</span> PREV</div>
@@ -282,11 +319,16 @@
         {/each}
       </div>
     </div>
+
     <Route path=":date/*slug" let:params>
       <!-- PANEL 2 => DAY -->
       <div
         class="panel day"
-        transition:fly={{ x: -window.innerWidth / 3, opacity: 0.8 }}>
+        transition:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}
+        on:mount={(e) => {
+          console.dir(e)
+          console.log('mount')
+        }}>
         <div class="day-container">
           {#each events as event}
             <a class="item" href={'/program/' + params.date + '/event'}>
@@ -297,7 +339,6 @@
             </a>
           {/each}
         </div>
-
         <div class="scroll-indicator">
           <ArrowDown />
         </div>
@@ -306,7 +347,7 @@
         <!-- PANEL 3 => EVENT -->
         <div
           class="panel event"
-          transition:fly={{ x: -window.innerWidth / 3, opacity: 0.8 }}>
+          transition:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}>
           <a href={'/program/' + params.date} class="close"><X /></a>
           <div class="event-container">
             <div class="image"><img src="/img/test.jpg" /></div>
