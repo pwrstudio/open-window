@@ -146,8 +146,10 @@
             display: flex;
             justify-content: space-between;
             .weekday {
+              transform: scaleY(1.14);
             }
             .date {
+              transform: scaleY(1.14);
             }
 
             &:hover,
@@ -184,6 +186,7 @@
             .time {
               font-family: $serif-stack;
               font-size: $font-size-medium;
+              transform: scaleY(1.14);
             }
             .title {
               font-family: $sans-stack;
@@ -250,6 +253,7 @@
               width: calc(100% - 60px);
               padding-right: 10px;
               // background: red;
+              transform: scaleY(1.14);
 
               .title {
               }

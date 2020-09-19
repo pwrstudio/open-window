@@ -88,6 +88,7 @@
           .item {
             font-family: $serif-stack;
             font-size: $font-size-large;
+            transform: scaleY(1.14);
             line-height: 1.1em;
             display: block;
             &:hover {
@@ -106,6 +107,7 @@
           .text {
             font-family: $serif-stack;
             font-size: $font-size-normal;
+            transform: scaleY(1.14);
           }
           .logos {
             display: flex;
