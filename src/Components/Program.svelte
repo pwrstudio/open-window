@@ -11,6 +11,8 @@
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
+  import ArrowDown from "./Graphics/ArrowDown.svelte"
+  import LiveIcon from "./Graphics/LiveIcon.svelte"
 
   let weekdays = [
     { weekday: "Monday", date: "19" },
@@ -19,6 +21,45 @@
     { weekday: "Monday", date: "19" },
     { weekday: "Monday", date: "19" },
     { weekday: "Monday", date: "19" },
+  ]
+
+  let events = [
+    {
+      time: "09.00–10.15",
+      title: "XYZ Knitting or Searching for Mary",
+      participant: "Märta Louise Karlsson",
+      location: "Design School",
+    },
+    {
+      time: "09.00–10.15",
+      title: "XYZ Knitting or Searching for Mary",
+      participant: "Märta Louise Karlsson",
+      location: "Design School",
+    },
+    {
+      time: "09.00–10.15",
+      title: "XYZ Knitting or Searching for Mary",
+      participant: "Märta Louise Karlsson",
+      location: "Design School",
+    },
+    {
+      time: "09.00–10.15",
+      title: "XYZ Knitting or Searching for Mary",
+      participant: "Märta Louise Karlsson",
+      location: "Design School",
+    },
+    {
+      time: "09.00–10.15",
+      title: "XYZ Knitting or Searching for Mary",
+      participant: "Märta Louise Karlsson",
+      location: "Design School",
+    },
+    {
+      time: "09.00–10.15",
+      title: "XYZ Knitting or Searching for Mary",
+      participant: "Märta Louise Karlsson",
+      location: "Design School",
+    },
   ]
 </script>
 
@@ -31,7 +72,6 @@
       top: 0;
       width: 33.33333vw;
       height: 100vh;
-      padding: 10px;
 
       a {
         color: $black;
@@ -40,24 +80,23 @@
         // transform: scaleY(1.14);
       }
 
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        // background: red;
+      }
+
       &.week {
         left: 0;
         z-index: 1002;
         background: $white;
         border-right: 1px solid $black;
-        // position: relative;
-
-        .close {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          // background: red;
-        }
 
         .header {
           position: absolute;
           top: 10px;
-          left: 10px;
+          left: 15px;
           // background: red;
 
           img {
@@ -66,6 +105,7 @@
         }
 
         .week-container {
+          padding: 15px;
           padding-top: 140px;
 
           .navigation {
@@ -73,11 +113,19 @@
             font-size: $font-size-normal;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+
+            .arrow {
+              display: inline-block;
+              position: relative;
+              top: -2px;
+            }
           }
+
           .item {
             font-family: $serif-stack;
             font-size: $font-size-large;
+            line-height: 1.1em;
             display: flex;
             justify-content: space-between;
             .weekday {
@@ -98,11 +146,110 @@
         border-right: 1px solid $black;
         font-family: $sans-stack;
         font-size: 26px;
+
+        .day-container {
+          padding: 15px;
+          padding-bottom: 120px;
+          height: 100vh;
+          overflow-y: scroll;
+
+          @include hide-scroll;
+
+          .item {
+            margin-bottom: 40px;
+            display: block;
+
+            &:hover {
+              color: $green;
+            }
+
+            .time {
+              font-family: $serif-stack;
+              font-size: $font-size-medium;
+            }
+            .title {
+              font-family: $sans-stack;
+              font-size: $font-size-medium;
+            }
+            .participant {
+              font-family: $sans-stack;
+              font-size: $font-size-medium;
+            }
+            .location {
+              font-family: $sans-stack;
+              font-size: $font-size-normal;
+              float: right;
+              text-transform: uppercase;
+            }
+          }
+        }
+
+        .scroll-indicator {
+          position: absolute;
+          bottom: 0px;
+          left: px;
+          width: 100%;
+          height: 80px;
+          background: rgba(255, 255, 255, 0.95);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
       &.event {
         z-index: 1000;
         left: 66.6666vw;
         background: $white;
+
+        .event-container {
+          padding: 15px;
+          padding-top: 140px;
+          padding-bottom: 80px;
+          height: 100vh;
+          overflow-y: scroll;
+
+          @include hide-scroll;
+
+          .image {
+            margin-bottom: 20px;
+            img {
+              max-width: 100%;
+              max-height: 500px;
+            }
+          }
+
+          .header {
+            width: 100%;
+            // background: yellow;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+            .text {
+              font-family: $serif-stack;
+              font-size: $font-size-medium;
+              width: calc(100% - 60px);
+              padding-right: 10px;
+              // background: red;
+
+              .title {
+              }
+              .participant {
+              }
+              .time {
+              }
+            }
+            .live-icon {
+              // background: green;
+              height: 32px;
+            }
+          }
+
+          .content {
+            font-family: $sans-stack;
+            font-size: $font-size-normal;
+          }
+        }
       }
     }
 
@@ -123,33 +270,66 @@
 
       <div class="week-container">
         <div class="navigation">
-          <div>&lt; PREV</div>
+          <div><span class="arrow">&lt;</span> PREV</div>
           <div>OCTOBER 2020</div>
-          <div>NEXT &gt;</div>
+          <div>NEXT <span class="arrow">&gt;</span></div>
         </div>
         {#each weekdays as day}
-          <a class="item" href="/program/event">
+          <a class="item" href="/program/2020-10-19">
             <div class="weekday">{day.weekday}</div>
             <div class="date">{day.date}</div>
           </a>
         {/each}
       </div>
     </div>
-
-    <Route path="event/*slug" let:params>
+    <Route path=":date/*slug" let:params>
       <!-- PANEL 2 => DAY -->
       <div
         class="panel day"
         transition:fly={{ x: -window.innerWidth / 3, opacity: 0.8 }}>
-        <a href="/program">close</a><br />
-        <a href="/program/event/xxkknx">event</a>
+        <div class="day-container">
+          {#each events as event}
+            <a class="item" href={'/program/' + params.date + '/event'}>
+              <div class="time">{event.time}</div>
+              <div class="title">{event.title}</div>
+              <div class="participant">{event.participant}</div>
+              <div class="location">{event.location}</div>
+            </a>
+          {/each}
+        </div>
+
+        <div class="scroll-indicator">
+          <ArrowDown />
+        </div>
       </div>
       {#if params.slug}
         <!-- PANEL 3 => EVENT -->
         <div
           class="panel event"
           transition:fly={{ x: -window.innerWidth / 3, opacity: 0.8 }}>
-          <a href="/program/event">close</a><br /> event: {params.slug}
+          <a href={'/program/' + params.date} class="close"><X /></a>
+          <div class="event-container">
+            <div class="image"><img src="/img/test.jpg" /></div>
+            <div class="header">
+              <div class="text">
+                <div class="title">{events[0].title}</div>
+                <div class="participant">{events[0].participant}</div>
+                <div class="time">{events[0].time}</div>
+              </div>
+              <div class="live-icon">
+                <LiveIcon />
+              </div>
+            </div>
+            <div class="content">
+              Henry David Thoreau’s affection for the pine tree was stronger
+              than for any other tree. He called it “the emblem of my life”, and
+              he said that the pine forest next to his house in Walden was “my
+              best room”. He called it “the emblem of my life”, and he said that
+              the pine forest next to his house in Walden was “my best room”.
+              His affection for the pine tree was stronger than for any other
+              tree.
+            </div>
+          </div>
         </div>
       {/if}
     </Route>
