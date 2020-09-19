@@ -6,7 +6,6 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fade } from "svelte/transition"
   import { links } from "svelte-routing"
 </script>
 
@@ -30,7 +29,13 @@
       cursor: pointer;
       color: $black;
       text-decoration: none;
+
+      img {
+        margin-top: 6px;
+        height: 28px;
+      }
     }
+
     @include screen-size("small") {
       //   padding-bottom: 40px;
     }
@@ -38,7 +43,13 @@
 </style>
 
 <div class="menubar" use:links>
-  <a href="/program/" class="menu-item">PROGRAM</a>
-  <a href="/archive/" class="menu-item">ARCHIVE</a>
-  <a href="/about/" class="menu-item">ABOUT</a>
+  <a href="/program/" class="menu-item">
+    <img src="/img/program.svg" alt="Program" />
+  </a>
+  <a href="/archive/" class="menu-item">
+    <img src="/img/archive.svg" alt="Archive" />
+  </a>
+  <a href="/about/" class="menu-item">
+    <img src="/img/about.svg" alt="About" />
+  </a>
 </div>

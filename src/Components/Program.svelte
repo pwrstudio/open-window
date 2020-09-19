@@ -8,7 +8,18 @@
   // IMPORTS
   import { fly } from "svelte/transition"
   import { Router, Route, links } from "svelte-routing"
-  import { window } from "lodash/_freeGlobal"
+
+  // *** GRAPHICS
+  import X from "./Graphics/X.svelte"
+
+  let weekdays = [
+    { weekday: "Monday", date: "19" },
+    { weekday: "Monday", date: "19" },
+    { weekday: "Monday", date: "19" },
+    { weekday: "Monday", date: "19" },
+    { weekday: "Monday", date: "19" },
+    { weekday: "Monday", date: "19" },
+  ]
 </script>
 
 <style lang="scss">
@@ -20,10 +31,9 @@
       top: 0;
       width: 33.33333vw;
       height: 100vh;
-      padding: 20px;
+      padding: 10px;
 
       a {
-        text-transform: uppercase;
         color: $black;
         text-decoration: none;
         // display: inline-block;
@@ -34,9 +44,52 @@
         left: 0;
         z-index: 1002;
         background: $white;
-        font-family: $serif-stack;
         border-right: 1px solid $black;
-        font-size: 42px;
+        // position: relative;
+
+        .close {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          // background: red;
+        }
+
+        .header {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          // background: red;
+
+          img {
+            height: 28px;
+          }
+        }
+
+        .week-container {
+          padding-top: 140px;
+
+          .navigation {
+            font-family: $sans-stack;
+            font-size: $font-size-normal;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+          }
+          .item {
+            font-family: $serif-stack;
+            font-size: $font-size-large;
+            display: flex;
+            justify-content: space-between;
+            .weekday {
+            }
+            .date {
+            }
+
+            &:hover {
+              color: $green;
+            }
+          }
+        }
       }
       &.day {
         left: 33.33333vw;
@@ -65,11 +118,22 @@
     <div
       class="panel week"
       transition:fly={{ x: -window.innerWidth / 3, opacity: 0.8 }}>
-      <a href="/">close</a><br />
-      <a href="/program/event">Monday</a><br />
-      <a href="/program/event">Tuesday</a><br />
-      <a href="/program/event">Wednesday</a><br />
-      <a href="/program/event">Thursday</a><br />
+      <a href="/" class="close"><X /></a>
+      <div class="header"><img src="/img/program.svg" alt="Program" /></div>
+
+      <div class="week-container">
+        <div class="navigation">
+          <div>&lt; PREV</div>
+          <div>OCTOBER 2020</div>
+          <div>NEXT &gt;</div>
+        </div>
+        {#each weekdays as day}
+          <a class="item" href="/program/event">
+            <div class="weekday">{day.weekday}</div>
+            <div class="date">{day.date}</div>
+          </a>
+        {/each}
+      </div>
     </div>
 
     <Route path="event/*slug" let:params>
