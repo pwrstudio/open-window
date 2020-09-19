@@ -28,6 +28,7 @@
     align-items: center;
     padding-left: 20px;
     padding-right: 20px;
+    user-select: none;
 
     .menu-item {
       font-weight: bold;

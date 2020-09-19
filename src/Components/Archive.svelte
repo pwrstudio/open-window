@@ -105,9 +105,16 @@
       margin-bottom: 20px;
 
       .tag {
-        padding: 10px;
-        border: 1px solid $black;
+        padding: 7px 20px;
         margin-right: 10px;
+        background: $white;
+        box-shadow: 0px 0px 10px grey;
+        user-select: none;
+        cursor: pointer;
+
+        &:hover {
+          background: $green;
+        }
       }
     }
 

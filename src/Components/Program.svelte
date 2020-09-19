@@ -29,13 +29,13 @@
   import { alert } from "lodash/_freeGlobal"
 
   let weekdays = [
-    { weekday: "Monday", date: "19" },
-    { weekday: "Tuesday", date: "20" },
-    { weekday: "Wednesday", date: "21" },
-    { weekday: "Thursday", date: "22" },
-    { weekday: "Friday", date: "23" },
-    { weekday: "Saturday", date: "24" },
-    { weekday: "Sunday", date: "25" },
+    { weekday: "Monday", date: "19", slug: "2020-10-19" },
+    { weekday: "Tuesday", date: "20", slug: "2020-10-20" },
+    { weekday: "Wednesday", date: "21", slug: "2020-10-21" },
+    { weekday: "Thursday", date: "22", slug: "2020-10-22" },
+    { weekday: "Friday", date: "23", slug: "2020-10-23" },
+    { weekday: "Saturday", date: "24", slug: "2020-10-24" },
+    { weekday: "Sunday", date: "25", slug: "2020-10-25" },
   ]
 
   let events = [
@@ -130,6 +130,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            user-select: none;
 
             .arrow {
               display: inline-block;
@@ -149,7 +150,8 @@
             .date {
             }
 
-            &:hover {
+            &:hover,
+            &.active {
               color: $green;
             }
           }
@@ -210,6 +212,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          user-select: none;
         }
       }
       &.event {
@@ -312,7 +315,10 @@
           <div>NEXT <span class="arrow">&gt;</span></div>
         </div>
         {#each weekdays as day}
-          <a class="item" href="/program/2020-10-19">
+          <a
+            class="item"
+            href={'/program/' + day.slug}
+            class:active={$activeRoute.params['*'] === day.slug}>
             <div class="weekday">{day.weekday}</div>
             <div class="date">{day.date}</div>
           </a>
