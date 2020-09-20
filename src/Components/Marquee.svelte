@@ -1,30 +1,74 @@
 <script>
-  // # # # # # # # # # # # # #
-  //
-  //  MARQUEE
-  //
-  // # # # # # # # # # # # # #
+  import { onMount } from "svelte"
 
-  // IMPORTS
-  import { fade } from "svelte/transition"
-  import { links } from "svelte-routing"
+  export let duration = 15
+  export let repeat = 4
+  export let paused = false
+  export let pauseOnHover = false
+
+  let hovered = false
+
+  onMount(async () => {
+    // const container = document.querySelector("#container")
+    // container.onmouseover = () => {
+    //   hovered = true
+    // }
+    // container.onmouseleave = () => {
+    //   hovered = false
+    // }
+  })
 </script>
 
 <style lang="scss">
   @import "../variables.scss";
 
-  .marquee {
-    // position: absolute;
-    // top: 80px;
-    // height: calc(100vh - 120px);
-    // padding: 0;
-    // width: 100%;
-    // font-size: 12px;
-    // overflow: scroll;
-    @include screen-size("small") {
-      //   padding-bottom: 40px;
+  .content {
+    width: 100000px;
+  }
+
+  .text {
+    animation-name: animation;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    float: left;
+    user-select: none;
+
+    img {
+      height: 18px;
+      margin-right: 120px;
+      margin-top: 11px;
     }
+
+    .hdk-valand {
+      font-family: $serif-stack;
+      font-size: $font-size-medium;
+      transform: scaleY(1.14);
+      margin-right: 120px;
+      position: relative;
+      top: 0px;
+    }
+  }
+
+  @keyframes animation {
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .marquee-container {
+    background: $green;
+    height: 100%;
+    width: 100%;
   }
 </style>
 
-<div class="marquee" use:links />
+<div style="overflow: hidden;" class="marquee-container">
+  <div class="content">
+    {#each Array(repeat) as _, i}
+      <div class="text" style="animation-duration: {duration}s">
+        <img src="/img/open-window.svg" />
+        <span class="hdk-valand">HDK Valand</span>
+      </div>
+    {/each}
+  </div>
+</div>

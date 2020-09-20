@@ -60,6 +60,11 @@
         left: 15px;
         cursor: pointer;
         // background: red;
+        transition: transform 0.3s ease-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
       }
 
       &.menu {
@@ -116,7 +121,7 @@
             padding-bottom: 10px;
             img {
               display: block;
-              margin-right: 10px;
+              margin-right: 15px;
               height: 80px;
 
               &:last-child {

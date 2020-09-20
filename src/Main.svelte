@@ -20,9 +20,8 @@
   // *** GLOBAL
   import { QUERY } from "./global.js"
 
-  // *** PROPS
-  export let section = false
-  export let slug = false
+  // *** VARIABLES
+  let infoBarActive = false
 
   // *** COMPONENTS
   import About from "./Components/About.svelte"
@@ -77,6 +76,7 @@
     left: 0;
     height: 80px;
     width: 100vw;
+    background: white;
   }
 
   .bar {
@@ -100,14 +100,33 @@
       <div class="bar">
         <MenuBar />
       </div>
-      <div class="bar">
-        <InfoBar />
-      </div>
+
+      {#if infoBarActive}
+        <div
+          class="bar"
+          transition:slide
+          on:click={(e) => {
+            infoBarActive = !infoBarActive
+          }}>
+          <InfoBar />
+        </div>
+      {:else}
+        <div
+          class="bar"
+          transition:slide
+          on:click={(e) => {
+            infoBarActive = !infoBarActive
+          }}>
+          <Marquee />
+        </div>
+      {/if}
     </div>
   </Route>
 
   <!-- PROGRAM -->
-  <Route path="program/*" component={Program} />
+  <Route path="program/*">
+    <Program />
+  </Route>
 
   <!-- ARCHIVE -->
   <Route path="archive/*">

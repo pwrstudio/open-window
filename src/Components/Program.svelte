@@ -275,7 +275,7 @@
         .event-container {
           padding: 15px;
           padding-top: 140px;
-          padding-bottom: 80px;
+          padding-bottom: 40px;
           height: 100vh;
           overflow-y: scroll;
 
