@@ -99,7 +99,7 @@
 
         .colophon {
           position: absolute;
-          bottom: 10px;
+          bottom: 80px;
           left: 15px;
           display: flex;
           justify-content: space-between;

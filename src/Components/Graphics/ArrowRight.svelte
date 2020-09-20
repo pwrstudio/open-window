@@ -1,6 +1,6 @@
 <style>
   svg polyline {
-    stroke: black;
+    stroke: red;
   }
 </style>
 

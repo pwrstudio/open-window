@@ -6,9 +6,10 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fly } from "svelte/transition"
-  import { quintOut } from "svelte/easing"
+  import { fly, scale } from "svelte/transition"
+  import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
+  import get from "lodash/get"
 
   import { getContext } from "svelte"
   import { ROUTER } from "svelte-routing/src/contexts"
@@ -101,6 +102,11 @@
         right: 15px;
         cursor: pointer;
         // background: red;
+        transition: transform 0.3s ease-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
       }
 
       &.week {
@@ -145,16 +151,30 @@
             line-height: 1.1em;
             display: flex;
             justify-content: space-between;
+            transform: scaleY(1.14);
             .weekday {
-              transform: scaleY(1.14);
             }
             .date {
-              transform: scaleY(1.14);
             }
 
             &:hover,
             &.active {
-              color: $green;
+              // color: $green;
+              background-color: $green;
+              background-image: linear-gradient(
+                to right,
+                rgb(0, 0, 255) 0%,
+                rgb(0, 255, 255) 75%,
+                rgb(0, 255, 173) 100%
+              );
+              background-size: 100%;
+              background-repeat: repeat;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              -moz-background-clip: text;
+              -moz-text-fill-color: transparent;
+              .weekday {
+              }
             }
           }
         }
@@ -179,8 +199,38 @@
             margin-bottom: 40px;
             display: block;
 
-            &:hover {
-              color: $green;
+            &:hover,
+            &.active {
+              // color: $green;
+              background-color: $green;
+              background-image: linear-gradient(
+                to right,
+                rgb(0, 255, 173) 0%,
+                rgb(0, 255, 0) 75%,
+                rgb(163, 255, 0) 100%
+              );
+              background-size: 100%;
+              background-repeat: repeat;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              -moz-background-clip: text;
+              -moz-text-fill-color: transparent;
+
+              .time {
+                background-color: $green;
+                background-image: linear-gradient(
+                  to right,
+                  rgb(0, 255, 173) 0%,
+                  rgb(0, 255, 0) 75%,
+                  rgb(163, 255, 0) 100%
+                );
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -moz-background-clip: text;
+                -moz-text-fill-color: transparent;
+              }
             }
 
             .time {
@@ -199,7 +249,8 @@
             .location {
               font-family: $sans-stack;
               font-size: $font-size-normal;
-              float: right;
+              // float: right;
+              text-align: right;
               text-transform: uppercase;
             }
           }
@@ -258,6 +309,20 @@
               .title {
               }
               .participant {
+                &:hover {
+                  background-image: linear-gradient(
+                    to right,
+                    rgb(163, 255, 0) 0%,
+                    rgb(255, 255, 0) 75%,
+                    rgb(255, 0, 0) 100%
+                  );
+                  background-size: 100%;
+                  background-repeat: repeat;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  -moz-background-clip: text;
+                  -moz-text-fill-color: transparent;
+                }
               }
               .time {
               }
@@ -287,9 +352,11 @@
     <!-- PANEL 1 => WEEK -->
     <div
       class="panel week"
-      transition:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}>
+      in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
+      out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
       <div
         class="close"
+        out:scale
         on:click={(e) => {
           console.dir($activeRoute.params['*'])
           if ($activeRoute.params['*'].includes('/')) {
@@ -298,13 +365,13 @@
               navigate('/program/')
               setTimeout(() => {
                 navigate('/')
-              }, 500)
-            }, 500)
+              }, 300)
+            }, 300)
           } else if ($activeRoute.params['*'].length > 0) {
             navigate('/program/')
             setTimeout(() => {
               navigate('/')
-            }, 500)
+            }, 300)
           } else {
             navigate('/')
           }
@@ -322,7 +389,7 @@
           <a
             class="item"
             href={'/program/' + day.slug}
-            class:active={$activeRoute.params['*'] === day.slug}>
+            class:active={get($activeRoute, 'params["*"]', '').includes(day.slug)}>
             <div class="weekday">{day.weekday}</div>
             <div class="date">{day.date}</div>
           </a>
@@ -334,11 +401,8 @@
       <!-- PANEL 2 => DAY -->
       <div
         class="panel day"
-        transition:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}
-        on:mount={(e) => {
-          console.dir(e)
-          console.log('mount')
-        }}>
+        in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
+        out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
         <div class="day-container">
           {#each events as event}
             <a class="item" href={'/program/' + params.date + '/event'}>
@@ -357,8 +421,9 @@
         <!-- PANEL 3 => EVENT -->
         <div
           class="panel event"
-          transition:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}>
-          <a href={'/program/' + params.date} class="close"><X /></a>
+          in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
+          out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
+          <a href={'/program/' + params.date} class="close" out:scale><X /></a>
           <div class="event-container">
             <div class="image"><img src="/img/test.jpg" /></div>
             <div class="header">
