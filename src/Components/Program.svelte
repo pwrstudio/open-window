@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fly, scale } from "svelte/transition"
+  import { fly, scale, fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
@@ -19,15 +19,13 @@
   //   console.log($activeRoute)
   // }
 
-  export let location = "XXX"
-
-  console.dir(location)
+  // *** COMPONENTs
+  import Tag from "./Tag.svelte"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
   import ArrowDown from "./Graphics/ArrowDown.svelte"
   import LiveIcon from "./Graphics/LiveIcon.svelte"
-  import { alert } from "lodash/_freeGlobal"
 
   let weekdays = [
     { weekday: "Monday", date: "19", slug: "2020-10-19" },
@@ -337,6 +335,15 @@
             font-family: $sans-stack;
             font-size: $font-size-normal;
           }
+
+          .tag-container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            margin-top: 20px;
+          }
         }
       }
     }
@@ -353,28 +360,12 @@
     <div
       class="panel week"
       in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
-      out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
+      out:fade={{ easing: quartOut, duration: 250 }}>
       <div
         class="close"
         out:scale
         on:click={(e) => {
-          console.dir($activeRoute.params['*'])
-          if ($activeRoute.params['*'].includes('/')) {
-            navigate('/program/' + $activeRoute.params['*'].split('/')[0])
-            setTimeout(() => {
-              navigate('/program/')
-              setTimeout(() => {
-                navigate('/')
-              }, 300)
-            }, 300)
-          } else if ($activeRoute.params['*'].length > 0) {
-            navigate('/program/')
-            setTimeout(() => {
-              navigate('/')
-            }, 300)
-          } else {
-            navigate('/')
-          }
+          navigate('/')
         }}>
         <X />
       </div>
@@ -402,7 +393,7 @@
       <div
         class="panel day"
         in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
-        out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
+        out:fade={{ easing: quartOut, duration: 250 }}>
         <div class="day-container">
           {#each events as event}
             <a class="item" href={'/program/' + params.date + '/event'}>
@@ -422,7 +413,7 @@
         <div
           class="panel event"
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
-          out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
+          out:fade={{ easing: quartOut, duration: 250 }}>
           <a href={'/program/' + params.date} class="close" out:scale><X /></a>
           <div class="event-container">
             <div class="image"><img src="/img/test.jpg" /></div>
@@ -444,6 +435,10 @@
               the pine forest next to his house in Walden was “my best room”.
               His affection for the pine tree was stronger than for any other
               tree.
+            </div>
+            <div class="tag-container">
+              <Tag title="Lecture" />
+              <Tag title="Screening" />
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@
 
   // *** COMPONENTS
   import Slideshow from "./Slideshow.svelte"
+  import Tag from "./Tag.svelte"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
@@ -103,19 +104,6 @@
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 20px;
-
-      .tag {
-        padding: 7px 20px;
-        margin-right: 10px;
-        background: $white;
-        box-shadow: 0px 0px 10px grey;
-        user-select: none;
-        cursor: pointer;
-
-        &:hover {
-          background: $green;
-        }
-      }
     }
 
     .grid {
@@ -175,11 +163,12 @@
     <a class="close" href="/"><X /></a>
     <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
     <div class="tag-container">
-      <div class="tag">Test</div>
-      <div class="tag">Test</div>
-      <div class="tag">Test</div>
-      <div class="tag">Test</div>
-      <div class="tag">Test</div>
+      <Tag title="Test" />
+      <Tag title="Test" />
+      <Tag title="Open Lecture" />
+      <Tag title="HDK" />
+      <Tag title="Performance" />
+      <Tag title="Test" />
     </div>
     <div class="grid">
       {#each events as event}

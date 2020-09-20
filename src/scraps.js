@@ -98,3 +98,43 @@ export const STATE = {
 //       setUIState(STATE.READY)
 //   }
 // }
+
+      out:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 250 }}>
+
+                <!-- console.dir($activeRoute.params['*'])
+          if ($activeRoute.params['*'].includes('/')) {
+            navigate('/program/' + $activeRoute.params['*'].split('/')[0])
+            setTimeout(() => {
+              navigate('/program/')
+              setTimeout(() => {
+                navigate('/')
+              }, 300)
+            }, 300)
+          } else if ($activeRoute.params['*'].length > 0) {
+            navigate('/program/')
+            setTimeout(() => {
+              navigate('/')
+            }, 300)
+          } else {
+            navigate('/')
+          }
+
+                   console.dir($activeRoute.params['*'])
+          if ($activeRoute.params['*'].length > 0) {
+            navigate('/about/')
+            setTimeout(() => {
+              navigate('/')
+            }, 500)
+          } else {
+            navigate('/')
+          }
+
+                console.dir($activeRoute.params['*'])
+          if ($activeRoute.params['*'].length > 0) {
+            navigate('/about/')
+            setTimeout(() => {
+              navigate('/')
+            }, 500)
+          } else {
+            navigate('/')
+          }

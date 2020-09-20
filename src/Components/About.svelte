@@ -6,8 +6,8 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fly } from "svelte/transition"
-  import { quintOut } from "svelte/easing"
+  import { fly, fade } from "svelte/transition"
+  import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
 
   import { getContext } from "svelte"
@@ -108,6 +108,7 @@
             font-family: $serif-stack;
             font-size: $font-size-normal;
             transform: scaleY(1.14);
+            margin-right: 10px;
           }
           .logos {
             display: flex;
@@ -174,20 +175,13 @@
     <!-- PANEL 1 => MENU -->
     <div
       class="panel menu"
-      transition:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}>
+      in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
+      out:fade={{ easing: quartOut, duration: 500 }}>
       <div class="header"><img src="/img/open-window.svg" alt="Program" /></div>
       <div
         class="close"
         on:click={(e) => {
-          console.dir($activeRoute.params['*'])
-          if ($activeRoute.params['*'].length > 0) {
-            navigate('/about/')
-            setTimeout(() => {
-              navigate('/')
-            }, 500)
-          } else {
-            navigate('/')
-          }
+          navigate('/')
         }}>
         <X />
       </div>
@@ -202,8 +196,8 @@
           Facebook | Instagram | Twitter
         </div>
         <div class="logos">
-          <img src="/img/gu.svg" />
-          <img src="/img/hdk.svg" />
+          <img src="/img/gu.svg" alt="Göteborgs Universitet" />
+          <img src="/img/hdk.svg" alt="HDK" />
         </div>
       </div>
     </div>
@@ -212,7 +206,8 @@
       <!-- PANEL 2 => PAGE -->
       <div
         class="panel page"
-        transition:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quintOut, duration: 500 }}>
+        in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
+        out:fade={{ easing: quartOut, duration: 500 }}>
         <div class="page-container">
           <p>{params.slug}</p>
           <p>

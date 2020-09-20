@@ -6,14 +6,21 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fade, scale } from "svelte/transition"
+  import { onMount } from "svelte"
+  import { fade } from "svelte/transition"
   import { links } from "svelte-routing"
+  import Flickity from "flickity"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
   import ArrowLeft from "./Graphics/ArrowLeft.svelte"
   import ArrowRight from "./Graphics/ArrowRight.svelte"
 
+  // *** DOM REFERENCES
+  let slideShowEl = {}
+
+  // *** VARIABLES
+  let flkty = {}
   let event = {
     time: "09.00–10.15",
     title: "XYZ Knitting or Searching for Mary",
@@ -23,8 +30,14 @@
     slides: ["/img/test.jpg", "/img/test2.jpg", "/img/test3.jpg"],
   }
 
-  const lastIndex = event.slides.length - 1
-  let currentIndex = 0
+  onMount(async () => {
+    flkty = new Flickity(slideShowEl, {
+      contain: true,
+      pageDots: false,
+      prevNextButtons: false,
+      wrapAround: true,
+    })
+  })
 </script>
 
 <style lang="scss">
@@ -54,6 +67,11 @@
       transform: translateY(-50%);
       cursor: pointer;
       user-select: none;
+      z-index: 100;
+
+      &:hover {
+        transform: translateY(-50%) scale(1.1);
+      }
 
       &.prev {
         left: 25px;
@@ -66,20 +84,14 @@
 
     .slideshow-container {
       margin-top: 10vh;
-      margin-left: 10vw;
+      // margin-left: 10vw;
       height: 70vh;
-      width: 80vw;
+      width: 100vw;
       user-select: none;
-      position: relative;
-      // background: red;
 
       .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
         height: 100%;
         width: 100%;
-        // background: yellow;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -115,22 +127,20 @@
   <div
     class="nav prev"
     on:click={(e) => {
-      currentIndex = currentIndex === 0 ? lastIndex : currentIndex - 1
+      flkty.next(true)
     }}>
     <ArrowLeft />
   </div>
   <div
     class="nav next"
     on:click={(e) => {
-      currentIndex = currentIndex === lastIndex ? 0 : currentIndex + 1
+      flkty.previous(true)
     }}>
     <ArrowRight />
   </div>
-  <div class="slideshow-container">
-    {#each event.slides as slide, index}
-      {#if currentIndex === index}
-        <div class="slide"><img src={slide} /></div>
-      {/if}
+  <div class="slideshow-container" bind:this={slideShowEl}>
+    {#each event.slides as slide}
+      <div class="slide"><img src={slide} /></div>
     {/each}
   </div>
   <div class="text">
