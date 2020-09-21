@@ -10,32 +10,40 @@
   import { fade } from "svelte/transition"
   import { links } from "svelte-routing"
   import Flickity from "flickity"
+  import get from "lodash/get"
+  import { loadData, renderBlockText, urlFor } from "../sanity"
+
+  // *** COMPONENTS
+  import EmbedBlock from "./Blocks/EmbedBlock.svelte"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
   import ArrowLeft from "./Graphics/ArrowLeft.svelte"
   import ArrowRight from "./Graphics/ArrowRight.svelte"
 
+  // *** GLOBAL
+  import { QUERY } from "../global.js"
+
+  export let slug = ""
+
   // *** DOM REFERENCES
   let slideShowEl = {}
 
+  console.log(slug)
+
   // *** VARIABLES
   let flkty = {}
-  let event = {
-    time: "09.00–10.15",
-    title: "XYZ Knitting or Searching for Mary",
-    slug: "test-event",
-    participant: "Märta Louise Karlsson",
-    location: "Design School",
-    slides: ["/img/test.jpg", "/img/test2.jpg", "/img/test3.jpg"],
-  }
+  let event = loadData(QUERY.SINGLE, { slug: slug })
 
   onMount(async () => {
-    flkty = new Flickity(slideShowEl, {
-      contain: true,
-      pageDots: false,
-      prevNextButtons: false,
-      wrapAround: true,
+    event.then((event) => {
+      console.dir(event)
+      flkty = new Flickity(slideShowEl, {
+        contain: true,
+        pageDots: false,
+        prevNextButtons: false,
+        wrapAround: true,
+      })
     })
   })
 </script>
@@ -122,37 +130,48 @@
 </style>
 
 <div class="slideshow" use:links in:fade>
-  <!-- <div class="inner" in:fade> -->
-  <a class="close" href="/archive"><X /></a>
-  <div
-    class="nav prev"
-    on:click={(e) => {
-      flkty.next(true)
-    }}>
-    <ArrowLeft />
-  </div>
-  <div
-    class="nav next"
-    on:click={(e) => {
-      flkty.previous(true)
-    }}>
-    <ArrowRight />
-  </div>
-  <div class="slideshow-container" bind:this={slideShowEl}>
-    {#each event.slides as slide}
-      <div class="slide"><img src={slide} /></div>
-    {/each}
-  </div>
-  <div class="text">
-    <div class="header">{event.title}</div>
-    <div class="content">
-      Henry David Thoreau’s affection for the pine tree was stronger than for
-      any other tree. He called it “the emblem of my life”, and he said that the
-      pine forest next to his house in Walden was “my best room”. He called it
-      “the emblem of my life”, and he said that the pine forest next to his
-      house in Walden was “my best room”. His affection for the pine tree was
-      stronger than for any other tree.
+  {#await event then event}
+    <a class="close" href="/archive"><X /></a>
+    <div
+      class="nav prev"
+      on:click={(e) => {
+        flkty.next(true)
+      }}>
+      <ArrowLeft />
     </div>
-  </div>
-  <!-- </div> -->
+    <div
+      class="nav next"
+      on:click={(e) => {
+        flkty.previous(true)
+      }}>
+      <ArrowRight />
+    </div>
+    <div class="slideshow-container" bind:this={slideShowEl}>
+      {#if event.slideshow && Array.isArray(event.slideshow)}
+        {#each event.slideshow as slide (slide._key)}
+          <div class="slide">
+            {#if slide._type === 'image'}
+              <img
+                src={urlFor(slide.asset)
+                  .width(900)
+                  .quality(90)
+                  .auto('format')
+                  .url()} />
+            {/if}
+            {#if slide._type === 'embedBlock'}
+              <EmbedBlock block={slide} />
+            {/if}
+          </div>
+        {/each}
+      {/if}
+    </div>
+    <div class="text">
+      <div class="header">{event.title}</div>
+      <div class="content">
+        {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
+          {@html renderBlockText(event.content.content)}
+        {/if}
+      </div>
+    </div>
+  {/await}
 </div>

@@ -25,6 +25,15 @@
         -moz-osx-font-smoothing: grayscale;
       }
 
+      *::-moz-selection {
+        /* Code for Firefox */
+        background: rgba(51, 255, 153, 1);
+      }
+
+      *::selection {
+        background: rgba(51, 255, 153, 1);
+      }
+
       @font-face {
         font-family: "Nimbus Roman No9 L";
         src: url("/fonts/NimbusRomNo9L-Reg.woff2") format("woff2"),
@@ -46,22 +55,6 @@
       body {
         overscroll-behavior: none;
       }
-
-      /* @font-face {
-        font-family: "five";
-        src: url("/fonts/FiveYearsLaterDemo.woff2") format("woff2"),
-          url("/fonts/FiveYearsLaterDemo.woff") format("woff");
-        font-weight: normal;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: "Akkurat-Mono";
-        src: url("/fonts/Akkurat-Mono.woff2") format("woff2"),
-          url("/fonts/Akkurat-Mono.woff") format("woff");
-        font-weight: normal;
-        font-style: normal;
-      } */
     </style>
   </head>
 

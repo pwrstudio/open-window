@@ -1,10 +1,12 @@
+import { format, getYear, formatDistanceToNow } from "date-fns"
+
 export const SANITY_PROJECT_ID = "mm4gom7h"
 
 export const QUERY = {
-  ALL: "*[_type in ['event', 'participant', 'page']]",
-  PROJECT: '*[_type == "project"]{...,authors[]->{...}}',
-  AUTHOR: '*[_type == "author"]',
-  META: '*[_id == "introduction"]{...,authors[]->{...}}[0]',
+  ALL:
+    "*[_type in ['event', 'participant', 'page']]{...,participants[]->{...}}",
+  SINGLE:
+    '*[_type == "event" && slug.current == $slug]{...,particiants[]->{...}}[0]',
 }
 
 export const COLORS = [
@@ -41,5 +43,43 @@ export function debounce(fn, wait = 1) {
   return function (...args) {
     clearTimeout(timeout)
     timeout = setTimeout(() => fn.call(this, ...args), wait)
+  }
+}
+
+// const mainFormat = "MMM dd yyyy – HH:mm"
+const mainFormat = "dd/MM"
+const timeFormat = "HH:mm"
+
+export const formattedDate = (start, end) => {
+  try {
+    if (!start) {
+      return false
+    }
+    const startDate = Date.parse(start)
+
+    if (!startDate) {
+      return false
+    }
+
+    return format(startDate, mainFormat)
+  } catch (err) {
+    console.dir(err)
+  }
+}
+
+export const formattedTime = (start, end) => {
+  try {
+    if (!start) {
+      return false
+    }
+    const startDate = Date.parse(start)
+
+    if (!startDate) {
+      return false
+    }
+
+    return format(startDate, timeFormat)
+  } catch (err) {
+    console.dir(err)
   }
 }

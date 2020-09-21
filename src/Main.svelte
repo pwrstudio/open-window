@@ -38,21 +38,17 @@
   // *** DOM REFERENCES
 
   // Load data
-  // let projectPost = false
-  // let authorPost = false
-  // let projects = []
-  // let authors = []
-  // let metaPost = false
   let pages = []
   let events = []
+  let archived = []
   let posts = loadData(QUERY.ALL)
 
   onMount(async () => {
     posts.then((posts) => {
       // console.dir(posts)
-      // pages = posts.find((p) => p._type === "introduction")
       pages = posts.filter((p) => p._type === "page")
       events = posts.filter((p) => p._type === "event")
+      archived = events
       console.dir(pages)
       console.dir(events)
     })
@@ -125,16 +121,16 @@
 
   <!-- PROGRAM -->
   <Route path="program/*">
-    <Program />
+    <Program {events} />
   </Route>
 
   <!-- ARCHIVE -->
   <Route path="archive/*">
-    <Archive />
+    <Archive {archived} />
   </Route>
 
   <!-- ABOUT -->
   <Route path="about/*">
-    <About />
+    <About {pages} />
   </Route>
 </Router>
