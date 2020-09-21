@@ -11,6 +11,7 @@
   import flatMap from "lodash/flatMap"
   import uniq from "lodash/uniq"
   import intersection from "lodash/intersection"
+  import { urlFor } from "../sanity"
 
   // *** COMPONENTS
   import Slideshow from "./Slideshow.svelte"
@@ -160,7 +161,14 @@
     <div class="grid">
       {#each filteredEvents as event}
         <div class="item">
-          <img src="/img/test.jpg" />
+          {#if event.mainImage}
+            <img
+              src={urlFor(event.mainImage)
+                .width(800)
+                .quality(90)
+                .auto('format')
+                .url()} />
+          {/if}
           <a href={'/archive/' + event.slug.current} class="overlay">
             <div>
               {event.title}<br />
