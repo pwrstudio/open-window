@@ -134,6 +134,7 @@
           opacity: 0;
           color: $black;
           text-decoration: none;
+          user-select: none;
           &:hover {
             opacity: 1;
           }
@@ -164,7 +165,7 @@
           {#if event.mainImage}
             <img
               src={urlFor(event.mainImage)
-                .width(800)
+                .width(400)
                 .quality(90)
                 .auto('format')
                 .url()} />

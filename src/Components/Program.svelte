@@ -125,6 +125,8 @@
             display: flex;
             justify-content: space-between;
             transform: scaleY(1.14);
+            user-select: none;
+
             .weekday {
             }
             .date {
@@ -159,6 +161,7 @@
         border-right: 1px solid $black;
         font-family: $sans-stack;
         font-size: 26px;
+        user-select: none;
 
         .day-container {
           padding: 15px;
