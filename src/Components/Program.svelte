@@ -151,6 +151,11 @@
               .weekday {
               }
             }
+
+            &.empty {
+              opacity: 0.25;
+              pointer-events: none;
+            }
           }
         }
       }
@@ -284,6 +289,7 @@
           <a
             class="item"
             href={'/program/' + day.slug}
+            class:empty={!eventsMap[day.slug]}
             class:active={get($activeRoute, 'params["*"]', '').includes(day.slug)}>
             <div class="weekday">{day.weekday}</div>
             <div class="date">{day.date}</div>
