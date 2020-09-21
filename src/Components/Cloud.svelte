@@ -42,7 +42,8 @@
       }
     }
 
-    img {
+    img,
+    video {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -67,5 +68,6 @@
       allow="autoplay; fullscreen"
       allowfullscreen />
   </div> -->
-  <img src="/sky.jpg" />
+  <video src="/img/sky-3.mp4" autoplay loop muted />
+  <!-- <img src="/sky.jpg" /> -->
 </div>
