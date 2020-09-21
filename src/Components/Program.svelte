@@ -10,22 +10,36 @@
   import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
+  import groupBy from "lodash/groupBy"
 
   import { getContext } from "svelte"
   import { ROUTER } from "svelte-routing/src/contexts"
   const { activeRoute } = getContext(ROUTER)
 
-  // $: {
-  //   console.log($activeRoute)
-  // }
+  // *** GLOBAL
 
-  // *** COMPONENTs
-  import Tag from "./Tag.svelte"
+  $: {
+    console.log($activeRoute)
+  }
+
+  // *** COMPONENTS
+  import Event from "./Event.svelte"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
   import ArrowDown from "./Graphics/ArrowDown.svelte"
-  import LiveIcon from "./Graphics/LiveIcon.svelte"
+
+  // *** PROPS
+  export let events = []
+
+  let eventsMap = {}
+
+  $: {
+    console.dir(events)
+    eventsMap = groupBy(events, (e) => e.date)
+    console.log("eventsmaps")
+    console.dir(eventsMap)
+  }
 
   let weekdays = [
     { weekday: "Monday", date: "19", slug: "2020-10-19" },
@@ -35,45 +49,6 @@
     { weekday: "Friday", date: "23", slug: "2020-10-23" },
     { weekday: "Saturday", date: "24", slug: "2020-10-24" },
     { weekday: "Sunday", date: "25", slug: "2020-10-25" },
-  ]
-
-  let events = [
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
   ]
 </script>
 
@@ -271,80 +246,6 @@
         z-index: 1000;
         left: 66.6666vw;
         background: $white;
-
-        .event-container {
-          padding: 15px;
-          padding-top: 140px;
-          padding-bottom: 40px;
-          height: 100vh;
-          overflow-y: scroll;
-
-          @include hide-scroll;
-
-          .image {
-            margin-bottom: 20px;
-            img {
-              max-width: 100%;
-              max-height: 500px;
-            }
-          }
-
-          .header {
-            width: 100%;
-            // background: yellow;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-
-            .text {
-              font-family: $serif-stack;
-              font-size: $font-size-medium;
-              width: calc(100% - 60px);
-              padding-right: 10px;
-              // background: red;
-              transform: scaleY(1.14);
-
-              .title {
-              }
-              .participant {
-                &:hover {
-                  background-image: linear-gradient(
-                    to right,
-                    rgb(163, 255, 0) 0%,
-                    rgb(255, 255, 0) 75%,
-                    rgb(255, 0, 0) 100%
-                  );
-                  background-size: 100%;
-                  background-repeat: repeat;
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-                  -moz-background-clip: text;
-                  -moz-text-fill-color: transparent;
-                }
-              }
-              .time {
-              }
-            }
-            .live-icon {
-              // background: green;
-              height: 32px;
-            }
-          }
-
-          .content {
-            font-family: $sans-stack;
-            font-size: $font-size-normal;
-          }
-
-          .tag-container {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-            margin-top: 20px;
-          }
-        }
       }
     }
 
@@ -395,14 +296,23 @@
         in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
         out:fade={{ easing: quartOut, duration: 250 }}>
         <div class="day-container">
-          {#each events as event}
-            <a class="item" href={'/program/' + params.date + '/event'}>
-              <div class="time">{event.time}</div>
-              <div class="title">{event.title}</div>
-              <div class="participant">{event.participant}</div>
-              <div class="location">{event.location}</div>
-            </a>
-          {/each}
+          {#if eventsMap[params.date] && Array.isArray(eventsMap[params.date])}
+            {#each eventsMap[params.date] as event}
+              <a
+                class="item"
+                class:active={get($activeRoute, 'params["*"]', '').includes(event.slug.current)}
+                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')}>
+                <div class="time">{event.startTime}–{event.endTime}</div>
+                <div class="title">{event.title}</div>
+                {#if event.participants && Array.isArray(event.participants)}
+                  {#each event.participants as participant, index (participant._id)}
+                    <div class="participant">{participant.name}</div>
+                  {/each}
+                {/if}
+                <div class="location">{event.location}</div>
+              </a>
+            {/each}
+          {/if}
         </div>
         <div class="scroll-indicator">
           <ArrowDown />
@@ -415,32 +325,8 @@
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
           out:fade={{ easing: quartOut, duration: 250 }}>
           <a href={'/program/' + params.date} class="close" out:scale><X /></a>
-          <div class="event-container">
-            <div class="image"><img src="/img/test.jpg" /></div>
-            <div class="header">
-              <div class="text">
-                <div class="title">{events[0].title}</div>
-                <div class="participant">{events[0].participant}</div>
-                <div class="time">{events[0].time}</div>
-              </div>
-              <div class="live-icon">
-                <LiveIcon />
-              </div>
-            </div>
-            <div class="content">
-              Henry David Thoreau’s affection for the pine tree was stronger
-              than for any other tree. He called it “the emblem of my life”, and
-              he said that the pine forest next to his house in Walden was “my
-              best room”. He called it “the emblem of my life”, and he said that
-              the pine forest next to his house in Walden was “my best room”.
-              His affection for the pine tree was stronger than for any other
-              tree.
-            </div>
-            <div class="tag-container">
-              <Tag title="Lecture" />
-              <Tag title="Screening" />
-            </div>
-          </div>
+          <Event
+            event={events.find((e) => get(e, 'slug.current', '') === params.slug)} />
         </div>
       {/if}
     </Route>

@@ -8,6 +8,9 @@
   // IMPORTS
   import { slide } from "svelte/transition"
   import { Router, Route, links } from "svelte-routing"
+  import flatMap from "lodash/flatMap"
+  import uniq from "lodash/uniq"
+  import intersection from "lodash/intersection"
 
   // *** COMPONENTS
   import Slideshow from "./Slideshow.svelte"
@@ -16,50 +19,30 @@
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
 
-  let events = [
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      slug: "test-event",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      slug: "test-event",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      slug: "test-event",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      slug: "test-event",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      slug: "test-event",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-    {
-      time: "09.00–10.15",
-      title: "XYZ Knitting or Searching for Mary",
-      slug: "test-event",
-      participant: "Märta Louise Karlsson",
-      location: "Design School",
-    },
-  ]
+  // *** STORES
+  import { activeTags } from "../stores.js"
+
+  // *** PROPS
+  export let archived = []
+
+  let allTags = false
+  let filteredEvents = []
+
+  $: {
+    archived.filter((e) => {
+      console.dir(intersection(e.tags, $activeTags))
+    })
+
+    filteredEvents =
+      $activeTags.length > 0
+        ? archived.filter((e) => intersection(e.tags, $activeTags).length > 0)
+        : archived
+  }
+
+  $: {
+    allTags = uniq(flatMap(archived.map((a) => a.tags)))
+    // console.dir(allTags)
+  }
 </script>
 
 <style lang="scss">
@@ -168,19 +151,25 @@
     <a class="close" href="/"><X /></a>
     <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
     <div class="tag-container">
-      <Tag title="Test" />
-      <Tag title="Test" />
-      <Tag title="Open Lecture" />
-      <Tag title="HDK" />
-      <Tag title="Performance" />
-      <Tag title="Test" />
+      {#if allTags && Array.isArray(allTags)}
+        {#each allTags as tag}
+          <Tag title={tag} />
+        {/each}
+      {/if}
     </div>
     <div class="grid">
-      {#each events as event}
+      {#each filteredEvents as event}
         <div class="item">
           <img src="/img/test.jpg" />
-          <a href={'/archive/' + event.slug} class="overlay">
-            <div>{event.title}<br />{event.participant}</div>
+          <a href={'/archive/' + event.slug.current} class="overlay">
+            <div>
+              {event.title}<br />
+              {#if event.participants && Array.isArray(event.participants)}
+                {#each event.participants as participant, index (participant._id)}
+                  <div class="participant">{participant.name}</div>
+                {/each}
+              {/if}
+            </div>
           </a>
         </div>
       {/each}

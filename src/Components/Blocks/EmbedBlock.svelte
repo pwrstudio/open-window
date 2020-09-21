@@ -6,37 +6,16 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import has from "lodash/has";
-  import getVideoId from "get-video-id";
-  import { urlFor, loadData, renderBlockText } from "../../sanity.js";
+  import getVideoId from "get-video-id"
 
   // PROPS
-  export let block = {};
+  export let block = {}
 </script>
 
 <style lang="scss">
   @import "../../variables.scss";
 
   .embed {
-    width: $text_width;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: $font_size_small;
-    line-height: $line-height;
-    font-family: $sans-stack;
-    margin-bottom: $line-height;
-    margin-top: $line-height;
-
-    .text {
-      // display: flex;
-      .caption {
-      }
-
-      .attribution {
-      }
-    }
-
     .youtube-container,
     .vimeo-container {
       position: relative;
@@ -56,25 +35,10 @@
         border: 0;
       }
     }
-
-    .soundcloud-container {
-      // height: 300px;
-      width: 100%;
-      overflow: hidden;
-      max-width: 100%;
-      margin-bottom: 0.5em;
-
-      iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-      }
-    }
   }
 </style>
 
 <figure class="embed">
-
   <!-- // YOUTUBE -->
   {#if block.url.includes('youtube')}
     <div class="youtube-container">
@@ -103,30 +67,4 @@
         allowfullscreen />
     </div>
   {/if}
-
-  <!-- // SOUNDCLOUD -->
-  {#if block.url.includes('soundcloud')}
-    <div class="soundcloud-container">
-      <iframe
-        width="100%"
-        height="300"
-        src={'https://w.soundcloud.com/player/?url=' + block.url + '&color=%23fffff'}
-        frameborder="no"
-        scrolling="no"
-        allow="autoplay" />
-    </div>
-  {/if}
-
-  <!-- CAPTION -->
-  {#if has(block, 'caption.content')}
-    <figcaption class="caption">
-      {@html renderBlockText(block.caption.content)}
-    </figcaption>
-  {/if}
-
-  <!-- ATTRIBUTION  -->
-  {#if has(block, 'attribution')}
-    <figcaption class="attribution">{block.attribution}</figcaption>
-  {/if}
-
 </figure>
