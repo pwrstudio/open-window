@@ -105,6 +105,11 @@
         height: 200px;
         position: relative;
 
+        @include screen-size("small") {
+          width: calc(50% - 10px);
+          height: 120px;
+        }
+
         img {
           position: absolute;
           top: 0;
@@ -137,6 +142,10 @@
           user-select: none;
           &:hover {
             opacity: 1;
+          }
+
+          @include screen-size("small") {
+            font-size: $font-size-small;
           }
         }
       }

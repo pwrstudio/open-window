@@ -38,12 +38,14 @@
   onMount(async () => {
     event.then((event) => {
       console.dir(event)
-      flkty = new Flickity(slideShowEl, {
-        contain: true,
-        pageDots: false,
-        prevNextButtons: false,
-        wrapAround: true,
-      })
+      setTimeout(() => {
+        flkty = new Flickity(slideShowEl, {
+          contain: true,
+          pageDots: false,
+          prevNextButtons: false,
+          wrapAround: true,
+        })
+      }, 500)
     })
   })
 </script>
@@ -77,8 +79,16 @@
       user-select: none;
       z-index: 100;
 
+      @include screen-size("small") {
+        top: 15vh;
+        transform: unset;
+      }
+
       &:hover {
         transform: translateY(-50%) scale(1.1);
+        @include screen-size("small") {
+          transform: scale(1.1);
+        }
       }
 
       &.prev {
@@ -97,6 +107,11 @@
       width: 100vw;
       user-select: none;
 
+      @include screen-size("small") {
+        height: 50vh;
+        margin-top: 25vh;
+      }
+
       .slide {
         height: 100%;
         width: 100%;
@@ -107,6 +122,11 @@
         img {
           max-height: 100%;
           max-width: 100%;
+
+          @include screen-size("small") {
+            max-height: 90%;
+            max-width: 90%;
+          }
         }
       }
     }
@@ -118,13 +138,14 @@
       font-family: $sans-stack;
       font-size: $font-size-small;
 
+      @include screen-size("small") {
+        width: 90vw;
+        margin-left: 5vw;
+      }
+
       .header {
         margin-bottom: 1em;
       }
-    }
-
-    @include screen-size("small") {
-      //   padding-bottom: 40px;
     }
   }
 </style>

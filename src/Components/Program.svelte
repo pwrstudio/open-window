@@ -62,6 +62,10 @@
       width: 33.33333vw;
       height: 100vh;
 
+      @include screen-size("small") {
+        width: 100%;
+      }
+
       a {
         color: $black;
         text-decoration: none;
@@ -87,6 +91,10 @@
         z-index: 1002;
         background: $white;
         border-right: 1px solid $black;
+
+        @include screen-size("small") {
+          z-index: 1001;
+        }
 
         .header {
           position: absolute;
@@ -122,18 +130,25 @@
             font-family: $serif-stack;
             font-size: $font-size-large;
             line-height: 1.1em;
-            display: flex;
-            justify-content: space-between;
+            width: 100%;
+            display: block;
+            // display: flex;
+            // justify-content: space-between;
             transform: scaleY(1.14);
             user-select: none;
 
             .weekday {
+              display: inline;
             }
             .date {
+              display: inline;
+              text-align: right;
+              float: right;
             }
 
             &:hover,
             &.active {
+              -webkit-box-decoration-break: clone;
               // color: $green;
               background-color: $green;
               background-image: linear-gradient(
@@ -148,8 +163,6 @@
               -webkit-text-fill-color: transparent;
               -moz-background-clip: text;
               -moz-text-fill-color: transparent;
-              .weekday {
-              }
             }
 
             &.empty {
@@ -167,6 +180,11 @@
         font-family: $sans-stack;
         font-size: 26px;
         user-select: none;
+
+        @include screen-size("small") {
+          left: 0;
+          z-index: 1002;
+        }
 
         .day-container {
           padding: 15px;
@@ -254,6 +272,11 @@
         z-index: 1000;
         left: 66.6666vw;
         background: $white;
+
+        @include screen-size("small") {
+          left: 0;
+          z-index: 1003;
+        }
       }
     }
 
@@ -291,8 +314,8 @@
             href={'/program/' + day.slug}
             class:empty={!eventsMap[day.slug]}
             class:active={get($activeRoute, 'params["*"]', '').includes(day.slug)}>
-            <div class="weekday">{day.weekday}</div>
-            <div class="date">{day.date}</div>
+            <span class="weekday">{day.weekday}</span>
+            <span class="date">{day.date}</span>
           </a>
         {/each}
       </div>

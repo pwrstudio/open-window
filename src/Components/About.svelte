@@ -49,6 +49,10 @@
       width: 33.33333vw;
       height: 100vh;
 
+      @include screen-size("small") {
+        width: 100vw;
+      }
+
       a {
         color: $black;
         text-decoration: none;
@@ -75,6 +79,10 @@
         border-left: 1px solid $black;
         z-index: 1002;
 
+        @include screen-size("small") {
+          z-index: 1001;
+        }
+
         .header {
           position: absolute;
           top: 10px;
@@ -96,6 +104,11 @@
             transform: scaleY(1.14);
             line-height: 1.1em;
             display: block;
+
+            @include screen-size("small") {
+              font-size: $font_size_large_mobile;
+            }
+
             &:hover {
               color: $green;
             }
@@ -139,6 +152,11 @@
         border-left: 1px solid $black;
         z-index: 1001;
 
+        @include screen-size("small") {
+          right: 0;
+          z-index: 1002;
+        }
+
         .page-container {
           padding: 15px;
           padding-bottom: 80px;
@@ -166,6 +184,11 @@
         font-family: $sans-stack;
         font-size: 26px;
         z-index: 1000;
+
+        @include screen-size("small") {
+          right: 0;
+          z-index: 1003;
+        }
       }
     }
 

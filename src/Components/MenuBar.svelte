@@ -51,10 +51,6 @@
         transform: translateX(-50%);
       }
     }
-
-    @include screen-size("small") {
-      //   padding-bottom: 40px;
-    }
   }
 </style>
 

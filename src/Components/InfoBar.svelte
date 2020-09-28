@@ -34,8 +34,10 @@
       font-weight: bold;
       cursor: pointer;
     }
+
     @include screen-size("small") {
-      //   padding-bottom: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
 </style>

@@ -10,6 +10,7 @@
   import { Router, Route, links } from "svelte-routing"
   import { slide } from "svelte/transition"
   import { quintOut } from "svelte/easing"
+  import MediaQuery from "svelte-media-query"
 
   // *** SANITY
   import { urlFor, loadData } from "./sanity.js"
@@ -31,6 +32,8 @@
   import Program from "./Components/Program.svelte"
   import Archive from "./Components/Archive.svelte"
   import Marquee from "./Components/Marquee.svelte"
+  import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
+  import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
 
   // *** VARIABLES
@@ -73,6 +76,10 @@
     height: 80px;
     width: 100vw;
     background: white;
+
+    @include screen-size("small") {
+      height: 120px;
+    }
   }
 
   .bar {
@@ -93,29 +100,48 @@
       class="bottom-bars"
       in:slide={{ easing: quintOut, delay: 300, duration: 500 }}
       out:slide={{ easing: quintOut, duration: 500 }}>
-      <div class="bar">
-        <MenuBar />
-      </div>
 
-      {#if infoBarActive}
-        <div
-          class="bar"
-          transition:slide
-          on:click={(e) => {
-            infoBarActive = !infoBarActive
-          }}>
-          <InfoBar />
-        </div>
-      {:else}
-        <div
-          class="bar"
-          transition:slide
-          on:click={(e) => {
-            infoBarActive = !infoBarActive
-          }}>
-          <Marquee />
-        </div>
-      {/if}
+      <MediaQuery query="(min-width: 800px)" let:matches>
+        {#if matches}
+          <!-- DESKTOP: MENU -->
+          <div class="bar">
+            <MenuBar />
+          </div>
+          <!-- DESKTOP: INFO / MARQUEE -->
+          {#if infoBarActive}
+            <div
+              class="bar"
+              transition:slide
+              on:click={(e) => {
+                infoBarActive = !infoBarActive
+              }}>
+              <InfoBar />
+            </div>
+          {:else}
+            <div
+              class="bar"
+              transition:slide
+              on:click={(e) => {
+                infoBarActive = !infoBarActive
+              }}>
+              <Marquee />
+            </div>
+          {/if}
+        {:else}
+          <div class="bar">
+            <!-- MOBILE: MENU -->
+            <MobileMenu />      
+          </div>
+          <div class="bar">
+            <!-- MOBILE: TITLE -->
+            <MobileTitle />      
+          </div>
+          <div class="bar">
+            <!-- MOBILE: INFO -->
+            <InfoBar />
+          </div>
+        {/if}
+      </MediaQuery>
     </div>
   </Route>
 
