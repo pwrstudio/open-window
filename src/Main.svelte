@@ -52,8 +52,8 @@
       pages = posts.filter((p) => p._type === "page")
       events = posts.filter((p) => p._type === "event")
       archived = events
-      console.dir(pages)
-      console.dir(events)
+      // console.dir(pages)
+      // console.dir(events)
     })
   })
 </script>

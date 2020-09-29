@@ -38,14 +38,12 @@
   onMount(async () => {
     event.then((event) => {
       console.dir(event)
-      setTimeout(() => {
-        flkty = new Flickity(slideShowEl, {
-          contain: true,
-          pageDots: false,
-          prevNextButtons: false,
-          wrapAround: true,
-        })
-      }, 500)
+      flkty = new Flickity(slideShowEl, {
+        contain: true,
+        pageDots: false,
+        prevNextButtons: false,
+        wrapAround: true,
+      })
     })
   })
 </script>
@@ -150,48 +148,50 @@
   }
 </style>
 
-<div class="slideshow" use:links in:fade>
+<div class="slideshow" use:links>
   {#await event then event}
-    <a class="close" href="/archive"><X /></a>
-    <div
-      class="nav prev"
-      on:click={(e) => {
-        flkty.next(true)
-      }}>
-      <ArrowLeft />
-    </div>
-    <div
-      class="nav next"
-      on:click={(e) => {
-        flkty.previous(true)
-      }}>
-      <ArrowRight />
-    </div>
-    <div class="slideshow-container" bind:this={slideShowEl}>
-      {#if event.slideshow && Array.isArray(event.slideshow)}
-        {#each event.slideshow as slide (slide._key)}
-          <div class="slide">
-            {#if slide._type === 'image'}
-              <img
-                src={urlFor(slide.asset)
-                  .width(900)
-                  .quality(90)
-                  .auto('format')
-                  .url()} />
-            {/if}
-            {#if slide._type === 'embedBlock'}
-              <EmbedBlock block={slide} />
-            {/if}
-          </div>
-        {/each}
-      {/if}
-    </div>
-    <div class="text">
-      <div class="header">{event.title}</div>
-      <div class="content">
-        {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
-          {@html renderBlockText(event.content.content)}
+    <div in:fade>
+      <a class="close" href="/archive"><X /></a>
+      <div
+        class="nav prev"
+        on:click={(e) => {
+          flkty.next(true)
+        }}>
+        <ArrowLeft />
+      </div>
+      <div
+        class="nav next"
+        on:click={(e) => {
+          flkty.previous(true)
+        }}>
+        <ArrowRight />
+      </div>
+      <div class="slideshow-container" bind:this={slideShowEl}>
+        {#if event.slideshow && Array.isArray(event.slideshow)}
+          {#each event.slideshow as slide (slide._key)}
+            <div class="slide">
+              {#if slide._type === 'image'}
+                <img
+                  src={urlFor(slide.asset)
+                    .width(900)
+                    .quality(90)
+                    .auto('format')
+                    .url()} />
+              {/if}
+              {#if slide._type === 'embedBlock'}
+                <EmbedBlock block={slide} />
+              {/if}
+            </div>
+          {/each}
         {/if}
+      </div>
+      <div class="text">
+        <div class="header">{event.title}</div>
+        <div class="content">
+          {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
+            {@html renderBlockText(event.content.content)}
+          {/if}
+        </div>
       </div>
     </div>
   {/await}

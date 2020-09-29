@@ -6,11 +6,10 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { slide } from "svelte/transition"
+  import { slide, fade } from "svelte/transition"
   import { Router, Route, links } from "svelte-routing"
   import flatMap from "lodash/flatMap"
   import uniq from "lodash/uniq"
-  import intersection from "lodash/intersection"
   import { urlFor } from "../sanity"
 
   // *** COMPONENTS
@@ -30,18 +29,29 @@
   let filteredEvents = []
 
   $: {
-    archived.filter((e) => {
-      console.dir(intersection(e.tags, $activeTags))
-    })
-
     filteredEvents =
       $activeTags.length > 0
-        ? archived.filter((e) => intersection(e.tags, $activeTags).length > 0)
+        ? archived.filter((e) => {
+            console.log("%% e", e.title, e.tags)
+            return e.tags.some((t) => $activeTags.includes(t))
+          })
         : archived
+
+    console.log("–– filteredEvents")
+    console.dir(filteredEvents)
+  }
+
+  $: {
+    console.log("–– $activeTags")
+    $activeTags.forEach((a) => {
+      console.log("==>", a)
+    })
+    // console.dir(...$activeTags)
   }
 
   $: {
     allTags = uniq(flatMap(archived.map((a) => a.tags)))
+    // console.log("–– allTags")
     // console.dir(allTags)
   }
 </script>
@@ -170,7 +180,7 @@
     </div>
     <div class="grid">
       {#each filteredEvents as event}
-        <div class="item">
+        <div class="item" in:fade={{ duration: 300 }}>
           {#if event.mainImage}
             <img
               src={urlFor(event.mainImage)

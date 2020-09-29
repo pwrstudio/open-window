@@ -16,20 +16,24 @@
   import { activeTags } from "../stores.js"
 
   // *** PROPS
-  export let title = "Testx"
+  export let title = ""
 
   let tagEl = {}
   let bgColor = ""
-  let active = false
-  let slug = slugify(title)
+  // let slug = slugify(title)
+  let slug = title
+
+  // $: {
+  //   console.log("$activeTags.includes(slug)", $activeTags.includes(slug))
+  // }
 
   const calculateBackgroundColor = () => {
     const ownHorizontalPosition = tagEl.getBoundingClientRect().left
     const windowWidth = window.innerWidth
     const positionIndex = Math.round((ownHorizontalPosition / windowWidth) * 10)
-    console.log("ownHorizontalPosition ", ownHorizontalPosition)
-    console.log("windowWidth", windowWidth)
-    console.log("positionIndex", positionIndex)
+    // console.log("ownHorizontalPosition ", ownHorizontalPosition)
+    // console.log("windowWidth", windowWidth)
+    // console.log("positionIndex", positionIndex)
     bgColor = COLORS[positionIndex]
   }
 
@@ -84,7 +88,10 @@
       transition: opacity 0.2s ease-out;
     }
 
-    &:hover,
+    &:hover {
+      box-shadow: 0px 0px 10px black;
+    }
+
     &.active {
       .background-overlay {
         opacity: 1;
@@ -98,8 +105,14 @@
   bind:this={tagEl}
   class:active={$activeTags.includes(slug)}
   on:click={(e) => {
-    active = !active
-    activeTags.set($activeTags.includes(slug) ? $activeTags.filter((tag) => tag !== slug) : [...$activeTags, slug])
+    if ($activeTags.includes(slug)) {
+      console.log('-- Remove tag', slug)
+      activeTags.set($activeTags.filter((tag) => tag !== slug))
+    } else {
+      console.log('++ Add tag', slug)
+      activeTags.set([...$activeTags, slug])
+    }
+    // activeTags.set($activeTags.includes(slug) ? $activeTags.filter((tag) => tag !== slug) : [...$activeTags, slug])
   }}>
   {title}
   <div class="background-overlay" style={'background: ' + bgColor} />

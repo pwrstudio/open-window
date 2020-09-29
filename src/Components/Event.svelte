@@ -12,13 +12,13 @@
 
   // *** COMPONENTS
   import Tag from "./Tag.svelte"
+  import Link from "./Link.svelte"
 
   // *** GRAPHICS
   import LiveIcon from "./Graphics/LiveIcon.svelte"
 
   // *** GLOBAL
   import { formattedDate } from "../global.js"
-  import About from "./About.svelte"
 
   // *** PROPS
   export let event = []
@@ -108,19 +108,23 @@
 </style>
 
 <div class="event-container">
+  <!-- IMAGE -->
   {#if event.mainImage}
     <div class="image">
       <img
         src={urlFor(event.mainImage)
-          .width(800)
+          .width(600)
           .quality(90)
           .auto('format')
           .url()} />
     </div>
   {/if}
+  <!-- HEADER -->
   <div class="header">
     <div class="text">
+      <!-- TITLE -->
       <div class="title">{event.title}</div>
+      <!-- PARTICIPANTS -->
       <div class="participant">
         {#if event.participants && Array.isArray(event.participants)}
           {#each event.participants as participant, index (participant._id)}
@@ -128,6 +132,7 @@
           {/each}
         {/if}
       </div>
+      <!-- DATE -->
       <div class="time">
         {formattedDate(event.date)}
         {event.startTime}–{event.endTime}
@@ -137,11 +142,21 @@
       <LiveIcon />
     </div>
   </div>
+  <!-- TEXT -->
   <div class="content">
     {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
       {@html renderBlockText(event.content.content)}
     {/if}
   </div>
+  <!-- LINKS-->
+  <div class="link-container">
+    {#if event.links && Array.isArray(event.links)}
+      {#each event.link as link}
+        <Link {link} />
+      {/each}
+    {/if}
+  </div>
+  <!-- TAGS -->
   <div class="tag-container">
     {#if event.tags && Array.isArray(event.tags)}
       {#each event.tags as tag}
