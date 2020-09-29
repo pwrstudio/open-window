@@ -128,7 +128,7 @@
       <div class="participant">
         {#if event.participants && Array.isArray(event.participants)}
           {#each event.participants as participant, index (participant._id)}
-            <a href={participant.slug.current}>{participant.name}</a>
+            <a href='xxx' class="participant">{participant.name}</a>
           {/each}
         {/if}
       </div>

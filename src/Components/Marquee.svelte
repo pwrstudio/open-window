@@ -34,9 +34,9 @@
     user-select: none;
 
     img {
-      height: 18px;
+      height: 15px;
       margin-right: 120px;
-      margin-top: 11px;
+      margin-top: 15px;
     }
 
     .hdk-valand {

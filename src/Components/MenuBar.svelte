@@ -21,8 +21,8 @@
     // display: flex;
     // justify-content: space-between;
     // align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
     position: relative;
 
     .menu-item {
@@ -34,8 +34,8 @@
       position: absolute;
 
       img {
-        margin-top: 6px;
-        height: 28px;
+        margin-top: 10px;
+        height: 30px;
       }
 
       &.program {

@@ -52,11 +52,11 @@
 
   .tag {
     padding: 0px 15px;
-    height: 30px;
+    height: 26px;
     margin-right: 10px;
     margin-bottom: 10px;
     background: $white;
-    box-shadow: 0px 0px 10px grey;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     user-select: none;
     cursor: pointer;
     position: relative;
@@ -73,7 +73,7 @@
       height: 100%;
       text-align: center;
       z-index: 2;
-      line-height: 35px;
+      line-height: 30px;
     }
 
     .background-overlay {
@@ -89,7 +89,7 @@
     }
 
     &:hover {
-      box-shadow: 0px 0px 10px black;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     }
 
     &.active {

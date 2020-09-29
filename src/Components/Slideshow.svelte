@@ -62,11 +62,16 @@
 
     .close {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 15px;
+      right: 25px;
+      height: 100px;
+      width: 100px;
       cursor: pointer;
       user-select: none;
-      // background: red;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
 
     .nav {

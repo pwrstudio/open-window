@@ -77,12 +77,13 @@
         position: absolute;
         top: 10px;
         right: 15px;
+        height: 100px;
+        width: 100px;
         cursor: pointer;
-        // background: red;
         transition: transform 0.3s ease-out;
 
         &:hover {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
       }
 
@@ -98,9 +99,8 @@
 
         .header {
           position: absolute;
-          top: 10px;
-          left: 15px;
-          // background: red;
+          top: 15px;
+          left: 20px;
 
           img {
             height: 28px;
@@ -109,7 +109,7 @@
 
         .week-container {
           padding: 15px;
-          padding-top: 140px;
+          padding-top: 160px;
 
           .navigation {
             font-family: $sans-stack;
@@ -172,6 +172,7 @@
           }
         }
       }
+
       &.day {
         left: 33.33333vw;
         z-index: 1001;
@@ -268,6 +269,7 @@
           user-select: none;
         }
       }
+
       &.event {
         z-index: 1000;
         left: 66.6666vw;
@@ -338,7 +340,9 @@
                 <div class="title">{event.title}</div>
                 {#if event.participants && Array.isArray(event.participants)}
                   {#each event.participants as participant, index (participant._id)}
-                    <div class="participant">{participant.name}</div>
+                    <span class="participant">{participant.name}{#if index < event.participants.length - 1}
+                        ,
+                      {/if}</span>
                   {/each}
                 {/if}
                 <div class="location">{event.location}</div>

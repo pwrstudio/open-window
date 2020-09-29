@@ -60,14 +60,15 @@
 
       .close {
         position: absolute;
-        top: 10px;
-        left: 15px;
+        top: 15px;
+        left: 25px;
+        height: 100px;
+        width: 100px;
         cursor: pointer;
-        // background: red;
-        transition: transform 0.3s ease-out;
+        user-select: none;
 
         &:hover {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
       }
 

@@ -68,18 +68,19 @@
     height: 100vh;
     background: $white;
     padding: 15px;
-    padding-top: 80px;
+    padding-top: 100px;
 
     .close {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 15px;
+      right: 25px;
+      height: 100px;
+      width: 100px;
       cursor: pointer;
-      // background: red;
-      transition: transform 0.3s ease-out;
+      user-select: none;
 
       &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
     }
 
@@ -112,7 +113,7 @@
         width: calc(25% - 10px);
         margin-right: 10px;
         margin-bottom: 10px;
-        height: 200px;
+        height: 220px;
         position: relative;
 
         @include screen-size("small") {
@@ -179,8 +180,8 @@
       {/if}
     </div>
     <div class="grid">
-      {#each filteredEvents as event}
-        <div class="item" in:fade={{ duration: 300 }}>
+      {#each filteredEvents as event (event._id)}
+        <div class="item">
           {#if event.mainImage}
             <img
               src={urlFor(event.mainImage)

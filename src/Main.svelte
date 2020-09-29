@@ -73,7 +73,7 @@
     position: fixed;
     bottom: 0px;
     left: 0;
-    height: 80px;
+    height: 90px;
     width: 100vw;
     background: white;
 
@@ -84,7 +84,11 @@
 
   .bar {
     width: 100%;
-    height: 40px;
+    height: 50px;
+
+    &.small {
+      height: 40px;
+    }
   }
 </style>
 
@@ -110,7 +114,7 @@
           <!-- DESKTOP: INFO / MARQUEE -->
           {#if infoBarActive}
             <div
-              class="bar"
+              class="bar small"
               transition:slide
               on:click={(e) => {
                 infoBarActive = !infoBarActive
@@ -119,7 +123,7 @@
             </div>
           {:else}
             <div
-              class="bar"
+              class="bar small"
               transition:slide
               on:click={(e) => {
                 infoBarActive = !infoBarActive
