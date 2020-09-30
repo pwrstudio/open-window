@@ -39,6 +39,13 @@
     eventsMap = groupBy(events, (e) => e.date)
     console.log("eventsmaps")
     console.dir(eventsMap)
+
+    for (const [key, value] of Object.entries(eventsMap)) {
+      console.log(`${key}: ${value}`)
+      eventsMap[key] = value.sort((a, b) =>
+        a.startTime > b.startTime ? 1 : -1
+      )
+    }
   }
 
   let weekdays = [
@@ -132,18 +139,20 @@
             line-height: 1.1em;
             width: 100%;
             display: block;
-            // display: flex;
-            // justify-content: space-between;
+            display: flex;
+            justify-content: space-between;
             transform: scaleY(1.14);
             user-select: none;
 
             .weekday {
-              display: inline;
+              // display: inline;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
             .date {
-              display: inline;
               text-align: right;
-              float: right;
+              // float: right;
             }
 
             &:hover,

@@ -28,21 +28,6 @@
 
   export let pages = []
 
-  // let pages = [
-  //   {
-  //     title: "FAQ",
-  //     slug: "faq",
-  //   },
-  //   {
-  //     title: "Participation",
-  //     slug: "participation",
-  //   },
-  //   {
-  //     title: "When and how",
-  //     slug: "when-and-how",
-  //   },
-  // ]
-
   console.dir(pages)
 </script>
 

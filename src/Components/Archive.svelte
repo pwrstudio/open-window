@@ -126,6 +126,7 @@
         margin-bottom: 10px;
         height: 220px;
         position: relative;
+        background: $green-transparent;
 
         @include screen-size("small") {
           width: calc(50% - 10px);
