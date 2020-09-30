@@ -33,7 +33,7 @@
       $activeTags.length > 0
         ? archived.filter((e) => {
             console.log("%% e", e.title, e.tags)
-            return e.tags.some((t) => $activeTags.includes(t))
+            return e.tags ? e.tags.some((t) => $activeTags.includes(t)) : false
           })
         : archived
 
@@ -67,8 +67,10 @@
     width: 100vw;
     height: 100vh;
     background: $white;
-    padding: 15px;
-    padding-top: 100px;
+
+    display: flex;
+    flex-direction: column;
+    // padding-top: 100px;
 
     .close {
       position: absolute;
@@ -85,10 +87,11 @@
     }
 
     .header {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      width: 100vw;
+      // position: absolute;
+      // top: 10px;
+      // left: 0;
+      // width: 100vw;
+      padding-top: 10px;
       display: flex;
       justify-content: center;
       // background: red;
@@ -103,12 +106,20 @@
       width: 100%;
       display: flex;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-top: 80px;
+      margin-bottom: 10px;
+      padding-left: 15px;
+      padding-right: 15px;
     }
 
     .grid {
+      padding-left: 15px;
+      padding-right: 15px;
       display: flex;
       flex-wrap: wrap;
+      overflow-y: auto;
+      // height: calc(100vh - 200px);
+
       .item {
         width: calc(25% - 10px);
         margin-right: 10px;

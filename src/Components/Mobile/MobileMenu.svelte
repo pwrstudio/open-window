@@ -29,6 +29,11 @@
     padding-left: 20px;
     padding-right: 20px;
     position: relative;
+
+    .burger {
+      height: 30px;
+      padding-top: 10px;
+    }
   }
 
   .menu {
@@ -45,11 +50,8 @@
       cursor: pointer;
       // background: red;
       transition: transform 0.3s ease-out;
-      width: 20px;
-
-      svg {
-        width: 20px !important;
-      }
+      height: 50px;
+      width: 50px;
 
       &:hover {
         transform: scale(1.1);

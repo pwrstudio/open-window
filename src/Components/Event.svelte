@@ -151,7 +151,7 @@
   <!-- LINKS-->
   <div class="link-container">
     {#if event.links && Array.isArray(event.links)}
-      {#each event.link as link}
+      {#each event.links as link}
         <Link {link} />
       {/each}
     {/if}

@@ -9,33 +9,41 @@
   import { fly, fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
+  import get from "lodash/get"
 
   import { getContext } from "svelte"
   import { ROUTER } from "svelte-routing/src/contexts"
   const { activeRoute } = getContext(ROUTER)
 
-  $: {
-    console.log($activeRoute)
-  }
+  // $: {
+  //   console.log($activeRoute)
+  // }
+
+  // *** COMPONENTS
+  import Page from "./Page.svelte"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
   import ArrowDown from "./Graphics/ArrowDown.svelte"
 
-  let pages = [
-    {
-      title: "FAQ",
-      slug: "faq",
-    },
-    {
-      title: "Participation",
-      slug: "participation",
-    },
-    {
-      title: "When and how",
-      slug: "when-and-how",
-    },
-  ]
+  export let pages = []
+
+  // let pages = [
+  //   {
+  //     title: "FAQ",
+  //     slug: "faq",
+  //   },
+  //   {
+  //     title: "Participation",
+  //     slug: "participation",
+  //   },
+  //   {
+  //     title: "When and how",
+  //     slug: "when-and-how",
+  //   },
+  // ]
+
+  console.dir(pages)
 </script>
 
 <style lang="scss">
@@ -216,7 +224,7 @@
       </div>
       <div class="menu-container">
         {#each pages as page}
-          <a class="item" href={'/about/' + page.slug}>{page.title}</a>
+          <a class="item" href={'/about/' + page.slug.current}>{page.title}</a>
         {/each}
       </div>
       <div class="colophon">
@@ -238,25 +246,7 @@
         in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
         out:fade={{ easing: quartOut, duration: 500 }}>
         <div class="page-container">
-          <p>{params.slug}</p>
-          <p>
-            The Covid-19 pandemic has presented the University with a new set of
-            demanding challenges and requirements which has had a profound
-            effect on our possibilities to work with public programmes and
-            expand our educational environments into the public realm. During
-            the spring we’ve had to cancel or postpone all degree exhibitions
-            and during the fall the situation will continue to effect the way we
-            can display your projects and assist a broader engagement between
-            them and a public interface.
-          </p>
-          <p>
-            What Open window envisions is an external venue that will suffice as
-            a broadcasting studio and a mediated environment and support a
-            multitude of different channels, launched on the 19th of October.
-            The channels with MA and BA activations will be the inaugural focus
-            of this platform and the additional content will be accommodated
-            around those two channels.
-          </p>
+                    <Page page={pages.find((p) => get(p, 'slug.current', '') === params.slug)} />
         </div>
         <div class="scroll-indicator">
           <ArrowDown />
