@@ -368,6 +368,11 @@
           justify-content: center;
           align-items: center;
           user-select: none;
+
+          @include screen-size("small") {
+            padding-bottom: 20px;
+            height: 100px;
+          }
         }
       }
 

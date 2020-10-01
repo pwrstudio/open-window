@@ -156,6 +156,10 @@
           flex-direction: column;
           width: calc(100% - 30px);
 
+          @include screen-size("small") {
+            bottom: 70px;
+          }
+
           .text {
             font-family: $serif-stack;
             font-size: $font-size-normal;
@@ -164,6 +168,7 @@
             margin-bottom: 10px;
             line-height: 1.4em;
           }
+
           .logos {
             display: flex;
             align-items: flex-end;
@@ -235,6 +240,11 @@
           display: flex;
           justify-content: center;
           align-items: center;
+
+          @include screen-size("small") {
+            padding-bottom: 20px;
+            height: 100px;
+          }
         }
       }
       &.side {

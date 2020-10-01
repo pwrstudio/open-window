@@ -69,7 +69,7 @@
 
       img {
         margin-top: 6px;
-        height: 36px;
+        height: 30px;
       }
 
       .inner {
@@ -106,7 +106,7 @@
 {/if}
 
 {#if expanded}
-  <div class="menu" transition:slide use:links>
+  <div class="menu" in:slide use:links>
     <div
       class="close"
       on:click={(e) => {
