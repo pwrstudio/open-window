@@ -385,7 +385,7 @@
             {#each eventsMap[params.date] as event}
               <a
                 class="item"
-                class:active={get($activeRoute, 'params["*"]', '').includes(event.slug.current)}
+                class:active={get($activeRoute, 'params["*"]', '').substring(11) == event.slug.current}
                 href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')}>
                 <div class="time">{event.startTime}–{event.endTime}</div>
                 <div class="title">{event.title}</div>
@@ -396,7 +396,8 @@
                       {/if}</span>
                   {/each}
                 {/if}
-                <div class="location">{event.location}</div>
+
+                <div class="location">{#if event.location}{event.location}{/if}</div>
               </a>
             {/each}
           {/if}

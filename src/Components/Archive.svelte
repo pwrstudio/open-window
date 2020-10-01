@@ -64,18 +64,6 @@
     archived.then((archived) => {
       filteredEvents = archived
       archivedList = archived
-      // let x = archived.map((a) => a.tags)
-      // console.log("x", x)
-      // let y = uniq(flatMap(x))
-      // console.log("y", y)
-      // y = y.filter((t) => t != undefined)
-      // console.log("y filterd", y)
-      // let z = y.map((t) => {
-      //   if (t) {
-      //     return { title: t, slug: slugify(t) }
-      //   }
-      // })
-      // console.log("z", z)
       let extractedUniqueTags = uniq(
         flatMap(archived.map((a) => a.tags))
       ).filter((t) => t != undefined)

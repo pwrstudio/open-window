@@ -10,6 +10,8 @@
   import get from "lodash/get"
   import { loadData, renderBlockText, urlFor } from "../sanity"
 
+  import { format, isWithinInterval } from "date-fns"
+
   // *** COMPONENTS
   import Tag from "./Tag.svelte"
   import Link from "./Link.svelte"
@@ -22,15 +24,41 @@
 
   // *** PROPS
   export let slug = []
-
+  let now = Date.now()
+  let oldSlug = ""
+  let islive = false
   let event = {}
+
   $: {
-    console.log(slug)
-    loadData(QUERY.SINGLE, { slug: slug }).then((res) => {
-      console.dir(res)
-      event = res
-    })
+    if (slug !== oldSlug) {
+      loadData(QUERY.SINGLE, { slug: slug }).then((res) => {
+        now = Date.now()
+        event = res
+        let startPoint = Date.parse(event.date + " " + event.startTime)
+        let endPoint = Date.parse(event.date + " " + event.endTime)
+        // console.log(startPoint)
+        // console.log(endPoint)
+        // console.log(now)
+        // console.log(
+        //   isWithinInterval(now, {
+        //     start: startPoint,
+        //     end: endPoint,
+        //   })
+        // )
+        islive = isWithinInterval(now, {
+          start: startPoint,
+          end: endPoint,
+        })
+      })
+      oldSlug = slug
+    }
   }
+
+  // let startPoint = format(now, "dd-MM-yyyy")
+  // let endPoint =
+  //   let currentTime = format(now, "HH")
+
+  // console.log(currentTime)
 </script>
 
 <style lang="scss">
@@ -116,7 +144,7 @@
   }
 </style>
 
-<div class="event-container">
+<div class="event-container" use:links>
   {#if event && event.title}
     <!-- IMAGE -->
     {#if event.mainImage}
@@ -152,9 +180,11 @@
         {event.startTime}–{event.endTime}
       </div>
     </div>
-    <div class="live-icon">
-      <LiveIcon />
-    </div>
+    {#if islive }
+      <a href='/' class="live-icon">
+        <LiveIcon />
+      </a>
+    {/if}
   </div>
     <!-- TEXT -->
     <div class="content">
