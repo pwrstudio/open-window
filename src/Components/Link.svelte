@@ -4,33 +4,14 @@
   //  LINK
   //
   // # # # # # # # # # # # # #
-
-  // IMPORTS
-  import { onMount, onDestroy } from "svelte"
-  import { links } from "svelte-routing"
-
   // *** PROPS
   export let link = {}
-
-  console.dir(link)
 </script>
 
 <style lang="scss">
   @import "../variables.scss";
 
   .link {
-    // padding: 0px 15px;
-    // height: 30px;
-    // margin-right: 10px;
-    // margin-bottom: 10px;
-    // background: $white;
-    // box-shadow: 0px 0px 10px grey;
-    // user-select: none;
-    // cursor: pointer;
-    // position: relative;
-    // color: transparent;
-    // font-family: $sans-stack;
-    // font-size: $font-size-small;
     float: left;
     margin-right: 5px;
 

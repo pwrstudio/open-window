@@ -10,8 +10,9 @@
 
   //   *** PROPS
   export let leftText = "LIVE: From wood to waste"
-  export let rightText =
-    "NEXT: Vulnerability in design | screening in 01:12:48:06"
+  export let leftLink = ""
+  export let rightText = ""
+  export let rightLink = ""
 </script>
 
 <style lang="scss">
@@ -30,9 +31,8 @@
     padding-right: 10px;
     user-select: none;
 
-    .menu-item {
-      font-weight: bold;
-      cursor: pointer;
+    a {
+      display: block;
     }
 
     @include screen-size("small") {
@@ -43,6 +43,6 @@
 </style>
 
 <div class="infobar" use:links>
-  <div>{leftText}</div>
-  <div>{rightText}</div>
+  <a href={leftLink}>{leftText}</a>
+  <a href={rightLink}>{rightText}</a>
 </div>

@@ -17,10 +17,10 @@
     width: 100%;
     height: 100%;
     // padding-bottom: 80px;
-    background: rgb(112, 147, 243);
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("/sky.jpg");
 
     .vimeo-container {
       position: relative;
@@ -68,6 +68,5 @@
       allow="autoplay; fullscreen"
       allowfullscreen />
   </div> -->
-  <!-- <video src="/img/sky-loop-1-720p.mp4" autoplay loop muted /> -->
-  <img src="/sky.jpg" />
+  <video src="/img/sky-3.mp4" autoplay loop muted />
 </div>

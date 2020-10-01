@@ -11,6 +11,8 @@
   import { slide } from "svelte/transition"
   import { quintOut } from "svelte/easing"
   import MediaQuery from "svelte-media-query"
+  import { format } from "date-fns"
+  import get from "lodash/get"
 
   // *** SANITY
   import { urlFor, loadData } from "./sanity.js"
@@ -35,6 +37,34 @@
   import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
+
+  let isLive = false
+  let liveEvent = {}
+
+  const checkIfLive = () => {
+    let now = Date.now()
+    let live = loadData(
+      "*[_type == 'event' && date == $currentDate && startTime < $currentTime && endTime > $currentTime][0]",
+      {
+        currentDate: format(now, "yyyy-MM-dd"),
+        currentTime: format(now, "HH:mm"),
+      }
+    )
+    live.then((live) => {
+      console.log("–––", format(now, "yyyy-MM-dd"), format(now, "HH:mm"))
+      console.log("––– CHECKING IF LIVE")
+      console.log(live)
+      if (live) {
+        console.log("IS LIVE")
+        isLive = true
+        liveEvent = live
+      }
+    })
+  }
+
+  setInterval(checkIfLive, 10000)
+
+  checkIfLive()
 </script>
 
 <style lang="scss">
@@ -74,7 +104,11 @@
 <Router>
   <!-- MAIN -->
   <main class="main" use:links>
-    <Cloud />
+    {#if isLive}
+    <VideoPlayer {liveEvent}/>
+    {:else}
+        <Cloud />
+    {/if}
   </main>
 
   <!-- MENU -->
@@ -91,22 +125,16 @@
             <MenuBar />
           </div>
           <!-- DESKTOP: INFO / MARQUEE -->
-          {#if infoBarActive}
+          {#if isLive}
             <div
               class="bar small"
-              transition:slide
-              on:click={(e) => {
-                infoBarActive = !infoBarActive
-              }}>
-              <InfoBar />
+              transition:slide>
+              <InfoBar leftText={'LIVE: ' + liveEvent.title} leftLink={'/program/' +  liveEvent.date + '/' + get(liveEvent, 'slug.current')}/>
             </div>
           {:else}
             <div
               class="bar small"
-              transition:slide
-              on:click={(e) => {
-                infoBarActive = !infoBarActive
-              }}>
+              transition:slide>
               <Marquee />
             </div>
           {/if}

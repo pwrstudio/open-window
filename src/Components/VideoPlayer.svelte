@@ -6,12 +6,10 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import has from "lodash/has"
   import getVideoId from "get-video-id"
-  import { urlFor, loadData, renderBlockText } from "../sanity.js"
 
   // PROPS
-  export let block = {}
+  export let liveEvent = {}
 </script>
 
 <style lang="scss">
@@ -21,6 +19,18 @@
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    background: black;
+    width: 100vw;
+    height: calc(100vh - 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
     // font-size: $font_size_small;
     // line-height: $line-height;
     // font-family: $sans-stack;
@@ -42,8 +52,8 @@
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      max-width: 720px;
-      width: 100%;
+      max-width: 90%;
+      width: 1280px;
       margin-bottom: 0.5em;
 
       iframe {
@@ -72,14 +82,14 @@
   }
 </style>
 
-<figure class="embed">
+<div class="embed">
   <!-- // YOUTUBE -->
-  {#if block.url.includes('youtube')}
+  {#if liveEvent.streamId.includes('youtube')}
     <div class="youtube-container">
       <iframe
         width="720"
         height="480"
-        src={'https://www.youtube.com/embed/' + getVideoId(block.url).id}
+        src={'https://www.youtube.com/embed/' + getVideoId(liveEvent.streamId).id}
         frameborder="no"
         allow="autoplay; fullscreen"
         allowfullscreen />
@@ -87,12 +97,12 @@
   {/if}
 
   <!-- // VIMEO -->
-  {#if block.url.includes('vimeo')}
+  {#if liveEvent.streamId.includes('vimeo')}
     <div class="vimeo-container">
       <iframe
         width="720"
         height="480"
-        src={'https://player.vimeo.com/video/' + getVideoId(block.url).id}
+        src={'https://player.vimeo.com/video/' + getVideoId(liveEvent.streamId).id + '?autoplay=1'}
         frameborder="no"
         scrolling="no"
         byline="false"
@@ -101,4 +111,4 @@
         allowfullscreen />
     </div>
   {/if}
-</figure>
+</div>
