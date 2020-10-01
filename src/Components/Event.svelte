@@ -77,6 +77,7 @@
       margin-top: 90px;
       border-top: 1px solid black;
       padding-top: 30px;
+      padding-bottom: 100px;
     }
 
     @include hide-scroll;

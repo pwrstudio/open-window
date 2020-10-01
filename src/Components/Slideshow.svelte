@@ -137,7 +137,7 @@
     .slideshow-container {
       margin-top: 10vh;
       // margin-left: 10vw;
-      height: 70vh;
+      height: 65vh;
       width: 100vw;
       user-select: none;
 

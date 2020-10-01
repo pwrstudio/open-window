@@ -7,15 +7,42 @@
 
   // IMPORTS
   import getVideoId from "get-video-id"
+  import { urlFor } from "../../sanity"
+
+  // *** GRAPHICS
+
+  // import Play from "../Graphics/Play.svelte"
 
   // PROPS
   export let block = {}
+
+  let clicked = false
+  console.dir(block)
 </script>
 
 <style lang="scss">
   @import "../../variables.scss";
 
   .embed {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      z-index: 100;
+      background: $green-transparent;
+      height: 100px;
+      width: 100px;
+      border-radius: 50px;
+      cursor: pointer;
+      line-height: 100px;
+      text-align: center;
+    }
     .youtube-container,
     .vimeo-container {
       position: relative;
@@ -38,8 +65,9 @@
   }
 </style>
 
-<figure class="embed">
+<div class="embed">
   <!-- // YOUTUBE -->
+  {#if clicked}
   {#if block.url.includes('youtube')}
     <div class="youtube-container">
       <iframe
@@ -67,4 +95,19 @@
         allowfullscreen />
     </div>
   {/if}
-</figure>
+  {:else}
+    
+  <div on:click={e => {
+    clicked = true}}>
+  <img
+    src={urlFor(block.image.asset)
+      .width(900)
+      .quality(90)
+      .auto('format')
+      .url()} />
+      <div class='play-icon'>
+        Play
+      </div>
+    </div>
+        {/if}
+</div>

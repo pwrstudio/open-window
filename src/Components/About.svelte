@@ -225,6 +225,7 @@
             margin-top: 90px;
             border-top: 1px solid black;
             padding-top: 30px;
+            padding-bottom: 200px;
           }
 
           @include hide-scroll;
