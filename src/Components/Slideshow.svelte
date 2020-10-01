@@ -72,6 +72,7 @@
       width: 100px;
       cursor: pointer;
       user-select: none;
+      z-index: 1000;
 
       &:hover {
         transform: scale(1.05);
