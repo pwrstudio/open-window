@@ -71,6 +71,14 @@
     height: 100vh;
     overflow-y: scroll;
 
+    @include screen-size("small") {
+      padding: 0;
+      margin: 15px;
+      margin-top: 90px;
+      border-top: 1px solid black;
+      padding-top: 30px;
+    }
+
     @include hide-scroll;
 
     .image {
@@ -140,6 +148,11 @@
       justify-content: flex-end;
       margin-bottom: 20px;
       margin-top: 20px;
+
+      @include screen-size("small") {
+        width: auto;
+        float: right;
+      }
     }
   }
 </style>

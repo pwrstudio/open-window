@@ -72,6 +72,37 @@
       &:hover {
         transform: scale(1.05);
       }
+
+      &.phone-only {
+        display: none;
+      }
+
+      @include screen-size("small") {
+        height: 60px;
+        width: 60px;
+        left: unset;
+        right: 15px;
+        &.phone-only {
+          display: block;
+        }
+      }
+    }
+
+    .header {
+      display: none;
+
+      @include screen-size("small") {
+        padding-top: 10px;
+        top: 25px;
+        right: unset;
+        left: 20px;
+        position: absolute;
+        // background: red;
+        display: block;
+        img {
+          height: 34px;
+        }
+      }
     }
 
     .nav {
@@ -83,7 +114,7 @@
       z-index: 100;
 
       @include screen-size("small") {
-        top: 15vh;
+        top: 140px;
         transform: unset;
       }
 
@@ -146,7 +177,7 @@
         margin-left: 5vw;
       }
 
-      .header {
+      .title {
         margin-bottom: 1em;
       }
     }
@@ -156,6 +187,7 @@
 <div class="slideshow" use:links>
   {#await event then event}
     <div in:fade>
+      <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
       <a class="close" href="/archive"><X /></a>
       <div
         class="nav prev"
@@ -191,7 +223,7 @@
         {/if}
       </div>
       <div class="text">
-        <div class="header">{event.title}</div>
+        <div class="title">{event.title}</div>
         <div class="content">
           {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
             {@html renderBlockText(event.content.content)}

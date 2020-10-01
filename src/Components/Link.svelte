@@ -17,6 +17,9 @@
 
     img {
       height: 32px;
+      @include screen-size("small") {
+        height: 22px;
+      }
     }
 
     .text {

@@ -1,4 +1,4 @@
-import { format, getYear, formatDistanceToNow } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 
 export const SANITY_PROJECT_ID = "mm4gom7h"
 

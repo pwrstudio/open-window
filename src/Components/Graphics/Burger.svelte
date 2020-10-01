@@ -1,7 +1,7 @@
 <style lang="scss">
   svg {
     stroke: black;
-    height: 28px;
+    height: 20px;
   }
 </style>
 

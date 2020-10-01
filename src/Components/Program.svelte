@@ -118,8 +118,6 @@
       a {
         color: $black;
         text-decoration: none;
-        // display: inline-block;
-        // transform: scaleY(1.14);
       }
 
       .close {
@@ -133,6 +131,18 @@
 
         &:hover {
           transform: scale(1.05);
+        }
+
+        &.phone-only {
+          display: none;
+        }
+
+        @include screen-size("small") {
+          height: 60px;
+          width: 60px;
+          &.phone-only {
+            display: block;
+          }
         }
       }
 
@@ -154,11 +164,27 @@
           img {
             height: 28px;
           }
+
+          @include screen-size("small") {
+            top: 25px;
+            left: 20px;
+            img {
+              height: 34px;
+            }
+          }
         }
 
         .week-container {
           padding: 15px;
           padding-top: 160px;
+
+          @include screen-size("small") {
+            padding: 0;
+            margin: 15px;
+            margin-top: 90px;
+            border-top: 1px solid black;
+            padding-top: 30px;
+          }
 
           .navigation {
             font-family: $sans-stack;
@@ -185,6 +211,10 @@
             justify-content: space-between;
             transform: scaleY(1.14);
             user-select: none;
+
+            @include screen-size("small") {
+              font-size: $font-size-large-mobile;
+            }
 
             .weekday {
               // display: inline;
@@ -238,11 +268,31 @@
           z-index: 1002;
         }
 
+        .header {
+          position: absolute;
+          display: none;
+
+          @include screen-size("small") {
+            display: block;
+            top: 25px;
+            left: 20px;
+            img {
+              height: 34px;
+            }
+          }
+        }
+
         .day-container {
-          padding: 15px;
+          margin: 15px;
           padding-bottom: 120px;
           height: 100vh;
           overflow-y: scroll;
+
+          @include screen-size("small") {
+            margin-top: 90px;
+            border-top: 1px solid black;
+            padding-top: 30px;
+          }
 
           @include hide-scroll;
 
@@ -326,6 +376,20 @@
         left: 66.6666vw;
         background: $white;
 
+        .header {
+          position: absolute;
+          display: none;
+
+          @include screen-size("small") {
+            display: block;
+            top: 25px;
+            left: 20px;
+            img {
+              height: 34px;
+            }
+          }
+        }
+
         @include screen-size("small") {
           left: 0;
           z-index: 1003;
@@ -380,6 +444,15 @@
         class="panel day"
         in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
         out:fade={{ easing: quartOut, duration: 250 }}>
+        <div
+          class="close phone-only"
+          out:scale
+          on:click={(e) => {
+            navigate('/program')
+          }}>
+          <X />
+        </div>
+        <div class="header"><img src="/img/program.svg" alt="Program" /></div>
         <div class="day-container">
           {#if eventsMap[params.date] && Array.isArray(eventsMap[params.date])}
             {#each eventsMap[params.date] as event}
@@ -413,6 +486,7 @@
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
           out:fade={{ easing: quartOut, duration: 250 }}>
           <a href={'/program/' + params.date} class="close" out:scale><X /></a>
+          <div class="header"><img src="/img/program.svg" alt="Program" /></div>
           <Event slug={params.slug}/>
         </div>
       {/if}

@@ -87,7 +87,7 @@
     background: white;
 
     @include screen-size("small") {
-      height: 120px;
+      height: 110px;
     }
   }
 
@@ -97,6 +97,9 @@
 
     &.small {
       height: 40px;
+    }
+    &.smaller {
+      height: 30px;
     }
   }
 </style>
@@ -139,15 +142,15 @@
             </div>
           {/if}
         {:else}
-          <div class="bar">
+          <div class="bar small">
             <!-- MOBILE: MENU -->
             <MobileMenu />      
           </div>
-          <div class="bar">
+          <div class="bar small">
             <!-- MOBILE: TITLE -->
             <MobileTitle />      
           </div>
-          <div class="bar">
+          <div class="bar smaller">
             <!-- MOBILE: INFO -->
             <InfoBar />
           </div>

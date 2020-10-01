@@ -7,7 +7,7 @@
 
   // IMPORTS
   import { links } from "svelte-routing"
-  import { fly, scale, fade, slide } from "svelte/transition"
+  import { slide } from "svelte/transition"
   import { quartOut } from "svelte/easing"
 
   // *** GRAPHICS
@@ -31,7 +31,7 @@
     position: relative;
 
     .burger {
-      height: 30px;
+      height: 15px;
       padding-top: 10px;
     }
   }
@@ -39,19 +39,18 @@
   .menu {
     background: $white;
     position: fixed;
-    bottom: 80px;
+    bottom: 70px;
     left: 0;
     width: 100%;
 
     .close {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 20px;
+      right: 20px;
       cursor: pointer;
-      // background: red;
       transition: transform 0.3s ease-out;
-      height: 50px;
-      width: 50px;
+      height: 60px;
+      width: 60px;
 
       &:hover {
         transform: scale(1.1);
@@ -65,28 +64,31 @@
       text-decoration: none;
       display: block;
       text-align: center;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid $black;
-      //   font-size: $font_size_large_mobile;
+      display: flex;
+      align-items: center;
 
       img {
         margin-top: 6px;
-        height: 42px;
+        height: 36px;
       }
 
-      //   &.program {
-      //     left: 20px;
-      //   }
+      .inner {
+        user-select: none;
+        border-bottom: 1px solid $black;
+        display: flex;
+        justify-content: center;
+        width: calc(100% - 20px);
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-top: 25px;
+        padding-bottom: 25px;
+      }
 
-      //   &.about {
-      //     right: 20px;
-      //   }
-
-      //   &.archive {
-      //     left: 50%;
-      //     transform: translateX(-50%);
-      //   }
+      &.about {
+        .inner {
+          border-bottom: 1px solid transparent;
+        }
+      }
     }
   }
 </style>
@@ -113,13 +115,13 @@
       <X />
     </div>
     <a href="/program/" class="menu-item program">
-      <img src="/img/program.svg" alt="Program" />
+      <div class="inner"><img src="/img/program.svg" alt="Program" /></div>
     </a>
     <a href="/archive/" class="menu-item archive">
-      <img src="/img/archive.svg" alt="Archive" />
+      <div class="inner"><img src="/img/archive.svg" alt="Archive" /></div>
     </a>
     <a href="/about/" class="menu-item about">
-      <img src="/img/about.svg" alt="About" />
+      <div class="inner"><img src="/img/about.svg" alt="About" /></div>
     </a>
   </div>
 {/if}

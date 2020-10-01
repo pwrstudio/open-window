@@ -71,6 +71,20 @@
         &:hover {
           transform: scale(1.05);
         }
+
+        &.phone-only {
+          display: none;
+        }
+
+        @include screen-size("small") {
+          height: 60px;
+          width: 60px;
+          left: unset;
+          right: 15px;
+          &.phone-only {
+            display: block;
+          }
+        }
       }
 
       &.menu {
@@ -94,11 +108,28 @@
           img {
             height: 28px;
           }
+
+          @include screen-size("small") {
+            top: 25px;
+            right: unset;
+            left: 20px;
+            img {
+              height: 34px;
+            }
+          }
         }
 
         .menu-container {
           padding: 15px;
           padding-top: 140px;
+
+          @include screen-size("small") {
+            padding: 0;
+            margin: 15px;
+            margin-top: 90px;
+            border-top: 1px solid black;
+            padding-top: 30px;
+          }
 
           .item {
             font-family: $serif-stack;
@@ -162,11 +193,34 @@
           z-index: 1002;
         }
 
+        .header {
+          display: none;
+
+          @include screen-size("small") {
+            position: absolute;
+            display: block;
+            top: 25px;
+            right: unset;
+            left: 20px;
+            img {
+              height: 34px;
+            }
+          }
+        }
+
         .page-container {
           padding: 15px;
           padding-bottom: 80px;
           height: 100vh;
           overflow-y: scroll;
+
+          @include screen-size("small") {
+            padding: 0;
+            margin: 15px;
+            margin-top: 90px;
+            border-top: 1px solid black;
+            padding-top: 30px;
+          }
 
           @include hide-scroll;
         }
@@ -190,6 +244,21 @@
         font-size: 26px;
         z-index: 1000;
 
+        .header {
+          display: none;
+
+          @include screen-size("small") {
+            position: absolute;
+            display: block;
+            top: 25px;
+            right: unset;
+            left: 20px;
+            img {
+              height: 34px;
+            }
+          }
+        }
+
         @include screen-size("small") {
           right: 0;
           z-index: 1003;
@@ -210,7 +279,7 @@
       class="panel menu"
       in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
       out:fade={{ easing: quartOut, duration: 500 }}>
-      <div class="header"><img src="/img/open-window.svg" alt="Program" /></div>
+      <div class="header"><img src="/img/about.svg" alt="About" /></div>
       <div
         class="close"
         on:click={(e) => {
@@ -242,6 +311,14 @@
         class="panel page"
         in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
         out:fade={{ easing: quartOut, duration: 500 }}>
+        <div class="header"><img src="/img/about.svg" alt="About" /></div>
+        <div
+          class="close phone-only"
+          on:click={(e) => {
+            navigate('/about')
+          }}>
+          <X />
+        </div>
         <div class="page-container">
           <Page page={pages.find((p) => get(p, 'slug.current', '') === params.slug)} />
         </div>

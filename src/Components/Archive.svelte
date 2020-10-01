@@ -109,6 +109,20 @@
       &:hover {
         transform: scale(1.05);
       }
+
+      &.phone-only {
+        display: none;
+      }
+
+      @include screen-size("small") {
+        height: 60px;
+        width: 60px;
+        left: unset;
+        right: 15px;
+        &.phone-only {
+          display: block;
+        }
+      }
     }
 
     .header {
@@ -125,6 +139,16 @@
         display: block;
         height: 28px;
       }
+
+      @include screen-size("small") {
+        position: absolute;
+        top: 25px;
+        right: unset;
+        left: 20px;
+        img {
+          height: 34px;
+        }
+      }
     }
 
     .tag-container {
@@ -135,6 +159,15 @@
       margin-bottom: 10px;
       padding-left: 15px;
       padding-right: 15px;
+
+      @include screen-size("small") {
+        padding: 0;
+        margin: 15px;
+        width: calc(100% - 30px);
+        margin-top: 90px;
+        border-top: 1px solid black;
+        padding-top: 30px;
+      }
     }
 
     .grid {

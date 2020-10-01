@@ -5,18 +5,6 @@
   export let repeat = 4
   export let paused = false
   export let pauseOnHover = false
-
-  let hovered = false
-
-  onMount(async () => {
-    // const container = document.querySelector("#container")
-    // container.onmouseover = () => {
-    //   hovered = true
-    // }
-    // container.onmouseleave = () => {
-    //   hovered = false
-    // }
-  })
 </script>
 
 <style lang="scss">

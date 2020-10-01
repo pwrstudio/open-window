@@ -18,11 +18,11 @@
       display: flex;
       justify-content: space-between;
       width: calc(100% - 20px);
-      margin-left: 10px;
-      margin-right: 10px;
+      margin-left: 20px;
+      margin-right: 20px;
 
       img {
-        height: 14px;
+        height: 15px;
       }
 
       .hdk-valand {

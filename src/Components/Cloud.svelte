@@ -56,17 +56,5 @@
 </style>
 
 <div class="cloud" use:links>
-  <!-- <div class="vimeo-container">
-    <iframe
-      width="1080"
-      height="720"
-      src="https://player.vimeo.com/video/235224162?autoplay=1&loop=1&autopause=0"
-      frameborder="no"
-      scrolling="no"
-      byline="false"
-      color="#ffffff"
-      allow="autoplay; fullscreen"
-      allowfullscreen />
-  </div> -->
   <video src="/img/sky-3.mp4" autoplay loop muted />
 </div>
