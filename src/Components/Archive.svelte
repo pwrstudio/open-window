@@ -36,8 +36,9 @@
     filteredEvents =
       $activeTags.length > 0
         ? archivedList.filter((e) => {
-            // console.log("%% e", e.title, e.tags)
-            return e.tags ? e.tags.some((t) => $activeTags.includes(t)) : false
+            return e.tags
+              ? e.tags.some((t) => $activeTags.includes(slugify(t)))
+              : false
           })
         : archivedList
 

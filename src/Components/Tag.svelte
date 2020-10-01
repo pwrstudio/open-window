@@ -107,20 +107,19 @@
 <div
   class="tag"
   bind:this={tagEl}
-  class:active={$activeTags.includes(slug)}
+  class:active={$activeTags.find((t) => t === slug)}
   on:click={(e) => {
     if (link) {
       window.location = '/archive/#' + slug
     } else {
-      if ($activeTags.includes(slug)) {
+      if ($activeTags.find((t) => t === slug)) {
         console.log('-- Remove tag', slug)
-        activeTags.set($activeTags.filter((tag) => tag !== slug))
+        activeTags.set($activeTags.filter((t) => t !== slug))
       } else {
         console.log('++ Add tag', slug)
         activeTags.set([...$activeTags, slug])
       }
     }
-    // activeTags.set($activeTags.includes(slug) ? $activeTags.filter((tag) => tag !== slug) : [...$activeTags, slug])
   }}>
   {title}
   <div class="background-overlay" style={'background: ' + bgColor} />
