@@ -6,11 +6,13 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { slide, fade } from "svelte/transition"
+  import { onMount } from "svelte"
+
+  import { slide } from "svelte/transition"
   import { Router, Route, links } from "svelte-routing"
   import flatMap from "lodash/flatMap"
   import uniq from "lodash/uniq"
-  import { urlFor } from "../sanity"
+  import { urlFor, loadData } from "../sanity"
 
   // *** COMPONENTS
   import Slideshow from "./Slideshow.svelte"
@@ -21,21 +23,23 @@
 
   // *** STORES
   import { activeTags } from "../stores.js"
-
-  // *** PROPS
-  export let archived = []
+  import { slugify, QUERY } from "../global"
 
   let allTags = false
   let filteredEvents = []
+  let archivedList = []
+
+  let archived = loadData(QUERY.EVENTS)
 
   $: {
+    console.log(archivedList)
     filteredEvents =
       $activeTags.length > 0
-        ? archived.filter((e) => {
-            console.log("%% e", e.title, e.tags)
+        ? archivedList.filter((e) => {
+            // console.log("%% e", e.title, e.tags)
             return e.tags ? e.tags.some((t) => $activeTags.includes(t)) : false
           })
-        : archived
+        : archivedList
 
     console.log("–– filteredEvents")
     console.dir(filteredEvents)
@@ -46,14 +50,46 @@
     $activeTags.forEach((a) => {
       console.log("==>", a)
     })
-    // console.dir(...$activeTags)
   }
 
-  $: {
-    allTags = uniq(flatMap(archived.map((a) => a.tags)))
-    // console.log("–– allTags")
-    // console.dir(allTags)
-  }
+  onMount(async () => {
+    // Set filter based on hash
+    if (window.location.hash) {
+      let hash = window.location.hash.substring(1)
+      console.log("hash", hash)
+      activeTags.set([...$activeTags, hash])
+    }
+
+    archived.then((archived) => {
+      filteredEvents = archived
+      archivedList = archived
+      // let x = archived.map((a) => a.tags)
+      // console.log("x", x)
+      // let y = uniq(flatMap(x))
+      // console.log("y", y)
+      // y = y.filter((t) => t != undefined)
+      // console.log("y filterd", y)
+      // let z = y.map((t) => {
+      //   if (t) {
+      //     return { title: t, slug: slugify(t) }
+      //   }
+      // })
+      // console.log("z", z)
+      let extractedUniqueTags = uniq(
+        flatMap(archived.map((a) => a.tags))
+      ).filter((t) => t != undefined)
+      console.log("extractedUniqueTags", extractedUniqueTags)
+      allTags = extractedUniqueTags.map((t) => {
+        if (t) {
+          return { title: t, slug: slugify(t) }
+        }
+      })
+      console.log("–– allTags")
+      console.dir(allTags)
+    })
+
+    return archived
+  })
 </script>
 
 <style lang="scss">
@@ -181,40 +217,42 @@
 </style>
 
 <Router>
-  <div class="archive" use:links transition:slide>
-    <a class="close" href="/"><X /></a>
-    <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
-    <div class="tag-container">
-      {#if allTags && Array.isArray(allTags)}
-        {#each allTags as tag}
-          <Tag title={tag} />
+  {#await archived then archived}
+    <div class="archive" use:links transition:slide>
+      <a class="close" href="/"><X /></a>
+      <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
+      <div class="tag-container">
+        {#if allTags && Array.isArray(allTags)}
+          {#each allTags as tag}
+            <Tag title={tag.title} slug={tag.slug} />
+          {/each}
+        {/if}
+      </div>
+      <div class="grid">
+        {#each filteredEvents as event (event._id)}
+          <div class="item">
+            {#if event.mainImage}
+              <img
+                src={urlFor(event.mainImage)
+                  .width(400)
+                  .quality(90)
+                  .auto('format')
+                  .url()} />
+            {/if}
+            <a href={'/archive/' + event.slug.current} class="overlay">
+              <div>
+                {event.title}<br />
+                {#if event.participants && Array.isArray(event.participants)}
+                  {#each event.participants as participant, index (participant._id)}
+                    <div class="participant">{participant.name}</div>
+                  {/each}
+                {/if}
+              </div>
+            </a>
+          </div>
         {/each}
-      {/if}
+      </div>
+      <Route path=":slug" component={Slideshow} />
     </div>
-    <div class="grid">
-      {#each filteredEvents as event (event._id)}
-        <div class="item">
-          {#if event.mainImage}
-            <img
-              src={urlFor(event.mainImage)
-                .width(400)
-                .quality(90)
-                .auto('format')
-                .url()} />
-          {/if}
-          <a href={'/archive/' + event.slug.current} class="overlay">
-            <div>
-              {event.title}<br />
-              {#if event.participants && Array.isArray(event.participants)}
-                {#each event.participants as participant, index (participant._id)}
-                  <div class="participant">{participant.name}</div>
-                {/each}
-              {/if}
-            </div>
-          </a>
-        </div>
-      {/each}
-    </div>
-    <Route path=":slug" component={Slideshow} />
-  </div>
+  {/await}
 </Router>

@@ -3,10 +3,11 @@ import { format, getYear, formatDistanceToNow } from "date-fns"
 export const SANITY_PROJECT_ID = "mm4gom7h"
 
 export const QUERY = {
-  ALL:
-    "*[_type in ['event', 'participant', 'page']]{...,participants[]->{...}}",
+  SETTINGS: "*[_id == 'settings']{...,menuAbout[]->{...}}[0]",
+  EVENTS:
+    "*[_type == 'event']{...,participants[]->{...}} | order(date asc) | order(startTime asc)",
   SINGLE:
-    '*[_type == "event" && slug.current == $slug]{...,particiants[]->{...}}[0]',
+    '*[_type == "event" && slug.current == $slug]{...,participants[]->{...}}[0]',
 }
 
 export const COLORS = [

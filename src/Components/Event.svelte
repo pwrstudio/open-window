@@ -8,7 +8,7 @@
   // IMPORTS
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
-  import { renderBlockText, urlFor } from "../sanity"
+  import { loadData, renderBlockText, urlFor } from "../sanity"
 
   // *** COMPONENTS
   import Tag from "./Tag.svelte"
@@ -18,10 +18,19 @@
   import LiveIcon from "./Graphics/LiveIcon.svelte"
 
   // *** GLOBAL
-  import { formattedDate } from "../global.js"
+  import { QUERY, formattedDate } from "../global.js"
 
   // *** PROPS
-  export let event = []
+  export let slug = []
+
+  let event = {}
+  $: {
+    console.log(slug)
+    loadData(QUERY.SINGLE, { slug: slug }).then((res) => {
+      console.dir(res)
+      event = res
+    })
+  }
 </script>
 
 <style lang="scss">
@@ -108,8 +117,9 @@
 </style>
 
 <div class="event-container">
-  <!-- IMAGE -->
-  {#if event.mainImage}
+  {#if event && event.title}
+    <!-- IMAGE -->
+    {#if event.mainImage}
     <div class="image">
       <img
         src={urlFor(event.mainImage)
@@ -119,16 +129,20 @@
           .url()} />
     </div>
   {/if}
-  <!-- HEADER -->
-  <div class="header">
+    <!-- HEADER -->
+    <div class="header">
     <div class="text">
       <!-- TITLE -->
       <div class="title">{event.title}</div>
       <!-- PARTICIPANTS -->
       <div class="participant">
         {#if event.participants && Array.isArray(event.participants)}
-          {#each event.participants as participant, index (participant._id)}
-            <a href='xxx' class="participant">{participant.name}</a>
+          {#each event.participants as participant (participant._id)}
+            {#if participant.link}
+              <a href={participant.link} class="participant" target="_blank">{participant.name}</a>
+            {:else}
+              <div class="participant">{participant.name}</div>
+            {/if}
           {/each}
         {/if}
       </div>
@@ -142,26 +156,27 @@
       <LiveIcon />
     </div>
   </div>
-  <!-- TEXT -->
-  <div class="content">
+    <!-- TEXT -->
+    <div class="content">
     {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
       {@html renderBlockText(event.content.content)}
     {/if}
   </div>
-  <!-- LINKS-->
-  <div class="link-container">
+    <!-- LINKS-->
+    <div class="link-container">
     {#if event.links && Array.isArray(event.links)}
       {#each event.links as link}
         <Link {link} />
       {/each}
     {/if}
   </div>
-  <!-- TAGS -->
-  <div class="tag-container">
+    <!-- TAGS -->
+    <div class="tag-container">
     {#if event.tags && Array.isArray(event.tags)}
       {#each event.tags as tag}
-        <Tag title={tag} />
+        <Tag title={tag} link={true} />
       {/each}
     {/if}
   </div>
+  {/if}
 </div>

@@ -35,27 +35,6 @@
   import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
-
-  // *** VARIABLES
-
-  // *** DOM REFERENCES
-
-  // Load data
-  let pages = []
-  let events = []
-  let archived = []
-  let posts = loadData(QUERY.ALL)
-
-  onMount(async () => {
-    posts.then((posts) => {
-      // console.dir(posts)
-      pages = posts.filter((p) => p._type === "page")
-      events = posts.filter((p) => p._type === "event")
-      archived = events
-      // console.dir(pages)
-      // console.dir(events)
-    })
-  })
 </script>
 
 <style lang="scss">
@@ -151,16 +130,16 @@
 
   <!-- PROGRAM -->
   <Route path="program/*">
-    <Program {events} />
+      <Program/>
   </Route>
 
   <!-- ARCHIVE -->
   <Route path="archive/*">
-    <Archive {archived} />
+    <Archive/>
   </Route>
 
   <!-- ABOUT -->
   <Route path="about/*">
-    <About {pages} />
+    <About/>
   </Route>
 </Router>

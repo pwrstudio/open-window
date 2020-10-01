@@ -1,4 +1,6 @@
 <script>
+  import { window } from "lodash/_freeGlobal"
+
   // # # # # # # # # # # # # #
   //
   //  TAG
@@ -7,7 +9,6 @@
 
   // IMPORTS
   import { onMount, onDestroy } from "svelte"
-  import { links } from "svelte-routing"
 
   // *** GLOBAL
   import { COLORS, slugify, debounce } from "../global.js"
@@ -16,16 +17,19 @@
   import { activeTags } from "../stores.js"
 
   // *** PROPS
-  export let title = ""
+  export let title = false
+  export let slug = false
+  export let link = false
 
+  // *** DOM REFERENCES
   let tagEl = {}
-  let bgColor = ""
-  // let slug = slugify(title)
-  let slug = title
 
-  // $: {
-  //   console.log("$activeTags.includes(slug)", $activeTags.includes(slug))
-  // }
+  // *** VARIABLES
+  let bgColor = ""
+
+  if (!slug) {
+    slug = slugify(title)
+  }
 
   const calculateBackgroundColor = () => {
     const ownHorizontalPosition = tagEl.getBoundingClientRect().left
@@ -105,12 +109,16 @@
   bind:this={tagEl}
   class:active={$activeTags.includes(slug)}
   on:click={(e) => {
-    if ($activeTags.includes(slug)) {
-      console.log('-- Remove tag', slug)
-      activeTags.set($activeTags.filter((tag) => tag !== slug))
+    if (link) {
+      window.location = '/archive/#' + slug
     } else {
-      console.log('++ Add tag', slug)
-      activeTags.set([...$activeTags, slug])
+      if ($activeTags.includes(slug)) {
+        console.log('-- Remove tag', slug)
+        activeTags.set($activeTags.filter((tag) => tag !== slug))
+      } else {
+        console.log('++ Add tag', slug)
+        activeTags.set([...$activeTags, slug])
+      }
     }
     // activeTags.set($activeTags.includes(slug) ? $activeTags.filter((tag) => tag !== slug) : [...$activeTags, slug])
   }}>

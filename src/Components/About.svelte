@@ -19,6 +19,12 @@
   //   console.log($activeRoute)
   // }
 
+  // *** SANITY
+  import { loadData, renderBlockText } from "../sanity.js"
+
+  // *** GLOBAL
+  import { QUERY } from "../global.js"
+
   // *** COMPONENTS
   import Page from "./Page.svelte"
 
@@ -26,9 +32,11 @@
   import X from "./Graphics/X.svelte"
   import ArrowDown from "./Graphics/ArrowDown.svelte"
 
-  export let pages = []
-
-  console.dir(pages)
+  let pages = []
+  let settings = loadData(QUERY.SETTINGS)
+  settings.then((settings) => {
+    pages = settings.menuAbout
+  })
 </script>
 
 <style lang="scss">
@@ -111,16 +119,19 @@
 
         .colophon {
           position: absolute;
-          bottom: 80px;
+          bottom: 40px;
           left: 15px;
           display: flex;
-          justify-content: space-between;
+          flex-direction: column;
           width: calc(100% - 30px);
+
           .text {
             font-family: $serif-stack;
             font-size: $font-size-normal;
             transform: scaleY(1.14);
             margin-right: 10px;
+            margin-bottom: 10px;
+            line-height: 1.4em;
           }
           .logos {
             display: flex;
@@ -129,7 +140,7 @@
             img {
               display: block;
               margin-right: 15px;
-              height: 80px;
+              height: 22px;
 
               &:last-child {
                 margin-right: 0;
@@ -214,12 +225,13 @@
       </div>
       <div class="colophon">
         <div class="text">
-          OW 2017 | 2018 | 2019 <br /><br /> Externa länkar<br /> Kontaktuppgiter<br />
-          Facebook | Instagram | Twitter
+          {#await settings then settings}
+            {@html renderBlockText(settings.footerAbout.content)}
+          {/await}
         </div>
         <div class="logos">
-          <img src="/img/gu.svg" alt="Göteborgs Universitet" />
-          <img src="/img/hdk.svg" alt="HDK" />
+          <img src="/img/hdk-valand.svg" alt="HDK-Valand" />
+          <img src="/img/gu2.svg" alt="Göteborgs Universitet" />
         </div>
       </div>
     </div>
@@ -231,7 +243,7 @@
         in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
         out:fade={{ easing: quartOut, duration: 500 }}>
         <div class="page-container">
-                    <Page page={pages.find((p) => get(p, 'slug.current', '') === params.slug)} />
+          <Page page={pages.find((p) => get(p, 'slug.current', '') === params.slug)} />
         </div>
         <div class="scroll-indicator">
           <ArrowDown />

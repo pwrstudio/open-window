@@ -36,16 +36,24 @@
     img {
       height: 15px;
       margin-right: 120px;
-      margin-top: 15px;
+      margin-top: 9px;
     }
 
-    .hdk-valand {
+    .logos {
       font-family: $serif-stack;
       font-size: $font-size-medium;
-      transform: scaleY(1.14);
       margin-right: 120px;
       position: relative;
       top: 0px;
+      img {
+        margin-right: 5px;
+
+        &.gu {
+          height: 20px;
+          position: relative;
+          top: 4px;
+        }
+      }
     }
   }
 
@@ -67,7 +75,10 @@
     {#each Array(repeat) as _, i}
       <div class="text" style="animation-duration: {duration}s">
         <img src="/img/open-window.svg" />
-        <span class="hdk-valand">HDK Valand</span>
+        <span class="logos">
+          <img src="/img/hdk-valand.svg" alt="HDK-Valand" />
+          <img src="/img/gu2.svg" alt="Göteborgs Universitet" class="gu" />
+        </span>
       </div>
     {/each}
   </div>

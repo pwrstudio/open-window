@@ -11,16 +11,27 @@
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
   import groupBy from "lodash/groupBy"
+  import {
+    getDate,
+    getDay,
+    getMonth,
+    format,
+    eachDayOfInterval,
+  } from "date-fns"
 
   import { getContext } from "svelte"
   import { ROUTER } from "svelte-routing/src/contexts"
   const { activeRoute } = getContext(ROUTER)
 
   // *** GLOBAL
+  import { QUERY } from "../global.js"
 
-  $: {
-    console.log($activeRoute)
-  }
+  // *** SANITY
+  import { loadData } from "../sanity.js"
+
+  // $: {
+  //   console.log($activeRoute)
+  // }
 
   // *** COMPONENTS
   import Event from "./Event.svelte"
@@ -29,34 +40,65 @@
   import X from "./Graphics/X.svelte"
   import ArrowDown from "./Graphics/ArrowDown.svelte"
 
-  // *** PROPS
-  export let events = []
+  let events = loadData(QUERY.EVENTS)
+  let settings = loadData(QUERY.SETTINGS)
 
   let eventsMap = {}
+  let eventsList = []
+  let weekdays = []
 
-  $: {
-    console.dir(events)
-    eventsMap = groupBy(events, (e) => e.date)
-    console.log("eventsmaps")
-    console.dir(eventsMap)
-
-    for (const [key, value] of Object.entries(eventsMap)) {
-      console.log(`${key}: ${value}`)
-      eventsMap[key] = value.sort((a, b) =>
-        a.startTime > b.startTime ? 1 : -1
-      )
+  const constructDay = (d) => {
+    const D = Date.parse(d)
+    return {
+      weekday: getDay(D),
+      weekdayName: format(D, "EEEE"),
+      date: getDate(D),
+      month: getMonth(D),
+      slug: format(D, "yyyy-MM-dd"),
     }
   }
 
-  let weekdays = [
-    { weekday: "Monday", date: "19", slug: "2020-10-19" },
-    { weekday: "Tuesday", date: "20", slug: "2020-10-20" },
-    { weekday: "Wednesday", date: "21", slug: "2020-10-21" },
-    { weekday: "Thursday", date: "22", slug: "2020-10-22" },
-    { weekday: "Friday", date: "23", slug: "2020-10-23" },
-    { weekday: "Saturday", date: "24", slug: "2020-10-24" },
-    { weekday: "Sunday", date: "25", slug: "2020-10-25" },
-  ]
+  events.then((events) => {
+    eventsList = events
+    console.log("_____ EVENTS LIST")
+    console.dir(eventsList)
+    settings.then((settings) => {
+      // console.dir(settings)
+      let activeEventPeriod = settings.eventPeriods.find((eP) => eP.active)
+      // console.dir(events)
+      console.log(activeEventPeriod.startDate)
+      console.log(activeEventPeriod.endDate)
+
+      if (activeEventPeriod.startDate && activeEventPeriod.endDate) {
+        // _____ 1
+        // _____ 1 Construct weekday object for event period
+        // _____ 1
+        const parsedStart = Date.parse(activeEventPeriod.startDate)
+        const parsedEnd = Date.parse(activeEventPeriod.endDate)
+        // Get all days in period
+        const period = eachDayOfInterval({ start: parsedStart, end: parsedEnd })
+        // console.dir(period)
+        // console.log(constructDay(activeEventPeriod.startDate))
+        period.forEach((day) => {
+          weekdays.push(constructDay(day))
+        })
+        weekdays = weekdays
+        console.log("_____ WEEKDAYS")
+        console.dir(weekdays)
+
+        // _____ 2
+        // _____ 2 Filter events to those in event period
+        // _____ 2
+
+        // _____ 3
+        // _____ 3 Group events by date
+        // _____ 3
+        eventsMap = groupBy(events, (e) => e.date)
+        console.log("_____ EVENTMAP")
+        console.dir(eventsMap)
+      }
+    })
+  })
 </script>
 
 <style lang="scss">
@@ -325,7 +367,7 @@
             href={'/program/' + day.slug}
             class:empty={!eventsMap[day.slug]}
             class:active={get($activeRoute, 'params["*"]', '').includes(day.slug)}>
-            <span class="weekday">{day.weekday}</span>
+            <span class="weekday">{day.weekdayName}</span>
             <span class="date">{day.date}</span>
           </a>
         {/each}
@@ -370,8 +412,7 @@
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
           out:fade={{ easing: quartOut, duration: 250 }}>
           <a href={'/program/' + params.date} class="close" out:scale><X /></a>
-          <Event
-            event={events.find((e) => get(e, 'slug.current', '') === params.slug)} />
+          <Event slug={params.slug}/>
         </div>
       {/if}
     </Route>
