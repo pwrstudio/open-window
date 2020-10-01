@@ -61,21 +61,25 @@
       activeTags.set([...$activeTags, hash])
     }
 
-    archived.then((archived) => {
-      filteredEvents = archived
-      archivedList = archived
-      let extractedUniqueTags = uniq(
-        flatMap(archived.map((a) => a.tags))
-      ).filter((t) => t != undefined)
-      console.log("extractedUniqueTags", extractedUniqueTags)
-      allTags = extractedUniqueTags.map((t) => {
-        if (t) {
-          return { title: t, slug: slugify(t) }
-        }
+    archived
+      .then((archived) => {
+        filteredEvents = archived
+        archivedList = archived
+        let extractedUniqueTags = uniq(
+          flatMap(archived.map((a) => a.tags))
+        ).filter((t) => t != undefined)
+        console.log("extractedUniqueTags", extractedUniqueTags)
+        allTags = extractedUniqueTags.map((t) => {
+          if (t) {
+            return { title: t, slug: slugify(t) }
+          }
+        })
+        console.log("–– allTags")
+        console.dir(allTags)
       })
-      console.log("–– allTags")
-      console.dir(allTags)
-    })
+      .catch((err) => {
+        console.dir(err)
+      })
 
     return archived
   })

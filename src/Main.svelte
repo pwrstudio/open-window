@@ -50,16 +50,20 @@
         currentTime: format(now, "HH:mm"),
       }
     )
-    live.then((live) => {
-      console.log("–––", format(now, "yyyy-MM-dd"), format(now, "HH:mm"))
-      console.log("––– CHECKING IF LIVE")
-      console.log(live)
-      if (live) {
-        console.log("IS LIVE")
-        isLive = true
-        liveEvent = live
-      }
-    })
+    live
+      .then((live) => {
+        console.log("–––", format(now, "yyyy-MM-dd"), format(now, "HH:mm"))
+        console.log("––– CHECKING IF LIVE")
+        console.log(live)
+        if (live) {
+          console.log("IS LIVE")
+          isLive = true
+          liveEvent = live
+        }
+      })
+      .catch((err) => {
+        console.dir(err)
+      })
   }
 
   setInterval(checkIfLive, 10000)

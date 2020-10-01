@@ -58,47 +58,58 @@
     }
   }
 
-  events.then((events) => {
-    eventsList = events
-    console.log("_____ EVENTS LIST")
-    console.dir(eventsList)
-    settings.then((settings) => {
-      // console.dir(settings)
-      let activeEventPeriod = settings.eventPeriods.find((eP) => eP.active)
-      // console.dir(events)
-      console.log(activeEventPeriod.startDate)
-      console.log(activeEventPeriod.endDate)
+  events
+    .then((events) => {
+      eventsList = events
+      console.log("_____ EVENTS LIST")
+      console.dir(eventsList)
+      settings
+        .then((settings) => {
+          // console.dir(settings)
+          let activeEventPeriod = settings.eventPeriods.find((eP) => eP.active)
+          // console.dir(events)
+          console.log(activeEventPeriod.startDate)
+          console.log(activeEventPeriod.endDate)
 
-      if (activeEventPeriod.startDate && activeEventPeriod.endDate) {
-        // _____ 1
-        // _____ 1 Construct weekday object for event period
-        // _____ 1
-        const parsedStart = Date.parse(activeEventPeriod.startDate)
-        const parsedEnd = Date.parse(activeEventPeriod.endDate)
-        // Get all days in period
-        const period = eachDayOfInterval({ start: parsedStart, end: parsedEnd })
-        // console.dir(period)
-        // console.log(constructDay(activeEventPeriod.startDate))
-        period.forEach((day) => {
-          weekdays.push(constructDay(day))
+          if (activeEventPeriod.startDate && activeEventPeriod.endDate) {
+            // _____ 1
+            // _____ 1 Construct weekday object for event period
+            // _____ 1
+            const parsedStart = Date.parse(activeEventPeriod.startDate)
+            const parsedEnd = Date.parse(activeEventPeriod.endDate)
+            // Get all days in period
+            const period = eachDayOfInterval({
+              start: parsedStart,
+              end: parsedEnd,
+            })
+            // console.dir(period)
+            // console.log(constructDay(activeEventPeriod.startDate))
+            period.forEach((day) => {
+              weekdays.push(constructDay(day))
+            })
+            weekdays = weekdays
+            console.log("_____ WEEKDAYS")
+            console.dir(weekdays)
+
+            // _____ 2
+            // _____ 2 Filter events to those in event period
+            // _____ 2
+
+            // _____ 3
+            // _____ 3 Group events by date
+            // _____ 3
+            eventsMap = groupBy(events, (e) => e.date)
+            console.log("_____ EVENTMAP")
+            console.dir(eventsMap)
+          }
         })
-        weekdays = weekdays
-        console.log("_____ WEEKDAYS")
-        console.dir(weekdays)
-
-        // _____ 2
-        // _____ 2 Filter events to those in event period
-        // _____ 2
-
-        // _____ 3
-        // _____ 3 Group events by date
-        // _____ 3
-        eventsMap = groupBy(events, (e) => e.date)
-        console.log("_____ EVENTMAP")
-        console.dir(eventsMap)
-      }
+        .catch((err) => {
+          console.dir(err)
+        })
     })
-  })
+    .catch((err) => {
+      console.dir(err)
+    })
 </script>
 
 <style lang="scss">

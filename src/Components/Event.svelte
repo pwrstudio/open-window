@@ -31,25 +31,29 @@
 
   $: {
     if (slug !== oldSlug) {
-      loadData(QUERY.SINGLE, { slug: slug }).then((res) => {
-        now = Date.now()
-        event = res
-        let startPoint = Date.parse(event.date + " " + event.startTime)
-        let endPoint = Date.parse(event.date + " " + event.endTime)
-        // console.log(startPoint)
-        // console.log(endPoint)
-        // console.log(now)
-        // console.log(
-        //   isWithinInterval(now, {
-        //     start: startPoint,
-        //     end: endPoint,
-        //   })
-        // )
-        islive = isWithinInterval(now, {
-          start: startPoint,
-          end: endPoint,
+      loadData(QUERY.SINGLE, { slug: slug })
+        .then((res) => {
+          now = Date.now()
+          event = res
+          let startPoint = Date.parse(event.date + " " + event.startTime)
+          let endPoint = Date.parse(event.date + " " + event.endTime)
+          // console.log(startPoint)
+          // console.log(endPoint)
+          // console.log(now)
+          // console.log(
+          //   isWithinInterval(now, {
+          //     start: startPoint,
+          //     end: endPoint,
+          //   })
+          // )
+          islive = isWithinInterval(now, {
+            start: startPoint,
+            end: endPoint,
+          })
         })
-      })
+        .catch((err) => {
+          console.dir(err)
+        })
       oldSlug = slug
     }
   }

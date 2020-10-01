@@ -34,9 +34,13 @@
 
   let pages = []
   let settings = loadData(QUERY.SETTINGS)
-  settings.then((settings) => {
-    pages = settings.menuAbout
-  })
+  settings
+    .then((settings) => {
+      pages = settings.menuAbout
+    })
+    .catch((err) => {
+      console.dir(err)
+    })
 </script>
 
 <style lang="scss">

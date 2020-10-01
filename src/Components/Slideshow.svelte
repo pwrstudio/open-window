@@ -36,15 +36,19 @@
   let event = loadData(QUERY.SINGLE, { slug: slug })
 
   onMount(async () => {
-    event.then((event) => {
-      console.dir(event)
-      flkty = new Flickity(slideShowEl, {
-        contain: true,
-        pageDots: false,
-        prevNextButtons: false,
-        wrapAround: true,
+    event
+      .then((event) => {
+        console.dir(event)
+        flkty = new Flickity(slideShowEl, {
+          contain: true,
+          pageDots: false,
+          prevNextButtons: false,
+          wrapAround: true,
+        })
       })
-    })
+      .catch((err) => {
+        console.dir(err)
+      })
   })
 </script>
 
