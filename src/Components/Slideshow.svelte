@@ -123,14 +123,14 @@
       z-index: 100;
 
       @include screen-size("small") {
-        top: 140px;
-        transform: unset;
+        top: 110px;
+        transform: scale(0.7);
       }
 
       &:hover {
         transform: translateY(-50%) scale(1.1);
         @include screen-size("small") {
-          transform: scale(1.1);
+          transform: scale(0.8);
         }
       }
 
