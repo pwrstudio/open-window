@@ -21,6 +21,7 @@
 
   // *** GLOBAL
   import { QUERY, formattedDate } from "../global.js"
+  import { document } from "lodash/_freeGlobal"
 
   // *** PROPS
   export let slug = []
@@ -33,6 +34,7 @@
     if (slug !== oldSlug) {
       loadData(QUERY.SINGLE, { slug: slug })
         .then(res => {
+          // __ Check if event is live
           now = Date.now()
           event = res
           const startPoint = Date.parse(event.date + " " + event.startTime)
@@ -41,6 +43,9 @@
             start: startPoint,
             end: endPoint,
           })
+          // __ Scroll to top
+          const eventContainer = document.querySelector(".event-container")
+          eventContainer ? eventContainer.scrollTo(0, 0) : null
         })
         .catch(err => {
           console.dir(err)

@@ -11,6 +11,14 @@
 
   // *** PROPS
   export let page = []
+
+  $: {
+    if (page) {
+      // __ Scroll to top
+      const pageContainer = document.querySelector(".page-container")
+      pageContainer ? pageContainer.scrollTo(0, 0) : null
+    }
+  }
 </script>
 
 <style lang="scss">

@@ -6,7 +6,6 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fade } from "svelte/transition"
   import { links } from "svelte-routing"
 </script>
 
@@ -16,7 +15,6 @@
   .cloud {
     width: 100%;
     height: 100%;
-    // padding-bottom: 80px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -22,62 +22,61 @@
   import X from "./Graphics/X.svelte"
 
   // *** STORES
-  import { activeTags } from "../stores.js"
+  import { activeTags, filteredEvents } from "../stores.js"
+
+  // *** GLOBAL
   import { slugify, QUERY } from "../global"
 
   let allTags = false
-  let filteredEvents = []
   let archivedList = []
 
   let archived = loadData(QUERY.EVENTS)
 
   $: {
     console.log(archivedList)
-    filteredEvents =
+    filteredEvents.set(
       $activeTags.length > 0
-        ? archivedList.filter((e) => {
+        ? archivedList.filter(e => {
             return e.tags
-              ? e.tags.some((t) => $activeTags.includes(slugify(t)))
+              ? e.tags.some(t => $activeTags.includes(slugify(t)))
               : false
           })
         : archivedList
-
-    console.log("–– filteredEvents")
-    console.dir(filteredEvents)
+    )
   }
 
-  $: {
-    console.log("–– $activeTags")
-    $activeTags.forEach((a) => {
-      console.log("==>", a)
-    })
-  }
+  // $: {
+  //   console.log("–– $activeTags")
+  //   $activeTags.forEach(a => {
+  //     console.log("==>", a)
+  //   })
+  // }
 
   onMount(async () => {
     // Set filter based on hash
     if (window.location.hash) {
       let hash = window.location.hash.substring(1)
-      console.log("hash", hash)
+      // console.log("hash", hash)
       activeTags.set([...$activeTags, hash])
     }
 
     archived
-      .then((archived) => {
-        filteredEvents = archived
+      .then(archived => {
+        filteredEvents.set(archived)
         archivedList = archived
         let extractedUniqueTags = uniq(
-          flatMap(archived.map((a) => a.tags))
-        ).filter((t) => t != undefined)
-        console.log("extractedUniqueTags", extractedUniqueTags)
-        allTags = extractedUniqueTags.map((t) => {
+          flatMap(archived.map(a => a.tags))
+        ).filter(t => t != undefined)
+        // console.log("extractedUniqueTags", extractedUniqueTags)
+        allTags = extractedUniqueTags.map(t => {
           if (t) {
             return { title: t, slug: slugify(t) }
           }
         })
-        console.log("–– allTags")
-        console.dir(allTags)
+        // console.log("–– allTags")
+        // console.dir(allTags)
       })
-      .catch((err) => {
+      .catch(err => {
         console.dir(err)
       })
 
@@ -255,7 +254,7 @@
         {/if}
       </div>
       <div class="grid">
-        {#each filteredEvents as event (event._id)}
+        {#each $filteredEvents as event (event._id)}
           <div class="item">
             {#if event.mainImage}
               <img

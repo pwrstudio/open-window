@@ -10,14 +10,17 @@
   import { urlFor } from "../../sanity"
 
   // *** GRAPHICS
-
   // import Play from "../Graphics/Play.svelte"
 
   // PROPS
-  export let block = {}
+  export let image = {}
+  export let url = ""
 
+  console.log("image", image)
+  console.log("url", url)
+
+  // *** VARIABLES
   let clicked = false
-  console.dir(block)
 </script>
 
 <style lang="scss">
@@ -26,8 +29,21 @@
   .embed {
     position: relative;
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+
+    img {
+      height: 100%;
+      max-width: 100%;
+      object-fit: cover;
+
+      @include screen-size("small") {
+        max-height: 90%;
+        max-width: 90%;
+      }
+    }
 
     .play-icon {
       position: absolute;
@@ -43,6 +59,7 @@
       line-height: 100px;
       text-align: center;
     }
+
     .youtube-container,
     .vimeo-container {
       position: relative;
@@ -66,48 +83,46 @@
 </style>
 
 <div class="embed">
-  <!-- // YOUTUBE -->
   {#if clicked}
-  {#if block.url.includes('youtube')}
-    <div class="youtube-container">
-      <iframe
-        width="720"
-        height="480"
-        src={'https://www.youtube.com/embed/' + getVideoId(block.url).id}
-        frameborder="no"
-        allow="autoplay; fullscreen"
-        allowfullscreen />
-    </div>
-  {/if}
+    <!-- // YOUTUBE -->
+    {#if url.includes('youtube')}
+      <div class="youtube-container">
+        <iframe
+          width="720"
+          height="480"
+          src={'https://www.youtube.com/embed/' + getVideoId(url).id}
+          frameborder="no"
+          allow="autoplay; fullscreen"
+          allowfullscreen />
+      </div>
+    {/if}
 
-  <!-- // VIMEO -->
-  {#if block.url.includes('vimeo')}
-    <div class="vimeo-container">
-      <iframe
-        width="720"
-        height="480"
-        src={'https://player.vimeo.com/video/' + getVideoId(block.url).id}
-        frameborder="no"
-        scrolling="no"
-        byline="false"
-        color="#ffffff"
-        allow="autoplay; fullscreen"
-        allowfullscreen />
-    </div>
-  {/if}
-  {:else}
-    
-  <div on:click={e => {
-    clicked = true}}>
-  <img
-    src={urlFor(block.image.asset)
-      .width(900)
-      .quality(90)
-      .auto('format')
-      .url()} />
-      <div class='play-icon'>
+    <!-- // VIMEO -->
+    {#if url.includes('vimeo')}
+      <div class="vimeo-container">
+        <iframe
+          width="720"
+          height="480"
+          src={'https://player.vimeo.com/video/' + getVideoId(url).id}
+          frameborder="no"
+          scrolling="no"
+          byline="false"
+          color="#ffffff"
+          allow="autoplay; fullscreen"
+          allowfullscreen />
+      </div>
+    {/if}
+  {:else if image.asset}
+    <img
+      src={urlFor(image.asset).width(900).quality(90).auto('format').url()} />
+    {#if url}
+      <div
+        class="play-icon"
+        on:click={e => {
+          clicked = true
+        }}>
         Play
       </div>
-    </div>
-        {/if}
+    {/if}
+  {/if}
 </div>

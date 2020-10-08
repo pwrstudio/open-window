@@ -6,12 +6,10 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { onMount } from "svelte"
   import { fade } from "svelte/transition"
-  import { links } from "svelte-routing"
-  import Flickity from "flickity"
+  import { links, navigate } from "svelte-routing"
   import get from "lodash/get"
-  import { loadData, renderBlockText, urlFor } from "../sanity"
+  import { loadData, renderBlockText } from "../sanity"
 
   // *** COMPONENTS
   import EmbedBlock from "./Blocks/EmbedBlock.svelte"
@@ -24,32 +22,38 @@
   // *** GLOBAL
   import { QUERY } from "../global.js"
 
+  // *** STORES
+  import { filteredEvents } from "../stores.js"
+
+  // *** PROPS
   export let slug = ""
 
-  // *** DOM REFERENCES
-  let slideShowEl = {}
-
-  console.log(slug)
-
   // *** VARIABLES
-  let flkty = {}
-  let event = loadData(QUERY.SINGLE, { slug: slug })
+  let nextSlug = ""
+  let prevSlug = ""
+  let currentIndex = 1
+  let event = false
 
-  onMount(async () => {
-    event
-      .then((event) => {
-        console.dir(event)
-        flkty = new Flickity(slideShowEl, {
-          contain: true,
-          pageDots: false,
-          prevNextButtons: false,
-          wrapAround: true,
-        })
-      })
-      .catch((err) => {
-        console.dir(err)
-      })
-  })
+  $: {
+    currentIndex = $filteredEvents.findIndex(
+      e => get(e, "slug.current", false) == slug
+    )
+    nextSlug =
+      currentIndex < $filteredEvents.length
+        ? get($filteredEvents[currentIndex + 1], "slug.current", "")
+        : get($filteredEvents[0], "slug.current", "")
+    prevSlug =
+      currentIndex === 0
+        ? get($filteredEvents[currentIndex - 1], "slug.current", "")
+        : get($filteredEvents[$filteredEvents.length - 1], "slug.current", "")
+    console.log("–– INDEX", currentIndex)
+    console.log("–– TOTAL", $filteredEvents.length)
+    console.log("__ nextSlug", nextSlug)
+    console.log("__ prevSlug", prevSlug)
+    event = loadData(QUERY.SINGLE, { slug: slug }).catch(err => {
+      console.dir(err)
+    })
+  }
 </script>
 
 <style lang="scss">
@@ -141,7 +145,6 @@
 
     .slideshow-container {
       margin-top: 10vh;
-      // margin-left: 10vw;
       height: 65vh;
       width: 100vw;
       user-select: none;
@@ -157,16 +160,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
-        img {
-          max-height: 100%;
-          max-width: 100%;
-
-          @include screen-size("small") {
-            max-height: 90%;
-            max-width: 90%;
-          }
-        }
       }
     }
 
@@ -194,38 +187,16 @@
     <div in:fade>
       <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
       <a class="close" href="/archive"><X /></a>
-      <div
-        class="nav prev"
-        on:click={(e) => {
-          flkty.next(true)
-        }}>
+      <a href={'/archive/' + prevSlug} class="nav prev">
         <ArrowLeft />
-      </div>
-      <div
-        class="nav next"
-        on:click={(e) => {
-          flkty.previous(true)
-        }}>
+      </a>
+      <a class="nav next" href={'/archive/' + nextSlug}>
         <ArrowRight />
-      </div>
-      <div class="slideshow-container" bind:this={slideShowEl}>
-        {#if event.slideshow && Array.isArray(event.slideshow)}
-          {#each event.slideshow as slide (slide._key)}
-            <div class="slide">
-              {#if slide._type === 'image'}
-                <img
-                  src={urlFor(slide.asset)
-                    .width(900)
-                    .quality(90)
-                    .auto('format')
-                    .url()} />
-              {/if}
-              {#if slide._type === 'embedBlock'}
-                <EmbedBlock block={slide} />
-              {/if}
-            </div>
-          {/each}
-        {/if}
+      </a>
+      <div class="slideshow-container">
+        <div class="slide">
+          <EmbedBlock image={event.mainImage} url={event.streamId} />
+        </div>
       </div>
       <div class="text">
         <div class="title">{event.title}</div>
