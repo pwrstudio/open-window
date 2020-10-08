@@ -6,11 +6,11 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { Router, Route, links, navigate } from "svelte-routing"
+  import { links } from "svelte-routing"
   import get from "lodash/get"
   import { loadData, renderBlockText, urlFor } from "../sanity"
 
-  import { format, isWithinInterval } from "date-fns"
+  import { isWithinInterval } from "date-fns"
 
   // *** COMPONENTS
   import Tag from "./Tag.svelte"
@@ -32,37 +32,22 @@
   $: {
     if (slug !== oldSlug) {
       loadData(QUERY.SINGLE, { slug: slug })
-        .then((res) => {
+        .then(res => {
           now = Date.now()
           event = res
-          let startPoint = Date.parse(event.date + " " + event.startTime)
-          let endPoint = Date.parse(event.date + " " + event.endTime)
-          // console.log(startPoint)
-          // console.log(endPoint)
-          // console.log(now)
-          // console.log(
-          //   isWithinInterval(now, {
-          //     start: startPoint,
-          //     end: endPoint,
-          //   })
-          // )
+          const startPoint = Date.parse(event.date + " " + event.startTime)
+          const endPoint = Date.parse(event.date + " " + event.endTime)
           islive = isWithinInterval(now, {
             start: startPoint,
             end: endPoint,
           })
         })
-        .catch((err) => {
+        .catch(err => {
           console.dir(err)
         })
       oldSlug = slug
     }
   }
-
-  // let startPoint = format(now, "dd-MM-yyyy")
-  // let endPoint =
-  //   let currentTime = format(now, "HH")
-
-  // console.log(currentTime)
 </script>
 
 <style lang="scss">
@@ -70,7 +55,6 @@
 
   .event-container {
     padding: 15px;
-    padding-top: 140px;
     padding-bottom: 40px;
     height: 100vh;
     overflow-y: scroll;
@@ -96,7 +80,6 @@
 
     .header {
       width: 100%;
-      // background: yellow;
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;

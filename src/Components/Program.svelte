@@ -47,7 +47,7 @@
   let eventsList = []
   let weekdays = []
 
-  const constructDay = (d) => {
+  const constructDay = d => {
     const D = Date.parse(d)
     return {
       weekday: getDay(D),
@@ -59,14 +59,14 @@
   }
 
   events
-    .then((events) => {
+    .then(events => {
       eventsList = events
       console.log("_____ EVENTS LIST")
       console.dir(eventsList)
       settings
-        .then((settings) => {
+        .then(settings => {
           // console.dir(settings)
-          let activeEventPeriod = settings.eventPeriods.find((eP) => eP.active)
+          let activeEventPeriod = settings.eventPeriods.find(eP => eP.active)
           // console.dir(events)
           console.log(activeEventPeriod.startDate)
           console.log(activeEventPeriod.endDate)
@@ -84,7 +84,7 @@
             })
             // console.dir(period)
             // console.log(constructDay(activeEventPeriod.startDate))
-            period.forEach((day) => {
+            period.forEach(day => {
               weekdays.push(constructDay(day))
             })
             weekdays = weekdays
@@ -98,16 +98,16 @@
             // _____ 3
             // _____ 3 Group events by date
             // _____ 3
-            eventsMap = groupBy(events, (e) => e.date)
+            eventsMap = groupBy(events, e => e.date)
             console.log("_____ EVENTMAP")
             console.dir(eventsMap)
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.dir(err)
         })
     })
-    .catch((err) => {
+    .catch(err => {
       console.dir(err)
     })
 </script>
@@ -294,7 +294,7 @@
         }
 
         .day-container {
-          margin: 15px;
+          padding: 15px;
           padding-bottom: 120px;
           height: 100vh;
           overflow-y: scroll;
@@ -485,7 +485,6 @@
                       {/if}</span>
                   {/each}
                 {/if}
-
                 <div class="location">{#if event.location}{event.location}{/if}</div>
               </a>
             {/each}
@@ -501,7 +500,7 @@
           class="panel event"
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
           out:fade={{ easing: quartOut, duration: 250 }}>
-          <a href={'/program/' + params.date} class="close" out:scale><X /></a>
+          <a href={'/program/' + params.date} class="close phone-only" out:scale><X /></a>
           <div class="header"><img src="/img/program.svg" alt="Program" /></div>
           <Event slug={params.slug}/>
         </div>

@@ -6,14 +6,11 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
-  import { renderBlockText, urlFor } from "../sanity"
+  import { renderBlockText } from "../sanity"
 
   // *** PROPS
   export let page = []
-
-  console.dir(page)
 </script>
 
 <style lang="scss">
