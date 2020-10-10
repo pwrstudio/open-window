@@ -6,7 +6,6 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { onMount } from "svelte"
   import { Router, Route, links } from "svelte-routing"
   import { slide } from "svelte/transition"
   import { quintOut } from "svelte/easing"
@@ -15,13 +14,7 @@
   import get from "lodash/get"
 
   // *** SANITY
-  import { urlFor, loadData } from "./sanity.js"
-
-  // *** STORES
-  // import { globalSeed, generation, epoch } from "./stores.js"
-
-  // *** GLOBAL
-  import { QUERY } from "./global.js"
+  import { loadData } from "./sanity.js"
 
   // *** VARIABLES
   let infoBarActive = false
@@ -51,7 +44,7 @@
       }
     )
     live
-      .then((live) => {
+      .then(live => {
         console.log("–––", format(now, "yyyy-MM-dd"), format(now, "HH:mm"))
         console.log("––– CHECKING IF LIVE")
         console.log(live)
@@ -61,7 +54,7 @@
           liveEvent = live
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.dir(err)
       })
   }

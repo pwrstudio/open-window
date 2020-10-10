@@ -35,10 +35,10 @@
   let pages = []
   let settings = loadData(QUERY.SETTINGS)
   settings
-    .then((settings) => {
+    .then(settings => {
       pages = settings.menuAbout
     })
-    .catch((err) => {
+    .catch(err => {
       console.dir(err)
     })
 </script>
@@ -182,6 +182,10 @@
               margin-right: 15px;
               height: 22px;
 
+              @include screen-size("small") {
+                height: 18px;
+              }
+
               &:last-child {
                 margin-right: 0;
               }
@@ -219,7 +223,6 @@
 
         .page-container {
           padding: 15px;
-          padding-bottom: 80px;
           height: 100vh;
           overflow-y: scroll;
 

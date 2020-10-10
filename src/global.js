@@ -4,8 +4,10 @@ export const SANITY_PROJECT_ID = "mm4gom7h"
 
 export const QUERY = {
   SETTINGS: "*[_id == 'settings']{...,menuAbout[]->{...}}[0]",
+  ARCHIVED:
+    "*[_id == 'archive']{...,archivedEvents[]->{..., participants[]->{...}}}[0]",
   EVENTS:
-    "*[_type == 'event']{...,participants[]->{...}} | order(date asc) | order(startTime asc)",
+    "*[_type == 'event' && hideInProgram != true]{...,participants[]->{...}} | order(date asc) | order(startTime asc)",
   SINGLE:
     '*[_type == "event" && slug.current == $slug]{...,participants[]->{...}}[0]',
 }
@@ -29,7 +31,7 @@ export const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-export const slugify = (str) =>
+export const slugify = str =>
   str
     .toString()
     .normalize("NFD") // split an accented letter in the base letter and the acent

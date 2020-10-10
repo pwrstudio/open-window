@@ -28,6 +28,7 @@
     .content {
       font-family: $sans-stack;
       font-size: $font-size-normal;
+      padding-bottom: 80px;
     }
   }
 </style>

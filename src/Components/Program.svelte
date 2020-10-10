@@ -17,6 +17,9 @@
     getMonth,
     format,
     eachDayOfInterval,
+    getWeekOfMonth,
+    subDays,
+    addDays,
   } from "date-fns"
 
   import { getContext } from "svelte"
@@ -29,10 +32,6 @@
   // *** SANITY
   import { loadData } from "../sanity.js"
 
-  // $: {
-  //   console.log($activeRoute)
-  // }
-
   // *** COMPONENTS
   import Event from "./Event.svelte"
 
@@ -43,18 +42,76 @@
   let events = loadData(QUERY.EVENTS)
   let settings = loadData(QUERY.SETTINGS)
 
+  // *** VARIABLES
+  let periods = []
   let eventsMap = {}
   let eventsList = []
-  let weekdays = []
+  let currentPeriodIndex = false
+  let currentWeekIndex = 0
 
-  const constructDay = d => {
-    const D = Date.parse(d)
+  const constructDay = D => {
     return {
+      dateObject: D,
+      weekNumber: getWeekOfMonth(D, { weekStartsOn: 1 }),
       weekday: getDay(D),
       weekdayName: format(D, "EEEE"),
       date: getDate(D),
       month: getMonth(D),
+      monthName: format(D, "MMMM"),
+      year: format(D, "yyyy"),
       slug: format(D, "yyyy-MM-dd"),
+    }
+  }
+
+  const processPeriod = eP => {
+    if (eP.startDate && eP.endDate) {
+      // _____ 1 Construct weekday object for event period
+      const parsedStart = Date.parse(eP.startDate)
+      const parsedEnd = Date.parse(eP.endDate)
+      const period = eachDayOfInterval({
+        start: parsedStart,
+        end: parsedEnd,
+      })
+      const weekdays = period.map(day => constructDay(Date.parse(day)))
+      // _____ 2 Filter events to those in event period
+      const filteredEvents = eventsList.filter(
+        e => e.date >= eP.startDate && e.date <= eP.endDate
+      )
+      // _____ 3 Group events by date
+      let filteredEventsMap = groupBy(filteredEvents, e => e.date)
+      // _____ 4 Merge weekdays and events
+      let combinedWeekdays = weekdays.map(wD => {
+        wD.events = filteredEventsMap[wD.slug]
+        return wD
+      })
+      // _____ 5 Split into weeks
+      const weeks = Object.values(
+        groupBy(combinedWeekdays, wD => wD.weekNumber)
+      )
+      // _____ 6 Pad weeks
+      let paddedWeeks = []
+      weeks.forEach(w => {
+        const startIndex = w[0].weekday == 0 ? 7 : w[0].weekday
+        const endIndex =
+          w[w.length - 1].weekday == 0 ? 7 : w[w.length - 1].weekday
+        // __ padStart
+        let pW = [...w]
+        for (let i = startIndex - 1, delta = 1; i >= 1; i--, delta++) {
+          pW.unshift(constructDay(subDays(w[0].dateObject, delta)))
+        }
+        // __ padEnd
+        for (let i = endIndex + 1, delta = 1; i <= 7; i++, delta++) {
+          pW.push(constructDay(addDays(w[w.length - 1].dateObject, delta)))
+        }
+        paddedWeeks.push(pW)
+      })
+      // _____ 7 Construct object and return
+      let periodObject = {
+        title: eP.title,
+        isActive: eP.active,
+        weeks: paddedWeeks,
+      }
+      return periodObject
     }
   }
 
@@ -62,46 +119,19 @@
     .then(events => {
       eventsList = events
       console.log("_____ EVENTS LIST")
-      console.dir(eventsList)
+      // console.dir(eventsList)
       settings
         .then(settings => {
-          // console.dir(settings)
-          let activeEventPeriod = settings.eventPeriods.find(eP => eP.active)
-          // console.dir(events)
-          console.log(activeEventPeriod.startDate)
-          console.log(activeEventPeriod.endDate)
-
-          if (activeEventPeriod.startDate && activeEventPeriod.endDate) {
-            // _____ 1
-            // _____ 1 Construct weekday object for event period
-            // _____ 1
-            const parsedStart = Date.parse(activeEventPeriod.startDate)
-            const parsedEnd = Date.parse(activeEventPeriod.endDate)
-            // Get all days in period
-            const period = eachDayOfInterval({
-              start: parsedStart,
-              end: parsedEnd,
-            })
-            // console.dir(period)
-            // console.log(constructDay(activeEventPeriod.startDate))
-            period.forEach(day => {
-              weekdays.push(constructDay(day))
-            })
-            weekdays = weekdays
-            console.log("_____ WEEKDAYS")
-            console.dir(weekdays)
-
-            // _____ 2
-            // _____ 2 Filter events to those in event period
-            // _____ 2
-
-            // _____ 3
-            // _____ 3 Group events by date
-            // _____ 3
-            eventsMap = groupBy(events, e => e.date)
-            console.log("_____ EVENTMAP")
-            console.dir(eventsMap)
-          }
+          console.dir(settings)
+          // ___
+          eventsMap = groupBy(eventsList, e => e.date)
+          // Construct periods
+          periods = settings.eventPeriods.map(eP => processPeriod(eP))
+          // console.log("_?_?_?_=> PERIODS")
+          // console.dir(periods)
+          currentPeriodIndex = periods.findIndex(p => p.isActive)
+          // console.dir(periods[currentPeriodIndex].weeks[currentWeekIndex])
+          console.dir(eventsMap)
         })
         .catch(err => {
           console.dir(err)
@@ -210,6 +240,15 @@
               position: relative;
               top: -2px;
             }
+
+            .navigation-button {
+              opacity: 1;
+              pointer-events: all;
+              &.disabled {
+                opacity: 0.25;
+                pointer-events: none;
+              }
+            }
           }
 
           .item {
@@ -225,6 +264,14 @@
 
             @include screen-size("small") {
               font-size: $font-size-large-mobile;
+            }
+
+            @include screen-size("short") {
+              font-size: $font-size-large-mobile;
+            }
+
+            @include screen-size("shorter") {
+              font-size: $font-size-large-mobile - 10px;
             }
 
             .weekday {
@@ -436,21 +483,42 @@
       </div>
       <div class="header"><img src="/img/program.svg" alt="Program" /></div>
       <div class="week-container">
-        <div class="navigation">
-          <div><span class="arrow">&lt;</span> PREV</div>
-          <div>OCTOBER 2020</div>
-          <div>NEXT <span class="arrow">&gt;</span></div>
-        </div>
-        {#each weekdays as day}
-          <a
-            class="item"
-            href={'/program/' + day.slug}
-            class:empty={!eventsMap[day.slug]}
-            class:active={get($activeRoute, 'params["*"]', '').includes(day.slug)}>
-            <span class="weekday">{day.weekdayName}</span>
-            <span class="date">{day.date}</span>
-          </a>
-        {/each}
+        {#if currentPeriodIndex !== false }
+          <div class="navigation">
+            <div class='navigation-button' 
+              class:disabled={currentPeriodIndex == 0 && currentWeekIndex == 0}
+              on:click={e=>{
+                if(currentWeekIndex !== 0) {
+                  currentWeekIndex--
+                } else if(currentPeriodIndex !== 0) {
+                  currentPeriodIndex--
+                  currentWeekIndex = periods[currentPeriodIndex].weeks.length - 1
+                }
+              }}><span class="arrow" >&lt;</span> PREV</div>
+            <div>OCTOBER 2020</div>
+            <div 
+              class='navigation-button' 
+              class:disabled={currentPeriodIndex == periods.length - 1 && currentWeekIndex == periods[currentPeriodIndex].weeks.length - 1} 
+              on:click={e=>{
+                if(currentWeekIndex !== periods[currentPeriodIndex].length - 1) {
+                  currentWeekIndex++
+                } else if(currentPeriodIndex !== periods.length - 1) {
+                  currentWeekIndex = 0
+                  currentPeriodIndex++
+                }
+              }}>NEXT <span class="arrow">&gt;</span></div>
+          </div>
+          {#each periods[currentPeriodIndex].weeks[currentWeekIndex] as day}
+            <a
+              class="item"
+              href={'/program/' + day.slug}
+              class:empty={!day.events || day.events.length === 0}
+              class:active={get($activeRoute, 'params["*"]', '').includes(day.slug)}>
+              <span class="weekday">{day.weekdayName}</span>
+              <span class="date">{day.date}</span>
+            </a>
+          {/each}
+        {/if}
       </div>
     </div>
 
@@ -471,11 +539,11 @@
         <div class="header"><img src="/img/program.svg" alt="Program" /></div>
         <div class="day-container">
           {#if eventsMap[params.date] && Array.isArray(eventsMap[params.date])}
-            {#each eventsMap[params.date] as event}
+            {#each eventsMap[params.date] as event, index (event._id)}
               <a
                 class="item"
                 class:active={get($activeRoute, 'params["*"]', '').substring(11) == event.slug.current}
-                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')}>
+                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')} in:fade={{duration: 300, delay: 40 * index}}>
                 <div class="time">{event.startTime}–{event.endTime}</div>
                 <div class="title">{event.title}</div>
                 {#if event.participants && Array.isArray(event.participants)}

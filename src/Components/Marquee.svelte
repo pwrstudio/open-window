@@ -1,6 +1,11 @@
 <script>
-  import { onMount } from "svelte"
+  // # # # # # # # # # # # # #
+  //
+  //  MARQUEE
+  //
+  // # # # # # # # # # # # # #
 
+  // *** PROPS
   export let duration = 15
   export let repeat = 4
   export let paused = false

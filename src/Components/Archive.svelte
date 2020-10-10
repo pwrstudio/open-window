@@ -30,7 +30,7 @@
   let allTags = false
   let archivedList = []
 
-  let archived = loadData(QUERY.EVENTS)
+  let archive = loadData(QUERY.ARCHIVED)
 
   $: {
     console.log(archivedList)
@@ -60,12 +60,12 @@
       activeTags.set([...$activeTags, hash])
     }
 
-    archived
-      .then(archived => {
-        filteredEvents.set(archived)
-        archivedList = archived
+    archive
+      .then(archive => {
+        filteredEvents.set(archive.archivedEvents)
+        archivedList = archive.archivedEvents
         let extractedUniqueTags = uniq(
-          flatMap(archived.map(a => a.tags))
+          flatMap(archive.archivedEvents.map(a => a.tags))
         ).filter(t => t != undefined)
         // console.log("extractedUniqueTags", extractedUniqueTags)
         allTags = extractedUniqueTags.map(t => {
@@ -80,7 +80,7 @@
         console.dir(err)
       })
 
-    return archived
+    return archive
   })
 </script>
 
@@ -242,7 +242,7 @@
 </style>
 
 <Router>
-  {#await archived then archived}
+  {#await archive then archive}
     <div class="archive" use:links transition:slide>
       <a class="close" href="/"><X /></a>
       <div class="header"><img src="/img/archive.svg" alt="Program" /></div>

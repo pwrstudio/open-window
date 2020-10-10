@@ -4,9 +4,6 @@
   //  CLOUD
   //
   // # # # # # # # # # # # # #
-
-  // IMPORTS
-  import { links } from "svelte-routing"
 </script>
 
 <style lang="scss">
@@ -20,39 +17,13 @@
     align-items: center;
     background-image: url("/sky.jpg");
 
-    .vimeo-container {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      max-width: 1080px;
-      width: 100%;
-      margin-bottom: 0.5em;
-      pointer-events: none;
-
-      iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-      }
-    }
-
     img,
     video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
-    @include screen-size("small") {
-      //   padding-bottom: 40px;
-    }
   }
 </style>
 
-<div class="cloud" use:links>
-  <video src="/img/sky-3.mp4" autoplay loop muted />
-</div>
+<div class="cloud"><video src="/img/sky-3.mp4" autoplay loop muted /></div>

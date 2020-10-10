@@ -7,7 +7,7 @@
 
   // IMPORTS
   import { fade } from "svelte/transition"
-  import { links, navigate } from "svelte-routing"
+  import { links } from "svelte-routing"
   import get from "lodash/get"
   import { loadData, renderBlockText } from "../sanity"
 

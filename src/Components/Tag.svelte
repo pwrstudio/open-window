@@ -1,6 +1,4 @@
 <script>
-  import { window } from "lodash/_freeGlobal"
-
   // # # # # # # # # # # # # #
   //
   //  TAG
@@ -107,14 +105,14 @@
 <div
   class="tag"
   bind:this={tagEl}
-  class:active={$activeTags.find((t) => t === slug)}
-  on:click={(e) => {
+  class:active={$activeTags.find(t => t === slug)}
+  on:click={e => {
     if (link) {
       window.location = '/archive/#' + slug
     } else {
-      if ($activeTags.find((t) => t === slug)) {
+      if ($activeTags.find(t => t === slug)) {
         console.log('-- Remove tag', slug)
-        activeTags.set($activeTags.filter((t) => t !== slug))
+        activeTags.set($activeTags.filter(t => t !== slug))
       } else {
         console.log('++ Add tag', slug)
         activeTags.set([...$activeTags, slug])

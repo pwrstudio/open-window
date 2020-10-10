@@ -1,7 +1,7 @@
 <script>
   // # # # # # # # # # # # # #
   //
-  //  EMBED BLOCK
+  //  VIDEO PLAYER
   //
   // # # # # # # # # # # # # #
 
