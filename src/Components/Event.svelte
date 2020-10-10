@@ -60,9 +60,9 @@
 
   .event-container {
     padding: 15px;
-    padding-bottom: 40px;
     height: 100vh;
     overflow-y: scroll;
+    padding-bottom: 120px;
 
     @include screen-size("small") {
       padding: 0;
@@ -70,7 +70,7 @@
       margin-top: 90px;
       border-top: 1px solid black;
       padding-top: 30px;
-      padding-bottom: 100px;
+      padding-bottom: 160px;
     }
 
     @include hide-scroll;
