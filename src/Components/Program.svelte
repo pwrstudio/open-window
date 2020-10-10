@@ -26,6 +26,16 @@
   import { ROUTER } from "svelte-routing/src/contexts"
   const { activeRoute } = getContext(ROUTER)
 
+  // *** DOM REFS
+  let dayContainer = false
+
+  $: {
+    if ($activeRoute) {
+      // __ Scroll to top
+      dayContainer ? dayContainer.scrollTo(0, 0) : null
+    }
+  }
+
   // *** GLOBAL
   import { QUERY } from "../global.js"
 
@@ -264,11 +274,12 @@
             font-size: $font-size-large;
             line-height: 1.1em;
             width: 100%;
-            display: block;
-            display: flex;
-            justify-content: space-between;
+            display: inline-block;
+            //display: flex;
+            //justify-content: space-between;
             transform: scaleY(1.14);
             user-select: none;
+            border: 1px solid white;
 
             @include screen-size("small") {
               font-size: $font-size-large-mobile;
@@ -283,20 +294,20 @@
             }
 
             .weekday {
-              // display: inline;
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
             }
+
             .date {
               text-align: right;
-              // float: right;
+              float: right;
             }
 
             &:hover,
             &.active {
               -webkit-box-decoration-break: clone;
-              // color: $green;
+              color: $green;
               background-color: $green;
               background-image: linear-gradient(
                 to right,
@@ -366,8 +377,29 @@
             margin-bottom: 40px;
             display: block;
 
+            .time {
+              font-family: $serif-stack;
+              font-size: $font-size-medium;
+              transform: scaleY(1.14);
+            }
+            .title {
+              font-family: $sans-stack;
+              font-size: $font-size-medium;
+            }
+            .participant {
+              font-family: $sans-stack;
+              font-size: $font-size-medium;
+            }
+            .location {
+              font-family: $sans-stack;
+              font-size: $font-size-normal;
+              // float: right;
+              text-align: right;
+              text-transform: uppercase;
+            }
             &:hover,
             &.active {
+              -webkit-box-decoration-break: clone;
               // color: $green;
               background-color: $green;
               background-image: linear-gradient(
@@ -398,27 +430,6 @@
                 -moz-background-clip: text;
                 -moz-text-fill-color: transparent;
               }
-            }
-
-            .time {
-              font-family: $serif-stack;
-              font-size: $font-size-medium;
-              transform: scaleY(1.14);
-            }
-            .title {
-              font-family: $sans-stack;
-              font-size: $font-size-medium;
-            }
-            .participant {
-              font-family: $sans-stack;
-              font-size: $font-size-medium;
-            }
-            .location {
-              font-family: $sans-stack;
-              font-size: $font-size-normal;
-              // float: right;
-              text-align: right;
-              text-transform: uppercase;
             }
           }
         }
@@ -545,7 +556,7 @@
           <X />
         </div>
         <div class="header"><img src="/img/program.svg" alt="Program" /></div>
-        <div class="day-container">
+        <div class="day-container" bind:this={dayContainer}>
           {#if eventsMap[params.date] && Array.isArray(eventsMap[params.date])}
             {#each eventsMap[params.date] as event, index (event._id)}
               <a
