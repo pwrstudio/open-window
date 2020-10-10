@@ -244,9 +244,17 @@
             .navigation-button {
               opacity: 1;
               pointer-events: all;
+              cursor: pointer;
+              &:hover {
+                text-decoration: underline;
+              }
               &.disabled {
+                cursor: default;
                 opacity: 0.25;
                 pointer-events: none;
+                &:hover {
+                  text-decoration: none;
+                }
               }
             }
           }
