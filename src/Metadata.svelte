@@ -46,7 +46,7 @@
       isArray(post.content.content) &&
       !isEmpty(post.content.content)
         ? truncate(toPlainText(post.content.content), {
-            length: 160,
+            length: 260,
             separator: /.? +/,
           })
         : DEFAULT_DESCRIPTION

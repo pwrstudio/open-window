@@ -116,7 +116,6 @@
   <Route path="">
     <!-- METADATA -->
     <Metadata/>
-
     <div
       class="bottom-bars"
       in:slide={{ easing: quintOut, delay: 300, duration: 500 }}
@@ -162,22 +161,16 @@
 
   <!-- PROGRAM -->
   <Route path="program/*">
-    <!-- METADATA -->
-    <Metadata/>
     <Program/>
   </Route>
 
   <!-- ARCHIVE -->
   <Route path="archive/*">
-    <!-- METADATA -->
-    <Metadata/>
     <Archive/>
   </Route>
 
   <!-- ABOUT -->
   <Route path="about/*">
-    <!-- METADATA -->
-    <Metadata/>
     <About/>
   </Route>
 </Router>
