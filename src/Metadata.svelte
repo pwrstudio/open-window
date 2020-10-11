@@ -36,7 +36,7 @@
   $: {
     title =
       (has(post, "title") && !isEmpty(post.title)
-        ? stripHtml(post.title) + " / "
+        ? stripHtml(post.title) + " | "
         : "") + "Open Window"
   }
 
@@ -55,7 +55,7 @@
   $: {
     image =
       has(post, "mainImage") && post.mainImage
-        ? urlFor(post.mainImage).quality(80).height(800).width(800).url()
+        ? urlFor(post.mainImage).quality(80).height(800).width(600).url()
         : DEFAULT_IMAGE
   }
 </script>
