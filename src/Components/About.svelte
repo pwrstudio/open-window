@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fly, fade } from "svelte/transition"
+  import { fly } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
@@ -295,8 +295,7 @@
     <!-- PANEL 1 => MENU -->
     <div
       class="panel menu"
-      in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
-      out:fade={{ easing: quartOut, duration: 500 }}>
+      in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}>
       <div class="header"><img src="/img/about.svg" alt="About" /></div>
       <div
         class="close"
@@ -327,8 +326,7 @@
       <!-- PANEL 2 => PAGE -->
       <div
         class="panel page"
-        in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}
-        out:fade={{ easing: quartOut, duration: 500 }}>
+        in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}>
         <div class="header"><img src="/img/about.svg" alt="About" /></div>
         <div
           class="close phone-only"

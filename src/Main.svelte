@@ -7,8 +7,8 @@
 
   // IMPORTS
   import { Router, Route, links } from "svelte-routing"
-  import { slide } from "svelte/transition"
-  import { quintOut } from "svelte/easing"
+  import { slide, fade } from "svelte/transition"
+  import { quartOut } from "svelte/easing"
   import MediaQuery from "svelte-media-query"
   import { format } from "date-fns"
   import get from "lodash/get"
@@ -114,10 +114,7 @@
   <!-- MENU -->
   <Route path="">
     <div
-      class="bottom-bars"
-      in:slide={{ easing: quintOut, delay: 300, duration: 500 }}
-      out:slide={{ easing: quintOut, duration: 500 }}>
-
+      class="bottom-bars">
       <MediaQuery query="(min-width: 800px)" let:matches>
         {#if matches}
           <!-- DESKTOP: MENU -->
@@ -128,13 +125,13 @@
           {#if isLive}
             <div
               class="bar small"
-              transition:slide>
+              transition:slide|local>
               <InfoBar leftText={'LIVE: ' + liveEvent.title} leftLink={'/program/' +  liveEvent.date + '/' + get(liveEvent, 'slug.current')}/>
             </div>
           {:else}
             <div
               class="bar small"
-              transition:slide>
+              transition:slide|local>
               <Marquee />
             </div>
           {/if}

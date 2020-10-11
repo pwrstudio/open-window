@@ -8,6 +8,7 @@
   // *** IMPORTS
   import { onMount } from "svelte"
   import { slide } from "svelte/transition"
+  import { quartOut } from "svelte/easing"
   import { Router, Route, links } from "svelte-routing"
   import flatMap from "lodash/flatMap"
   import uniq from "lodash/uniq"
@@ -242,7 +243,10 @@
 
 <Router>
   {#await archive then archive}
-    <div class="archive" use:links transition:slide>
+    <div
+      class="archive"
+      use:links
+      in:slide={{ easing: quartOut, duration: 500 }}>
       <a class="close" href="/"><X /></a>
       <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
       <div class="tag-container">

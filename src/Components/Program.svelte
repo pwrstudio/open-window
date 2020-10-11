@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fly, scale, fade } from "svelte/transition"
+  import { fly, fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
@@ -496,11 +496,9 @@
     <!-- PANEL 1 => WEEK -->
     <div
       class="panel week"
-      in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
-      out:fade={{ easing: quartOut, duration: 250 }}>
+      in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
       <div
         class="close"
-        out:scale
         on:click={(e) => {
           navigate('/')
         }}>
@@ -551,11 +549,9 @@
       <!-- PANEL 2 => DAY -->
       <div
         class="panel day"
-        in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
-        out:fade={{ easing: quartOut, duration: 250 }}>
+        in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
         <div
           class="close phone-only"
-          out:scale
           on:click={(e) => {
             navigate('/program')
           }}>
@@ -591,9 +587,8 @@
         <!-- PANEL 3 => EVENT -->
         <div
           class="panel event"
-          in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}
-          out:fade={{ easing: quartOut, duration: 250 }}>
-          <a href={'/program/' + params.date} class="close phone-only" out:scale><X /></a>
+          in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
+          <a href={'/program/' + params.date} class="close phone-only" ><X /></a>
           <div class="header"><img src="/img/program.svg" alt="Program" /></div>
           <Event slug={params.slug}/>
         </div>
