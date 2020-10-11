@@ -32,7 +32,10 @@
   $: {
     if ($activeRoute) {
       // __ Scroll to top
-      dayContainer ? dayContainer.scrollTo(0, 0) : null
+      console.log($activeRoute)
+      $activeRoute.params["*"].split("/").length < 2 && dayContainer
+        ? dayContainer.scrollTo(0, 0)
+        : null
     }
   }
 
@@ -361,7 +364,6 @@
 
         .day-container {
           padding: 15px;
-          padding-bottom: 120px;
           height: 100vh;
           overflow-y: scroll;
 
@@ -374,8 +376,12 @@
           @include hide-scroll;
 
           .item {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             display: block;
+
+            &:last-child {
+              margin-bottom: 120px;
+            }
 
             .time {
               font-family: $serif-stack;
