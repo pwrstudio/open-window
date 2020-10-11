@@ -30,7 +30,6 @@
   import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
-  import Metadata from "./Metadata.svelte"
 
   let isLive = false
   let liveEvent = {}
@@ -114,8 +113,6 @@
 
   <!-- MENU -->
   <Route path="">
-    <!-- METADATA -->
-    <Metadata/>
     <div
       class="bottom-bars"
       in:slide={{ easing: quintOut, delay: 300, duration: 500 }}
