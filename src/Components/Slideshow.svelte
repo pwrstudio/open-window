@@ -5,7 +5,7 @@
   //
   // # # # # # # # # # # # # #
 
-  // IMPORTS
+  // *** IMPORTS
   import { fade } from "svelte/transition"
   import { links } from "svelte-routing"
   import get from "lodash/get"
@@ -13,6 +13,7 @@
 
   // *** COMPONENTS
   import EmbedBlock from "./Blocks/EmbedBlock.svelte"
+  import Metadata from "../Metadata.svelte"
 
   // *** GRAPHICS
   import X from "./Graphics/X.svelte"
@@ -184,6 +185,9 @@
 
 <div class="slideshow" use:links>
   {#await event then event}
+    <!-- METADATA -->
+    <Metadata post={event} />
+
     <div in:fade>
       <div class="header"><img src="/img/archive.svg" alt="Program" /></div>
       <a class="close" href="/archive"><X /></a>

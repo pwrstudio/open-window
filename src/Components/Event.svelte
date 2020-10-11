@@ -5,7 +5,7 @@
   //
   // # # # # # # # # # # # # #
 
-  // IMPORTS
+  // *** IMPORTS
   import { links } from "svelte-routing"
   import get from "lodash/get"
   import { loadData, renderBlockText, urlFor } from "../sanity"
@@ -15,6 +15,7 @@
   // *** COMPONENTS
   import Tag from "./Tag.svelte"
   import Link from "./Link.svelte"
+  import Metadata from "../Metadata.svelte"
 
   // *** GRAPHICS
   import LiveIcon from "./Graphics/LiveIcon.svelte"
@@ -152,6 +153,8 @@
 
 <div class="event-container" use:links>
   {#if event && event.title}
+    <!-- METADATA -->
+    <Metadata post={event}/>
     <!-- IMAGE -->
     {#if event.mainImage}
     <div class="image">

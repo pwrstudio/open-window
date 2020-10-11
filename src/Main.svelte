@@ -30,6 +30,7 @@
   import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
+  import Metadata from "./Metadata.svelte"
 
   let isLive = false
   let liveEvent = {}
@@ -113,6 +114,9 @@
 
   <!-- MENU -->
   <Route path="">
+    <!-- METADATA -->
+    <Metadata/>
+
     <div
       class="bottom-bars"
       in:slide={{ easing: quintOut, delay: 300, duration: 500 }}
@@ -158,16 +162,22 @@
 
   <!-- PROGRAM -->
   <Route path="program/*">
-      <Program/>
+    <!-- METADATA -->
+    <Metadata/>
+    <Program/>
   </Route>
 
   <!-- ARCHIVE -->
   <Route path="archive/*">
+    <!-- METADATA -->
+    <Metadata/>
     <Archive/>
   </Route>
 
   <!-- ABOUT -->
   <Route path="about/*">
+    <!-- METADATA -->
+    <Metadata/>
     <About/>
   </Route>
 </Router>

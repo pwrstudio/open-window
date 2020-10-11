@@ -5,9 +5,12 @@
   //
   // # # # # # # # # # # # # #
 
-  // IMPORTS
+  // *** IMPORTS
   import get from "lodash/get"
   import { renderBlockText } from "../sanity"
+
+  // *** COMPONENTS
+  import Metadata from "../Metadata.svelte"
 
   // *** PROPS
   export let page = []
@@ -34,6 +37,9 @@
 </style>
 
 <div class="page">
+  <!-- METADATA -->
+  <Metadata post={page} />
+
   <!-- TEXT -->
   <div class="content">
     {#if get(page, 'content.content', false) && Array.isArray(page.content.content)}
