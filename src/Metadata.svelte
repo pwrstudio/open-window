@@ -55,7 +55,7 @@
   $: {
     image =
       has(post, "mainImage") && post.mainImage
-        ? urlFor(post.mainImage).quality(80).height(800).width(600).url()
+        ? urlFor(post.mainImage).quality(80).height(800).width(1200).url()
         : DEFAULT_IMAGE
   }
 </script>
