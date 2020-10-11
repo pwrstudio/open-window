@@ -33,7 +33,7 @@
     if ($activeRoute) {
       // __ Scroll to top
       console.log($activeRoute)
-      $activeRoute.params["*"].split("/").length < 2 && dayContainer
+      get($activeRoute, 'params["*"]', "").split("/").length < 2 && dayContainer
         ? dayContainer.scrollTo(0, 0)
         : null
     }
