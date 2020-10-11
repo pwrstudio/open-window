@@ -5,9 +5,8 @@
   //
   // # # # # # # # # # # # # #
 
-  // IMPORTS
+  // *** IMPORTS
   import { onMount } from "svelte"
-
   import { slide } from "svelte/transition"
   import { Router, Route, links } from "svelte-routing"
   import flatMap from "lodash/flatMap"
