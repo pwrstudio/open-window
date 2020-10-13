@@ -83,22 +83,22 @@
 </style>
 
 <div class="embed">
-  {#if clicked}
-    <!-- // YOUTUBE -->
-    {#if url.includes('youtube')}
-      <div class="youtube-container">
-        <iframe
-          width="720"
-          height="480"
-          src={'https://www.youtube.com/embed/' + getVideoId(url).id}
-          frameborder="no"
-          allow="autoplay; fullscreen"
-          allowfullscreen />
-      </div>
-    {/if}
+  <!-- {#if clicked} -->
+  <!-- // YOUTUBE -->
+  {#if url.includes('youtube') || url.includes('youtu.be')}
+    <div class="youtube-container">
+      <iframe
+        width="720"
+        height="480"
+        src={'https://www.youtube.com/embed/' + getVideoId(url).id}
+        frameborder="no"
+        allow="autoplay; fullscreen"
+        allowfullscreen />
+    </div>
+  {/if}
 
-    <!-- // VIMEO -->
-    {#if url.includes('vimeo')}
+  <!-- // VIMEO -->
+  {#if url.includes('vimeo')}
       <div class="vimeo-container">
         <iframe
           width="720"
@@ -112,8 +112,8 @@
           allowfullscreen />
       </div>
     {/if}
-  {:else if image.asset}
-    <img
+  <!-- {:else if image.asset} -->
+  <!-- <img
       src={urlFor(image.asset).width(900).quality(90).auto('format').url()} />
     {#if url}
       <div
@@ -123,6 +123,6 @@
         }}>
         Play
       </div>
-    {/if}
-  {/if}
+    {/if} -->
+  <!-- {/if} -->
 </div>

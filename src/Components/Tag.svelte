@@ -30,13 +30,17 @@
   }
 
   const calculateBackgroundColor = () => {
-    const ownHorizontalPosition = tagEl.getBoundingClientRect().left
-    const windowWidth = window.innerWidth
-    const positionIndex = Math.round((ownHorizontalPosition / windowWidth) * 10)
-    // console.log("ownHorizontalPosition ", ownHorizontalPosition)
-    // console.log("windowWidth", windowWidth)
-    // console.log("positionIndex", positionIndex)
-    bgColor = COLORS[positionIndex]
+    if (tagEl) {
+      const ownHorizontalPosition = tagEl.getBoundingClientRect().left
+      const windowWidth = window.innerWidth
+      const positionIndex = Math.round(
+        (ownHorizontalPosition / windowWidth) * 10
+      )
+      // console.log("ownHorizontalPosition ", ownHorizontalPosition)
+      // console.log("windowWidth", windowWidth)
+      // console.log("positionIndex", positionIndex)
+      bgColor = COLORS[positionIndex]
+    }
   }
 
   onMount(async () => {

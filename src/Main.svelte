@@ -14,10 +14,13 @@
   import get from "lodash/get"
 
   // *** SANITY
-  import { loadData } from "./sanity.js"
+  import { loadData, client } from "./sanity.js"
 
   // *** VARIABLES
   let infoBarActive = false
+
+  // *** GLOBALS
+  import { QUERY } from "./global.js"
 
   // *** COMPONENTS
   import About from "./Components/About.svelte"
@@ -31,37 +34,70 @@
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
 
-  let isLive = false
-  let liveEvent = {}
+  let currentStream = false
 
-  const checkIfLive = () => {
-    let now = Date.now()
-    let live = loadData(
-      "*[_type == 'event' && date == $currentDate && startTime < $currentTime && endTime > $currentTime][0]",
-      {
-        currentDate: format(now, "yyyy-MM-dd"),
-        currentTime: format(now, "HH:mm"),
-      }
-    )
-    live
-      .then(live => {
-        console.log("–––", format(now, "yyyy-MM-dd"), format(now, "HH:mm"))
-        console.log("––– CHECKING IF LIVE")
-        console.log(live)
-        if (live) {
-          console.log("IS LIVE")
-          isLive = true
-          liveEvent = live
-        }
-      })
-      .catch(err => {
-        console.dir(err)
-      })
-  }
+  // const checkIfLive = () => {
+  //   let now = Date.now()
+  //   let live = loadData(
+  //     "*[_type == 'event' && date == $currentDate && startTime < $currentTime && endTime > $currentTime][0]",
+  //     {
+  //       currentDate: format(now, "yyyy-MM-dd"),
+  //       currentTime: format(now, "HH:mm"),
+  //     }
+  //   )
+  //   live
+  //     .then(live => {
+  //       console.log("–––", format(now, "yyyy-MM-dd"), format(now, "HH:mm"))
+  //       console.log("––– CHECKING IF LIVE")
+  //       console.log(live)
+  //       if (live) {
+  //         console.log("IS LIVE")
+  //         isLive = true
+  //         liveEvent = live
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.dir(err)
+  //     })
+  // }
 
-  setInterval(checkIfLive, 10000)
+  // setInterval(checkIfLive, 10000)
 
-  checkIfLive()
+  // __ Listen for changes to the active streams post
+  let live = loadData(QUERY.ACTIVE_STREAM).catch(err => {
+    console.log(err)
+  })
+
+  client.listen(QUERY.ACTIVE_STREAM).subscribe(update => {
+    console.log("___ UPDATE")
+    currentStream = false
+    setTimeout(() => {
+      loadData(QUERY.ACTIVE_STREAM)
+        .then(l => {
+          console.log("===> In Update", l)
+          if (l.activeStream) {
+            currentStream = l.activeStream
+          } else {
+            currentStream = false
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }, 1000)
+  })
+
+  live.then(live => {
+    console.log("___ INITIAL LOAD")
+
+    console.dir(live)
+    if (live.activeStream) {
+      currentStream = live.activeStream
+    } else {
+      currentStream = false
+    }
+    console.dir(currentStream)
+  })
 </script>
 
 <style lang="scss">
@@ -104,8 +140,8 @@
 <Router>
   <!-- MAIN -->
   <main class="main" use:links>
-    {#if isLive}
-    <VideoPlayer {liveEvent}/>
+    {#if currentStream}
+    <VideoPlayer liveEvent={currentStream}/>
     {:else}
         <Cloud />
     {/if}
@@ -122,11 +158,11 @@
             <MenuBar />
           </div>
           <!-- DESKTOP: INFO / MARQUEE -->
-          {#if isLive}
+          {#if currentStream}
             <div
               class="bar small"
               transition:slide|local>
-              <InfoBar leftText={'LIVE: ' + liveEvent.title} leftLink={'/program/' +  liveEvent.date + '/' + get(liveEvent, 'slug.current')}/>
+              <InfoBar leftText={'LIVE: ' + currentStream.title} leftLink={'/program/' +  currentStream.date + '/' + get(currentStream, 'slug.current')}/>
             </div>
           {:else}
             <div

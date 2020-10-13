@@ -10,6 +10,8 @@
 
   // PROPS
   export let liveEvent = {}
+
+  console.dir(liveEvent)
 </script>
 
 <style lang="scss">
@@ -30,7 +32,7 @@
     left: 0;
     margin: 0;
     padding: 0;
-    pointer-events: none;
+    // pointer-events: none;
 
     .text {
       // display: flex;
@@ -79,7 +81,7 @@
 
 <div class="embed">
   <!-- // YOUTUBE -->
-  {#if liveEvent.streamId.includes('youtube')}
+  {#if liveEvent.streamId.includes('youtube') || liveEvent.streamId.includes('youtu.be')}
     <div class="youtube-container">
       <iframe
         width="720"

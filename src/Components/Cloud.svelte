@@ -13,11 +13,9 @@
 
   onMount(async () => {
     // Replace with your asset's playback ID
-    var playbackId = "39VsZyY01AIb02tHSaAhalxAlbtc00nGow17wQIz01jsXX8"
-    var url = "https://stream.mux.com/" + playbackId + ".m3u8"
-    var video = document.getElementById("myVideo")
-
-    console.dir(Hls)
+    const playbackId = "39VsZyY01AIb02tHSaAhalxAlbtc00nGow17wQIz01jsXX8"
+    const url = "https://stream.mux.com/" + playbackId + ".m3u8"
+    const video = document.getElementById("myVideo")
     // Let native HLS support handle it if possible
     if (video.canPlayType("application/vnd.apple.mpegurl")) {
       video.src = url
