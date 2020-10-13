@@ -117,14 +117,14 @@
 
     .nav {
       position: fixed;
-      top: 50%;
+      top: 43%;
       transform: translateY(-50%);
       cursor: pointer;
       user-select: none;
       z-index: 100;
 
       @include screen-size("small") {
-        top: 110px;
+        top: 90px;
         transform: scale(0.7);
       }
 

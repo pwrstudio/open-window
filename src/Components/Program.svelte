@@ -275,7 +275,7 @@
           .item {
             font-family: $serif-stack;
             font-size: $font-size-large;
-            line-height: 1.1em;
+            line-height: 1em;
             width: 100%;
             display: inline-block;
             //display: flex;
@@ -300,11 +300,15 @@
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
+              max-width: 80%;
+              float: left;
+              display: block;
             }
 
             .date {
               text-align: right;
               float: right;
+              display: block;
             }
 
             &:hover,
