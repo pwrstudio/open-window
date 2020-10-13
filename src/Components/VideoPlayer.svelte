@@ -10,8 +10,6 @@
 
   // PROPS
   export let liveEvent = {}
-
-  console.dir(liveEvent)
 </script>
 
 <style lang="scss">
