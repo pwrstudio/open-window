@@ -33,7 +33,7 @@
   let archive = loadData(QUERY.ARCHIVED)
 
   $: {
-    console.log(archivedList)
+    // console.log(archivedList)
     filteredEvents.set(
       $activeTags.length > 0
         ? archivedList.filter(e => {

@@ -47,10 +47,10 @@
       currentIndex === 0
         ? get($filteredEvents[currentIndex - 1], "slug.current", "")
         : get($filteredEvents[$filteredEvents.length - 1], "slug.current", "")
-    console.log("–– INDEX", currentIndex)
-    console.log("–– TOTAL", $filteredEvents.length)
-    console.log("__ nextSlug", nextSlug)
-    console.log("__ prevSlug", prevSlug)
+    // console.log("–– INDEX", currentIndex)
+    // console.log("–– TOTAL", $filteredEvents.length)
+    // console.log("__ nextSlug", nextSlug)
+    // console.log("__ prevSlug", prevSlug)
     event = loadData(QUERY.SINGLE, { slug: slug }).catch(err => {
       console.dir(err)
     })
@@ -67,7 +67,14 @@
     z-index: 10000;
     width: 100vw;
     height: 100vh;
+    overflow-y: auto;
     background: rgba(255, 255, 255, 0.9);
+
+    @include screen-size("small") {
+      background: rgba(255, 255, 255, 1);
+    }
+
+    @include hide-scroll;
 
     .close {
       position: absolute;

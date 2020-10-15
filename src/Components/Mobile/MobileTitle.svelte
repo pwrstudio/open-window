@@ -30,13 +30,24 @@
 
       img {
         height: 15px;
+        top: 4px;
+        position: relative;
       }
 
-      .hdk-valand {
+      .logos {
         font-family: $serif-stack;
-        font-size: $font-size-medium - 4px;
-        transform: scaleY(1.14);
-        white-space: nowrap;
+        font-size: $font-size-medium;
+        position: relative;
+        top: 0px;
+        float: right;
+        img {
+          top: 0;
+          &.gu {
+            height: 18px;
+            position: relative;
+            top: 4px;
+          }
+        }
       }
     }
   }
@@ -45,6 +56,9 @@
 <div style="overflow: hidden;" class="mobile-title">
   <div class="inner">
     <img src="/img/open-window.svg" alt="Open Window" />
-    <span class="hdk-valand">HDK Valand</span>
+    <span class="logos">
+      <img src="/img/hdk-valand.svg" alt="HDK-Valand" />
+      <img src="/img/gu2.svg" alt="Göteborgs Universitet" class="gu" />
+    </span>
   </div>
 </div>

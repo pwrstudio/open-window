@@ -135,7 +135,7 @@
       // console.dir(eventsList)
       settings
         .then(settings => {
-          console.dir(settings)
+          // console.dir(settings)
           // ___
           eventsMap = groupBy(eventsList, e => e.date)
           // Construct periods
@@ -144,7 +144,7 @@
           // console.dir(periods)
           currentPeriodIndex = periods.findIndex(p => p.isActive)
           // console.dir(periods[currentPeriodIndex].weeks[currentWeekIndex])
-          console.dir(eventsMap)
+          // console.dir(eventsMap)
         })
         .catch(err => {
           console.dir(err)
@@ -330,6 +330,20 @@
               -moz-text-fill-color: transparent;
             }
 
+            @include screen-size("small") {
+              &:hover {
+                color: $black;
+                background-color: unset;
+                background-image: unset;
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+                -moz-background-clip: unset;
+                -moz-text-fill-color: unset;
+              }
+            }
+
             &.empty {
               opacity: 0.25;
               pointer-events: none;
@@ -440,6 +454,32 @@
                 -webkit-text-fill-color: transparent;
                 -moz-background-clip: text;
                 -moz-text-fill-color: transparent;
+              }
+            }
+
+            @include screen-size("small") {
+              &:hover {
+                color: $black;
+                background-color: unset;
+                background-image: unset;
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+                -moz-background-clip: unset;
+                -moz-text-fill-color: unset;
+
+                .time {
+                  color: $black;
+                  background-color: unset;
+                  background-image: unset;
+                  background-size: 100%;
+                  background-repeat: repeat;
+                  -webkit-background-clip: unset;
+                  -webkit-text-fill-color: unset;
+                  -moz-background-clip: unset;
+                  -moz-text-fill-color: unset;
+                }
               }
             }
           }

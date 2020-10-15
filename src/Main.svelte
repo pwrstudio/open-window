@@ -69,12 +69,12 @@
   })
 
   client.listen(QUERY.ACTIVE_STREAM).subscribe(update => {
-    console.log("___ UPDATE")
+    // console.log("___ UPDATE")
     currentStream = false
     setTimeout(() => {
       loadData(QUERY.ACTIVE_STREAM)
         .then(l => {
-          console.log("===> In Update", l)
+          // console.log("===> In Update", l)
           if (l.activeStream) {
             currentStream = l.activeStream
           } else {
@@ -88,15 +88,14 @@
   })
 
   live.then(live => {
-    console.log("___ INITIAL LOAD")
-
-    console.dir(live)
+    // console.log("___ INITIAL LOAD")
+    // console.dir(live)
     if (live.activeStream) {
       currentStream = live.activeStream
     } else {
       currentStream = false
     }
-    console.dir(currentStream)
+    // console.dir(currentStream)
   })
 </script>
 

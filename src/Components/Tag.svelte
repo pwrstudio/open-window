@@ -115,10 +115,10 @@
       window.location = '/archive/#' + slug
     } else {
       if ($activeTags.find(t => t === slug)) {
-        console.log('-- Remove tag', slug)
+        //console.log('-- Remove tag', slug)
         activeTags.set($activeTags.filter(t => t !== slug))
       } else {
-        console.log('++ Add tag', slug)
+        //console.log('++ Add tag', slug)
         activeTags.set([...$activeTags, slug])
       }
     }

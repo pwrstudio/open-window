@@ -9,6 +9,7 @@
   import { links } from "svelte-routing"
   import get from "lodash/get"
   import { loadData, renderBlockText, urlFor } from "../sanity"
+  import imagesLoaded from "imagesloaded"
 
   import { isWithinInterval } from "date-fns"
 
@@ -24,6 +25,9 @@
   import { QUERY, formattedDate } from "../global.js"
   import { document } from "lodash/_freeGlobal"
 
+  let imgEl = {}
+  let loaded = true
+
   // *** PROPS
   export let slug = []
   let now = Date.now()
@@ -33,6 +37,7 @@
 
   $: {
     if (slug !== oldSlug) {
+      loaded = false
       loadData(QUERY.SINGLE, { slug: slug })
         .then(res => {
           // __ Check if event is live
@@ -47,6 +52,9 @@
           // __ Scroll to top
           const eventContainer = document.querySelector(".event-container")
           eventContainer ? eventContainer.scrollTo(0, 0) : null
+          imagesLoaded(imgEl, () => {
+            loaded = true
+          })
         })
         .catch(err => {
           console.dir(err)
@@ -159,6 +167,7 @@
     {#if event.mainImage}
       <div class="image">
         <img
+          bind:this={imgEl}
           alt={event.title}
           src={urlFor(event.mainImage)
             .width(600)
