@@ -29,6 +29,7 @@
     padding-left: 20px;
     padding-right: 20px;
     position: relative;
+    z-index: 1000;
 
     .burger {
       height: 15px;
@@ -42,6 +43,7 @@
     bottom: 70px;
     left: 0;
     width: 100%;
+    z-index: -10;
 
     .close {
       position: absolute;
@@ -97,7 +99,7 @@
   <div class="menubar">
     <div
       class="burger"
-      on:click={(e) => {
+      on:click={e => {
         expanded = true
       }}>
       <Burger />
@@ -109,7 +111,7 @@
   <div class="menu" in:slide use:links>
     <div
       class="close"
-      on:click={(e) => {
+      on:click={e => {
         expanded = false
       }}>
       <X />

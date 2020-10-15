@@ -17,6 +17,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    z-index: 1000;
 
     .inner {
       user-select: none;

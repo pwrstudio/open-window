@@ -8,8 +8,8 @@
   // *** PROPS
   export let duration = 15
   export let repeat = 4
-  export let paused = false
-  export let pauseOnHover = false
+  // export let paused = false
+  // export let pauseOnHover = false
 </script>
 
 <style lang="scss">

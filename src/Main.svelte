@@ -115,6 +115,7 @@
     position: fixed;
     bottom: 0px;
     left: 0;
+    z-index: 1001;
     height: 90px;
     width: 100vw;
     background: white;
@@ -141,16 +142,15 @@
   <!-- MAIN -->
   <main class="main" use:links>
     {#if currentStream}
-    <VideoPlayer liveEvent={currentStream}/>
+      <VideoPlayer liveEvent={currentStream} />
     {:else}
-        <Cloud />
+      <Cloud />
     {/if}
   </main>
 
   <!-- MENU -->
   <Route path="">
-    <div
-      class="bottom-bars">
+    <div class="bottom-bars">
       <MediaQuery query="(min-width: 800px)" let:matches>
         {#if matches}
           <!-- DESKTOP: MENU -->
@@ -159,26 +159,24 @@
           </div>
           <!-- DESKTOP: INFO / MARQUEE -->
           {#if currentStream}
-            <div
-              class="bar small"
-              transition:slide|local>
-              <InfoBar leftText={'LIVE: ' + currentStream.title} leftLink={'/program/' +  currentStream.date + '/' + get(currentStream, 'slug.current')}/>
+            <div class="bar small" transition:slide|local>
+              <InfoBar
+                leftText={'LIVE: ' + currentStream.title}
+                leftLink={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')} />
             </div>
           {:else}
-            <div
-              class="bar small"
-              transition:slide|local>
+            <div class="bar small" transition:slide|local>
               <Marquee />
             </div>
           {/if}
         {:else}
           <div class="bar small">
             <!-- MOBILE: MENU -->
-            <MobileMenu />      
+            <MobileMenu />
           </div>
           <div class="bar small">
             <!-- MOBILE: TITLE -->
-            <MobileTitle />      
+            <MobileTitle />
           </div>
           <div class="bar smaller">
             <!-- MOBILE: INFO -->
@@ -191,16 +189,16 @@
 
   <!-- PROGRAM -->
   <Route path="program/*">
-    <Program/>
+    <Program />
   </Route>
 
   <!-- ARCHIVE -->
   <Route path="archive/*">
-    <Archive/>
+    <Archive />
   </Route>
 
   <!-- ABOUT -->
   <Route path="about/*">
-    <About/>
+    <About />
   </Route>
 </Router>

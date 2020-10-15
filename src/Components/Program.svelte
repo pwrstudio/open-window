@@ -368,6 +368,7 @@
 
         .day-container {
           padding: 15px;
+          padding-bottom: 160px;
           height: 100vh;
           overflow-y: scroll;
 
@@ -459,6 +460,7 @@
           @include screen-size("small") {
             padding-bottom: 20px;
             height: 100px;
+            display: none;
           }
         }
       }
@@ -503,37 +505,44 @@
       in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
       <div
         class="close"
-        on:click={(e) => {
+        on:click={e => {
           navigate('/')
         }}>
         <X />
       </div>
       <div class="header"><img src="/img/program.svg" alt="Program" /></div>
       <div class="week-container">
-        {#if currentPeriodIndex !== false }
+        {#if currentPeriodIndex !== false}
           <div class="navigation">
-            <div class='navigation-button' 
+            <div
+              class="navigation-button"
               class:disabled={currentPeriodIndex == 0 && currentWeekIndex == 0}
-              on:click={e=>{
-                if(currentWeekIndex !== 0) {
+              on:click={e => {
+                if (currentWeekIndex !== 0) {
                   currentWeekIndex--
-                } else if(currentPeriodIndex !== 0) {
+                } else if (currentPeriodIndex !== 0) {
                   currentPeriodIndex--
                   currentWeekIndex = periods[currentPeriodIndex].weeks.length - 1
                 }
-              }}><span class="arrow" >&lt;</span> PREV</div>
+              }}>
+              <span class="arrow">&lt;</span>
+              PREV
+            </div>
             <div>OCTOBER 2020</div>
-            <div 
-              class='navigation-button' 
-              class:disabled={currentPeriodIndex == periods.length - 1 && currentWeekIndex == periods[currentPeriodIndex].weeks.length - 1} 
-              on:click={e=>{
-                if(currentWeekIndex !== periods[currentPeriodIndex].length - 1) {
+            <div
+              class="navigation-button"
+              class:disabled={currentPeriodIndex == periods.length - 1 && currentWeekIndex == periods[currentPeriodIndex].weeks.length - 1}
+              on:click={e => {
+                if (currentWeekIndex !== periods[currentPeriodIndex].length - 1) {
                   currentWeekIndex++
-                } else if(currentPeriodIndex !== periods.length - 1) {
+                } else if (currentPeriodIndex !== periods.length - 1) {
                   currentWeekIndex = 0
                   currentPeriodIndex++
                 }
-              }}>NEXT <span class="arrow">&gt;</span></div>
+              }}>
+              NEXT
+              <span class="arrow">&gt;</span>
+            </div>
           </div>
           {#each periods[currentPeriodIndex].weeks[currentWeekIndex] as day}
             <a
@@ -556,7 +565,7 @@
         in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
         <div
           class="close phone-only"
-          on:click={(e) => {
+          on:click={e => {
             navigate('/program')
           }}>
           <X />
@@ -568,17 +577,21 @@
               <a
                 class="item"
                 class:active={get($activeRoute, 'params["*"]', '').substring(11) == event.slug.current}
-                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')} in:fade={{duration: 300, delay: 40 * index}}>
+                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')}
+                in:fade={{ duration: 300, delay: 40 * index }}>
                 <div class="time">{event.startTime}–{event.endTime}</div>
                 <div class="title">{event.title}</div>
                 {#if event.participants && Array.isArray(event.participants)}
                   {#each event.participants as participant, index (participant._id)}
-                    <span class="participant">{participant.name}{#if index < event.participants.length - 1}
+                    <span
+                      class="participant">{participant.name}{#if index < event.participants.length - 1}
                         ,
                       {/if}</span>
                   {/each}
                 {/if}
-                <div class="location">{#if event.location}{event.location}{/if}</div>
+                <div class="location">
+                  {#if event.location}{event.location}{/if}
+                </div>
               </a>
             {/each}
           {/if}
@@ -592,9 +605,9 @@
         <div
           class="panel event"
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
-          <a href={'/program/' + params.date} class="close phone-only" ><X /></a>
+          <a href={'/program/' + params.date} class="close phone-only"><X /></a>
           <div class="header"><img src="/img/program.svg" alt="Program" /></div>
-          <Event slug={params.slug}/>
+          <Event slug={params.slug} />
         </div>
       {/if}
     </Route>

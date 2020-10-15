@@ -58,32 +58,34 @@
 <div class="outer">
   <div class="embed">
     <!-- // YOUTUBE -->
-    {#if liveEvent.streamId.includes('youtube') || liveEvent.streamId.includes('youtu.be')}
-    <div class="youtube-container">
-      <iframe
-        width="1920"
-        height="1280"
-        src={'https://www.youtube.com/embed/' + getVideoId(liveEvent.streamId).id + '?rel=0'} 
-        frameborder="no"
-        allow="autoplay; fullscreen"
-        allowfullscreen />
-    </div>
-  {/if}
+    {#if liveEvent && liveEvent.streamId}
+      {#if liveEvent.streamId.includes('youtube') || liveEvent.streamId.includes('youtu.be')}
+        <div class="youtube-container">
+          <iframe
+            width="1920"
+            height="1280"
+            src={'https://www.youtube.com/embed/' + getVideoId(liveEvent.streamId).id + '?rel=0'}
+            frameborder="no"
+            allow="autoplay; fullscreen"
+            allowfullscreen />
+        </div>
+      {/if}
 
-    <!-- // VIMEO -->
-    {#if liveEvent.streamId.includes('vimeo')}
-    <div class="vimeo-container">
-      <iframe
-        width="720"
-        height="405"
-        src={'https://player.vimeo.com/video/' + getVideoId(liveEvent.streamId).id + '?autoplay=1'}
-        frameborder="no"
-        scrolling="no"
-        byline="false"
-        color="#ffffff"
-        allow="autoplay; fullscreen"
-        allowfullscreen />
-    </div>
-  {/if}
+      <!-- // VIMEO -->
+      {#if liveEvent.streamId.includes('vimeo')}
+        <div class="vimeo-container">
+          <iframe
+            width="720"
+            height="405"
+            src={'https://player.vimeo.com/video/' + getVideoId(liveEvent.streamId).id + '?autoplay=1'}
+            frameborder="no"
+            scrolling="no"
+            byline="false"
+            color="#ffffff"
+            allow="autoplay; fullscreen"
+            allowfullscreen />
+        </div>
+      {/if}
+    {/if}
   </div>
 </div>

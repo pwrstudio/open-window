@@ -63,7 +63,7 @@
     padding: 15px;
     height: 100vh;
     overflow-y: scroll;
-    padding-bottom: 120px;
+    padding-bottom: 160px;
 
     @include screen-size("small") {
       padding: 0;
