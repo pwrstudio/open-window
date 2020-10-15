@@ -7,10 +7,6 @@
 
   // IMPORTS
   import getVideoId from "get-video-id"
-  import { urlFor } from "../../sanity"
-
-  // *** GRAPHICS
-  // import Play from "../Graphics/Play.svelte"
 
   // PROPS
   export let image = {}
@@ -81,29 +77,29 @@
   {#if url.includes('youtube') || url.includes('youtu.be')}
     <!-- <div class="youtube-container"> -->
     <iframe
-        width="600"
-        height="338"
-        src={'https://www.youtube.com/embed/' + getVideoId(url).id}
-        frameborder="no"
-        allow="autoplay; fullscreen"
-        allowfullscreen />
+      width="600"
+      height="338"
+      src={'https://www.youtube.com/embed/' + getVideoId(url).id}
+      frameborder="no"
+      allow="autoplay; fullscreen"
+      allowfullscreen />
   {/if}
 
   <!-- // VIMEO -->
   {#if url.includes('vimeo')}
-      <div class="vimeo-container">
-        <iframe
-          width="600"
-          height="338"
-          src={'https://player.vimeo.com/video/' + getVideoId(url).id}
-          frameborder="no"
-          scrolling="no"
-          byline="false"
-          color="#ffffff"
-          allow="autoplay; fullscreen"
-          allowfullscreen />
-      </div>
-    {/if}
+    <div class="vimeo-container">
+      <iframe
+        width="600"
+        height="338"
+        src={'https://player.vimeo.com/video/' + getVideoId(url).id}
+        frameborder="no"
+        scrolling="no"
+        byline="false"
+        color="#ffffff"
+        allow="autoplay; fullscreen"
+        allowfullscreen />
+    </div>
+  {/if}
   <!-- {:else if image.asset} -->
   <!-- <img
       src={urlFor(image.asset).width(900).quality(90).auto('format').url()} />

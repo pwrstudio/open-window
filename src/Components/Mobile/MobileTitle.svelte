@@ -1,5 +1,11 @@
 <script>
-  import { onMount } from "svelte"
+  // # # # # # # # # # # # # #
+  //
+  //  MOBILE TITLE
+  //
+  // # # # # # # # # # # # # #
+
+  // IMPORTS
 </script>
 
 <style lang="scss">
@@ -37,7 +43,7 @@
 
 <div style="overflow: hidden;" class="mobile-title">
   <div class="inner">
-    <img src="/img/open-window.svg" />
+    <img src="/img/open-window.svg" alt="Open Window" />
     <span class="hdk-valand">HDK Valand</span>
   </div>
 </div>

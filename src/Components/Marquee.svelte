@@ -67,7 +67,7 @@
   <div class="content">
     {#each Array(repeat) as _, i}
       <div class="text" style="animation-duration: {duration}s">
-        <img src="/img/open-window.svg" />
+        <img src="/img/open-window.svg" alt="Open Window" />
         <span class="logos">
           <img src="/img/hdk-valand.svg" alt="HDK-Valand" />
           <img src="/img/gu2.svg" alt="Göteborgs Universitet" class="gu" />

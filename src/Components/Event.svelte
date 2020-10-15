@@ -154,68 +154,72 @@
 <div class="event-container" use:links>
   {#if event && event.title}
     <!-- METADATA -->
-    <Metadata post={event}/>
+    <Metadata post={event} />
     <!-- IMAGE -->
     {#if event.mainImage}
-    <div class="image">
-      <img
-        src={urlFor(event.mainImage)
-          .width(600)
-          .quality(90)
-          .auto('format')
-          .url()} />
-    </div>
-  {/if}
+      <div class="image">
+        <img
+          alt={event.title}
+          src={urlFor(event.mainImage)
+            .width(600)
+            .quality(90)
+            .auto('format')
+            .url()} />
+      </div>
+    {/if}
     <!-- HEADER -->
     <div class="header">
-    <div class="text">
-      <!-- TITLE -->
-      <div class="title">{event.title}</div>
-      <!-- PARTICIPANTS -->
-      <div class="participant">
-        {#if event.participants && Array.isArray(event.participants)}
-          {#each event.participants as participant (participant._id)}
-            {#if participant.link}
-              <a href={participant.link} class="participant" target="_blank">{participant.name}</a>
-            {:else}
-              <div class="participant">{participant.name}</div>
-            {/if}
-          {/each}
-        {/if}
+      <div class="text">
+        <!-- TITLE -->
+        <div class="title">{event.title}</div>
+        <!-- PARTICIPANTS -->
+        <div class="participant">
+          {#if event.participants && Array.isArray(event.participants)}
+            {#each event.participants as participant (participant._id)}
+              {#if participant.link}
+                <a
+                  href={participant.link}
+                  class="participant"
+                  target="_blank">{participant.name}</a>
+              {:else}
+                <div class="participant">{participant.name}</div>
+              {/if}
+            {/each}
+          {/if}
+        </div>
+        <!-- DATE -->
+        <div class="time">
+          {formattedDate(event.date)}
+          {event.startTime}–{event.endTime}
+        </div>
       </div>
-      <!-- DATE -->
-      <div class="time">
-        {formattedDate(event.date)}
-        {event.startTime}–{event.endTime}
-      </div>
+      {#if islive}
+        <a href="/" class="live-icon">
+          <LiveIcon />
+        </a>
+      {/if}
     </div>
-    {#if islive }
-      <a href='/' class="live-icon">
-        <LiveIcon />
-      </a>
-    {/if}
-  </div>
     <!-- TEXT -->
     <div class="content">
-    {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
-      {@html renderBlockText(event.content.content)}
-    {/if}
-  </div>
+      {#if get(event, 'content.content', false) && Array.isArray(event.content.content)}
+        {@html renderBlockText(event.content.content)}
+      {/if}
+    </div>
     <!-- LINKS-->
     <div class="link-container">
-    {#if event.links && Array.isArray(event.links)}
-      {#each event.links as link}
-        <Link {link} />
-      {/each}
-    {/if}
-  </div>
+      {#if event.links && Array.isArray(event.links)}
+        {#each event.links as link}
+          <Link {link} />
+        {/each}
+      {/if}
+    </div>
     <!-- TAGS -->
     <div class="tag-container">
-    {#if event.tags && Array.isArray(event.tags)}
-      {#each event.tags as tag}
-        <Tag title={tag} link={true} />
-      {/each}
-    {/if}
-  </div>
+      {#if event.tags && Array.isArray(event.tags)}
+        {#each event.tags as tag}
+          <Tag title={tag} link={true} />
+        {/each}
+      {/if}
+    </div>
   {/if}
 </div>
