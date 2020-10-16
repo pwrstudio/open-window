@@ -30,6 +30,10 @@
       height: 15px;
       margin-right: 120px;
       margin-top: 9px;
+
+      @include screen-size("small") {
+        margin-right: 40px;
+      }
     }
 
     .logos {
@@ -38,6 +42,11 @@
       margin-right: 120px;
       position: relative;
       top: 0px;
+
+      @include screen-size("small") {
+        margin-right: 40px;
+      }
+
       img {
         margin-right: 5px;
 

@@ -120,7 +120,7 @@
     background: white;
 
     @include screen-size("small") {
-      height: 110px;
+      height: 90px;
     }
   }
 
@@ -169,18 +169,26 @@
             </div>
           {/if}
         {:else}
-          <div class="bar small">
+          <div class="bar">
             <!-- MOBILE: MENU -->
             <MobileMenu />
           </div>
-          <div class="bar small">
-            <!-- MOBILE: TITLE -->
-            <MobileTitle />
-          </div>
-          <div class="bar smaller">
+          <!-- DESKTOP: INFO / MARQUEE -->
+          {#if currentStream}
+            <div class="bar small" transition:slide|local>
+              <InfoBar
+                leftText={'LIVE: ' + currentStream.title}
+                leftLink={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')} />
+            </div>
+          {:else}
+            <div class="bar small" transition:slide|local>
+              <Marquee />
+            </div>
+          {/if}
+          <!-- <div class="bar smaller">
             <!-- MOBILE: INFO -->
-            <InfoBar />
-          </div>
+          <!-- <InfoBar /> -->
+          <!-- </div> -->
         {/if}
       </MediaQuery>
     </div>

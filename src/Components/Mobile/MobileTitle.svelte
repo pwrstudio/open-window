@@ -43,7 +43,7 @@
         img {
           top: 0;
           &.gu {
-            height: 18px;
+            height: 14px;
             position: relative;
             top: 4px;
           }

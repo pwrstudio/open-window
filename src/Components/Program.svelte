@@ -303,6 +303,7 @@
               max-width: 80%;
               float: left;
               display: block;
+              border: 1px solid white;
             }
 
             .date {
@@ -313,21 +314,26 @@
 
             &:hover,
             &.active {
-              -webkit-box-decoration-break: clone;
-              color: $green;
-              background-color: $green;
-              background-image: linear-gradient(
-                to right,
-                rgb(0, 0, 255) 0%,
-                rgb(0, 255, 255) 75%,
-                rgb(0, 255, 173) 100%
-              );
-              background-size: 100%;
-              background-repeat: repeat;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              -moz-background-clip: text;
-              -moz-text-fill-color: transparent;
+              .weekday {
+                -webkit-box-decoration-break: clone;
+                color: $green;
+                background-color: $green;
+                background-image: linear-gradient(
+                  to right,
+                  rgb(0, 0, 255) 0%,
+                  rgb(0, 255, 255) 75%,
+                  rgb(0, 255, 173) 100%
+                );
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -moz-background-clip: text;
+                -moz-text-fill-color: transparent;
+              }
+              .date {
+                color: rgb(0, 255, 173);
+              }
             }
 
             @include screen-size("small") {
@@ -406,12 +412,14 @@
               font-family: $serif-stack;
               font-size: $font-size-medium;
               transform: scaleY(1.14);
+              border: 1px solid white;
+              margin-bottom: 2px;
             }
             .title {
               font-family: $sans-stack;
               font-size: $font-size-medium;
             }
-            .participant {
+            .participants {
               font-family: $sans-stack;
               font-size: $font-size-medium;
             }
@@ -424,23 +432,27 @@
             }
             &:hover,
             &.active {
-              -webkit-box-decoration-break: clone;
-              // color: $green;
-              background-color: $green;
-              background-image: linear-gradient(
-                to right,
-                rgb(0, 255, 173) 0%,
-                rgb(0, 255, 0) 75%,
-                rgb(163, 255, 0) 100%
-              );
-              background-size: 100%;
-              background-repeat: repeat;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              -moz-background-clip: text;
-              -moz-text-fill-color: transparent;
+              .location {
+                -webkit-box-decoration-break: clone;
+                // color: $green;
+                background-color: $green;
+                background-image: linear-gradient(
+                  to right,
+                  rgb(163, 255, 0) 0%,
+                  rgb(0, 255, 0) 25%,
+                  rgb(0, 255, 173) 100%
+                );
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -moz-background-clip: text;
+                -moz-text-fill-color: transparent;
+              }
 
-              .time {
+              .time,
+              .participants,
+              .title {
                 background-color: $green;
                 background-image: linear-gradient(
                   to right,
@@ -622,12 +634,14 @@
                 <div class="time">{event.startTime}–{event.endTime}</div>
                 <div class="title">{event.title}</div>
                 {#if event.participants && Array.isArray(event.participants)}
-                  {#each event.participants as participant, index (participant._id)}
-                    <span
-                      class="participant">{participant.name}{#if index < event.participants.length - 1}
-                        ,
-                      {/if}</span>
-                  {/each}
+                  <div class="participants">
+                    {#each event.participants as participant, index (participant._id)}
+                      <span
+                        class="participant">{participant.name}{#if index < event.participants.length - 1}
+                          ,
+                        {/if}</span>
+                    {/each}
+                  </div>
                 {/if}
                 <div class="location">
                   {#if event.location}{event.location}{/if}

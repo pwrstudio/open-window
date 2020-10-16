@@ -33,14 +33,14 @@
 
     .burger {
       height: 15px;
-      padding-top: 10px;
+      padding-top: 15px;
     }
   }
 
   .menu {
     background: $white;
     position: fixed;
-    bottom: 70px;
+    bottom: 40px;
     left: 0;
     width: 100%;
     z-index: -10;
@@ -96,12 +96,12 @@
 </style>
 
 {#if !expanded}
-  <div class="menubar">
-    <div
-      class="burger"
-      on:click={e => {
-        expanded = true
-      }}>
+  <div
+    class="menubar"
+    on:click={e => {
+      expanded = true
+    }}>
+    <div class="burger">
       <Burger />
     </div>
   </div>
