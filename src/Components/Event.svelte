@@ -39,6 +39,7 @@
   $: {
     if (slug !== oldSlug) {
       loaded = false
+      event = {}
       loadData(QUERY.SINGLE, { slug: slug })
         .then(res => {
           // __ Check if event is live
@@ -89,13 +90,14 @@
 
     @include hide-scroll;
 
-    // .image {
-    //   margin-bottom: 20px;
-    //   img {
-    //     max-width: 100%;
-    //     max-height: 500px;
-    //   }
-    // }
+    .image {
+      margin-bottom: 20px;
+      min-height: 200px;
+      img {
+        max-width: 100%;
+        max-height: 500px;
+      }
+    }
 
     .video {
       margin-bottom: 20px;

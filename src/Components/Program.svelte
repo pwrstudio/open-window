@@ -554,6 +554,7 @@
     <!-- PANEL 1 => WEEK -->
     <div
       class="panel week"
+      out:fade={{ duration: 300, easing: quartOut }}
       in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
       <div
         class="close"
@@ -614,6 +615,7 @@
       <!-- PANEL 2 => DAY -->
       <div
         class="panel day"
+        out:fade={{ duration: 300, easing: quartOut }}
         in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
         <div
           class="close phone-only"
@@ -658,6 +660,7 @@
         <!-- PANEL 3 => EVENT -->
         <div
           class="panel event"
+          out:fade={{ duration: 300, easing: quartOut }}
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
           <a href={'/program/' + params.date} class="close phone-only"><X /></a>
           <div class="header"><img src="/img/program.svg" alt="Program" /></div>

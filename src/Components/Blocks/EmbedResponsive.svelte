@@ -12,9 +12,6 @@
   export let image = {}
   export let url = ""
 
-  // console.log("image", image)
-  // console.log("url", url)
-
   // *** VARIABLES
   let clicked = false
 </script>
