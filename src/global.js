@@ -8,7 +8,11 @@ export const QUERY = {
     "*[_id == 'archive']{...,archivedEvents[]->{..., participants[]->{...}}}[0]",
   EVENTS:
     "*[_type == 'event' && hideInProgram != true]{...,participants[]->{...}} | order(date asc) | order(startTime asc)",
+    ACTIVE_STREAM:
+    "*[_id == 'active-stream']{..., activeStream->{..., participants[]->{...}}}[0]",
   SINGLE:
+    '*[(_type == "event" && slug.current == $slug) || _id == "archive"]{...,participants[]->{...}}',
+    SINGLE_ARCHIVED:
     '*[_type == "event" && slug.current == $slug]{...,participants[]->{...}}[0]',
 }
 

@@ -1,5 +1,11 @@
 <script>
-  import { onMount } from "svelte"
+  // # # # # # # # # # # # # #
+  //
+  //  MOBILE TITLE
+  //
+  // # # # # # # # # # # # # #
+
+  // IMPORTS
 </script>
 
 <style lang="scss">
@@ -11,6 +17,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    z-index: 1000;
 
     .inner {
       user-select: none;
@@ -23,13 +30,24 @@
 
       img {
         height: 15px;
+        top: 4px;
+        position: relative;
       }
 
-      .hdk-valand {
+      .logos {
         font-family: $serif-stack;
-        font-size: $font-size-medium - 4px;
-        transform: scaleY(1.14);
-        white-space: nowrap;
+        font-size: $font-size-medium;
+        position: relative;
+        top: 0px;
+        float: right;
+        img {
+          top: 0;
+          &.gu {
+            height: 14px;
+            position: relative;
+            top: 4px;
+          }
+        }
       }
     }
   }
@@ -37,7 +55,10 @@
 
 <div style="overflow: hidden;" class="mobile-title">
   <div class="inner">
-    <img src="/img/open-window.svg" />
-    <span class="hdk-valand">HDK Valand</span>
+    <img src="/img/open-window.svg" alt="Open Window" />
+    <span class="logos">
+      <img src="/img/hdk-valand.svg" alt="HDK-Valand" />
+      <img src="/img/gu2.svg" alt="Göteborgs Universitet" class="gu" />
+    </span>
   </div>
 </div>

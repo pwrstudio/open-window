@@ -135,7 +135,7 @@
       // console.dir(eventsList)
       settings
         .then(settings => {
-          console.dir(settings)
+          // console.dir(settings)
           // ___
           eventsMap = groupBy(eventsList, e => e.date)
           // Construct periods
@@ -144,7 +144,7 @@
           // console.dir(periods)
           currentPeriodIndex = periods.findIndex(p => p.isActive)
           // console.dir(periods[currentPeriodIndex].weeks[currentWeekIndex])
-          console.dir(eventsMap)
+          // console.dir(eventsMap)
         })
         .catch(err => {
           console.dir(err)
@@ -275,7 +275,7 @@
           .item {
             font-family: $serif-stack;
             font-size: $font-size-large;
-            line-height: 1.1em;
+            line-height: 1em;
             width: 100%;
             display: inline-block;
             //display: flex;
@@ -300,30 +300,54 @@
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
+              max-width: 80%;
+              float: left;
+              display: block;
+              border: 1px solid white;
             }
 
             .date {
               text-align: right;
               float: right;
+              display: block;
             }
 
             &:hover,
             &.active {
-              -webkit-box-decoration-break: clone;
-              color: $green;
-              background-color: $green;
-              background-image: linear-gradient(
-                to right,
-                rgb(0, 0, 255) 0%,
-                rgb(0, 255, 255) 75%,
-                rgb(0, 255, 173) 100%
-              );
-              background-size: 100%;
-              background-repeat: repeat;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              -moz-background-clip: text;
-              -moz-text-fill-color: transparent;
+              .weekday {
+                -webkit-box-decoration-break: clone;
+                color: $green;
+                background-color: $green;
+                background-image: linear-gradient(
+                  to right,
+                  rgb(0, 0, 255) 0%,
+                  rgb(0, 255, 255) 75%,
+                  rgb(0, 255, 173) 100%
+                );
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -moz-background-clip: text;
+                -moz-text-fill-color: transparent;
+              }
+              .date {
+                color: rgb(0, 255, 173);
+              }
+            }
+
+            @include screen-size("small") {
+              &:hover {
+                color: $black;
+                background-color: unset;
+                background-image: unset;
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+                -moz-background-clip: unset;
+                -moz-text-fill-color: unset;
+              }
             }
 
             &.empty {
@@ -364,6 +388,7 @@
 
         .day-container {
           padding: 15px;
+          padding-bottom: 160px;
           height: 100vh;
           overflow-y: scroll;
 
@@ -387,12 +412,14 @@
               font-family: $serif-stack;
               font-size: $font-size-medium;
               transform: scaleY(1.14);
+              border: 1px solid white;
+              margin-bottom: 2px;
             }
             .title {
               font-family: $sans-stack;
               font-size: $font-size-medium;
             }
-            .participant {
+            .participants {
               font-family: $sans-stack;
               font-size: $font-size-medium;
             }
@@ -405,23 +432,27 @@
             }
             &:hover,
             &.active {
-              -webkit-box-decoration-break: clone;
-              // color: $green;
-              background-color: $green;
-              background-image: linear-gradient(
-                to right,
-                rgb(0, 255, 173) 0%,
-                rgb(0, 255, 0) 75%,
-                rgb(163, 255, 0) 100%
-              );
-              background-size: 100%;
-              background-repeat: repeat;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              -moz-background-clip: text;
-              -moz-text-fill-color: transparent;
+              .location {
+                -webkit-box-decoration-break: clone;
+                // color: $green;
+                background-color: $green;
+                background-image: linear-gradient(
+                  to left,
+                  rgb(163, 255, 0) 0%,
+                  rgb(0, 255, 0) 25%,
+                  rgb(0, 255, 173) 100%
+                );
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -moz-background-clip: text;
+                -moz-text-fill-color: transparent;
+              }
 
-              .time {
+              .time,
+              .participants,
+              .title {
                 background-color: $green;
                 background-image: linear-gradient(
                   to right,
@@ -435,6 +466,32 @@
                 -webkit-text-fill-color: transparent;
                 -moz-background-clip: text;
                 -moz-text-fill-color: transparent;
+              }
+            }
+
+            @include screen-size("small") {
+              &:hover {
+                color: $black;
+                background-color: unset;
+                background-image: unset;
+                background-size: 100%;
+                background-repeat: repeat;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+                -moz-background-clip: unset;
+                -moz-text-fill-color: unset;
+
+                .time {
+                  color: $black;
+                  background-color: unset;
+                  background-image: unset;
+                  background-size: 100%;
+                  background-repeat: repeat;
+                  -webkit-background-clip: unset;
+                  -webkit-text-fill-color: unset;
+                  -moz-background-clip: unset;
+                  -moz-text-fill-color: unset;
+                }
               }
             }
           }
@@ -455,6 +512,7 @@
           @include screen-size("small") {
             padding-bottom: 20px;
             height: 100px;
+            display: none;
           }
         }
       }
@@ -496,40 +554,48 @@
     <!-- PANEL 1 => WEEK -->
     <div
       class="panel week"
+      out:fade={{ duration: 300, easing: quartOut }}
       in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
       <div
         class="close"
-        on:click={(e) => {
+        on:click={e => {
           navigate('/')
         }}>
         <X />
       </div>
       <div class="header"><img src="/img/program.svg" alt="Program" /></div>
       <div class="week-container">
-        {#if currentPeriodIndex !== false }
+        {#if currentPeriodIndex !== false}
           <div class="navigation">
-            <div class='navigation-button' 
+            <div
+              class="navigation-button"
               class:disabled={currentPeriodIndex == 0 && currentWeekIndex == 0}
-              on:click={e=>{
-                if(currentWeekIndex !== 0) {
+              on:click={e => {
+                if (currentWeekIndex !== 0) {
                   currentWeekIndex--
-                } else if(currentPeriodIndex !== 0) {
+                } else if (currentPeriodIndex !== 0) {
                   currentPeriodIndex--
                   currentWeekIndex = periods[currentPeriodIndex].weeks.length - 1
                 }
-              }}><span class="arrow" >&lt;</span> PREV</div>
+              }}>
+              <span class="arrow">&lt;</span>
+              PREV
+            </div>
             <div>OCTOBER 2020</div>
-            <div 
-              class='navigation-button' 
-              class:disabled={currentPeriodIndex == periods.length - 1 && currentWeekIndex == periods[currentPeriodIndex].weeks.length - 1} 
-              on:click={e=>{
-                if(currentWeekIndex !== periods[currentPeriodIndex].length - 1) {
+            <div
+              class="navigation-button"
+              class:disabled={currentPeriodIndex == periods.length - 1 && currentWeekIndex == periods[currentPeriodIndex].weeks.length - 1}
+              on:click={e => {
+                if (currentWeekIndex !== periods[currentPeriodIndex].length - 1) {
                   currentWeekIndex++
-                } else if(currentPeriodIndex !== periods.length - 1) {
+                } else if (currentPeriodIndex !== periods.length - 1) {
                   currentWeekIndex = 0
                   currentPeriodIndex++
                 }
-              }}>NEXT <span class="arrow">&gt;</span></div>
+              }}>
+              NEXT
+              <span class="arrow">&gt;</span>
+            </div>
           </div>
           {#each periods[currentPeriodIndex].weeks[currentWeekIndex] as day}
             <a
@@ -549,10 +615,11 @@
       <!-- PANEL 2 => DAY -->
       <div
         class="panel day"
+        out:fade={{ duration: 300, easing: quartOut }}
         in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
         <div
           class="close phone-only"
-          on:click={(e) => {
+          on:click={e => {
             navigate('/program')
           }}>
           <X />
@@ -564,17 +631,23 @@
               <a
                 class="item"
                 class:active={get($activeRoute, 'params["*"]', '').substring(11) == event.slug.current}
-                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')} in:fade={{duration: 300, delay: 40 * index}}>
+                href={'/program/' + params.date + '/' + get(event, 'slug.current', 'undefined-slug')}
+                in:fade={{ duration: 300, delay: 40 * index }}>
                 <div class="time">{event.startTime}–{event.endTime}</div>
                 <div class="title">{event.title}</div>
                 {#if event.participants && Array.isArray(event.participants)}
-                  {#each event.participants as participant, index (participant._id)}
-                    <span class="participant">{participant.name}{#if index < event.participants.length - 1}
-                        ,
-                      {/if}</span>
-                  {/each}
+                  <div class="participants">
+                    {#each event.participants as participant, index (participant._id)}
+                      <span
+                        class="participant">{participant.name}{#if index < event.participants.length - 1}
+                          ,
+                        {/if}</span>
+                    {/each}
+                  </div>
                 {/if}
-                <div class="location">{#if event.location}{event.location}{/if}</div>
+                <div class="location">
+                  {#if event.location}{event.location}{/if}
+                </div>
               </a>
             {/each}
           {/if}
@@ -587,10 +660,11 @@
         <!-- PANEL 3 => EVENT -->
         <div
           class="panel event"
+          out:fade={{ duration: 300, easing: quartOut }}
           in:fly={{ x: -window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 400 }}>
-          <a href={'/program/' + params.date} class="close phone-only" ><X /></a>
+          <a href={'/program/' + params.date} class="close phone-only"><X /></a>
           <div class="header"><img src="/img/program.svg" alt="Program" /></div>
-          <Event slug={params.slug}/>
+          <Event slug={params.slug} />
         </div>
       {/if}
     </Route>

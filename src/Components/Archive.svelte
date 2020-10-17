@@ -7,7 +7,7 @@
 
   // *** IMPORTS
   import { onMount } from "svelte"
-  import { slide } from "svelte/transition"
+  import { slide, fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { Router, Route, links } from "svelte-routing"
   import flatMap from "lodash/flatMap"
@@ -33,7 +33,7 @@
   let archive = loadData(QUERY.ARCHIVED)
 
   $: {
-    console.log(archivedList)
+    // console.log(archivedList)
     filteredEvents.set(
       $activeTags.length > 0
         ? archivedList.filter(e => {
@@ -246,6 +246,7 @@
     <div
       class="archive"
       use:links
+      out:fade={{ duration: 300, easing: quartOut }}
       in:slide={{ easing: quartOut, duration: 500 }}>
       <a class="close" href="/"><X /></a>
       <div class="header"><img src="/img/archive.svg" alt="Program" /></div>

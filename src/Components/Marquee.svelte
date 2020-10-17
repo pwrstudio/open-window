@@ -8,8 +8,8 @@
   // *** PROPS
   export let duration = 15
   export let repeat = 4
-  export let paused = false
-  export let pauseOnHover = false
+  // export let paused = false
+  // export let pauseOnHover = false
 </script>
 
 <style lang="scss">
@@ -30,6 +30,10 @@
       height: 15px;
       margin-right: 120px;
       margin-top: 9px;
+
+      @include screen-size("small") {
+        margin-right: 40px;
+      }
     }
 
     .logos {
@@ -38,6 +42,11 @@
       margin-right: 120px;
       position: relative;
       top: 0px;
+
+      @include screen-size("small") {
+        margin-right: 40px;
+      }
+
       img {
         margin-right: 5px;
 
@@ -67,7 +76,7 @@
   <div class="content">
     {#each Array(repeat) as _, i}
       <div class="text" style="animation-duration: {duration}s">
-        <img src="/img/open-window.svg" />
+        <img src="/img/open-window.svg" alt="Open Window" />
         <span class="logos">
           <img src="/img/hdk-valand.svg" alt="HDK-Valand" />
           <img src="/img/gu2.svg" alt="Göteborgs Universitet" class="gu" />
