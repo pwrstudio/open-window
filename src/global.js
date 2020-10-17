@@ -11,6 +11,8 @@ export const QUERY = {
     ACTIVE_STREAM:
     "*[_id == 'active-stream']{..., activeStream->{..., participants[]->{...}}}[0]",
   SINGLE:
+    '*[(_type == "event" && slug.current == $slug) || _id == "archive"]{...,participants[]->{...}}',
+    SINGLE_ARCHIVED:
     '*[_type == "event" && slug.current == $slug]{...,participants[]->{...}}[0]',
 }
 

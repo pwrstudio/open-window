@@ -9,7 +9,6 @@
   import { links } from "svelte-routing"
   import get from "lodash/get"
   import { loadData, renderBlockText, urlFor } from "../sanity"
-  import imagesLoaded from "imagesloaded"
 
   import { isWithinInterval } from "date-fns"
 
@@ -17,6 +16,7 @@
   import Tag from "./Tag.svelte"
   import Link from "./Link.svelte"
   import Metadata from "../Metadata.svelte"
+  import EmbedBlock from "./Blocks/EmbedResponsive.svelte"
 
   // *** GRAPHICS
   import LiveIcon from "./Graphics/LiveIcon.svelte"
@@ -33,6 +33,7 @@
   let now = Date.now()
   let oldSlug = ""
   let islive = false
+  let isArchived = false
   let event = {}
 
   $: {
@@ -42,19 +43,23 @@
         .then(res => {
           // __ Check if event is live
           now = Date.now()
-          event = res
-          const startPoint = Date.parse(event.date + " " + event.startTime)
-          const endPoint = Date.parse(event.date + " " + event.endTime)
-          islive = isWithinInterval(now, {
-            start: startPoint,
-            end: endPoint,
-          })
-          // __ Scroll to top
-          const eventContainer = document.querySelector(".event-container")
-          eventContainer ? eventContainer.scrollTo(0, 0) : null
-          imagesLoaded(imgEl, () => {
-            loaded = true
-          })
+          event = res.find(e => e._type === "event")
+          if (event) {
+            const startPoint = Date.parse(event.date + " " + event.startTime)
+            const endPoint = Date.parse(event.date + " " + event.endTime)
+            islive = isWithinInterval(now, {
+              start: startPoint,
+              end: endPoint,
+            })
+            // __ Scroll to top
+            const eventContainer = document.querySelector(".event-container")
+            eventContainer ? eventContainer.scrollTo(0, 0) : null
+          }
+
+          const archive = res.find(e => e._id === "archive")
+          if (archive && archive.archivedEvents) {
+            isArchived = archive.archivedEvents.find(e => e._ref === event._id)
+          }
         })
         .catch(err => {
           console.dir(err)
@@ -84,12 +89,17 @@
 
     @include hide-scroll;
 
-    .image {
+    // .image {
+    //   margin-bottom: 20px;
+    //   img {
+    //     max-width: 100%;
+    //     max-height: 500px;
+    //   }
+    // }
+
+    .video {
       margin-bottom: 20px;
-      img {
-        max-width: 100%;
-        max-height: 500px;
-      }
+      width: 100%;
     }
 
     .header {
@@ -169,7 +179,9 @@
     <!-- METADATA -->
     <Metadata post={event} />
     <!-- IMAGE -->
-    {#if event.mainImage}
+    {#if isArchived && event.streamId}
+      <EmbedBlock image={event.mainImage} url={event.streamId} />
+    {:else if event.mainImage}
       <div class="image">
         <img
           bind:this={imgEl}

@@ -51,7 +51,7 @@
     // console.log("–– TOTAL", $filteredEvents.length)
     // console.log("__ nextSlug", nextSlug)
     // console.log("__ prevSlug", prevSlug)
-    event = loadData(QUERY.SINGLE, { slug: slug }).catch(err => {
+    event = loadData(QUERY.SINGLE_ARCHIVED, { slug: slug }).catch(err => {
       console.dir(err)
     })
   }
