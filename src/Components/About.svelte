@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // IMPORTS
-  import { fly } from "svelte/transition"
+  import { fly, fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { Router, Route, links, navigate } from "svelte-routing"
   import get from "lodash/get"
@@ -295,11 +295,12 @@
     <!-- PANEL 1 => MENU -->
     <div
       class="panel menu"
+      out:fade={{ duration: 300, easing: quartOut }}
       in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}>
       <div class="header"><img src="/img/about.svg" alt="About" /></div>
       <div
         class="close"
-        on:click={(e) => {
+        on:click={e => {
           navigate('/')
         }}>
         <X />
@@ -326,17 +327,19 @@
       <!-- PANEL 2 => PAGE -->
       <div
         class="panel page"
+        out:fade={{ duration: 300, easing: quartOut }}
         in:fly={{ x: window.innerWidth / 3, opacity: 1, easing: quartOut, duration: 500 }}>
         <div class="header"><img src="/img/about.svg" alt="About" /></div>
         <div
           class="close phone-only"
-          on:click={(e) => {
+          on:click={e => {
             navigate('/about')
           }}>
           <X />
         </div>
         <div class="page-container">
-          <Page page={pages.find((p) => get(p, 'slug.current', '') === params.slug)} />
+          <Page
+            page={pages.find(p => get(p, 'slug.current', '') === params.slug)} />
         </div>
         <div class="scroll-indicator">
           <ArrowDown />

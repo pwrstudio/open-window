@@ -38,10 +38,10 @@
 
 <a href={link.url} target="_blank" class="link">
   {#if link._type == 'instagram'}
-    <img src="/img/instagram.svg" />
+    <img src="/img/instagram.svg" alt="Instagram" />
   {:else if link._type == 'twitter'}
-    <img src="/img/twitter.svg" />
+    <img src="/img/twitter.svg" alt="Twitter" />
   {:else if link._type == 'facebook'}
-    <img src="/img/facebook.svg" />
-  {:else}<img src="/img/web.svg" />{/if}
+    <img src="/img/facebook.svg" alt="Facebook" />
+  {:else}<img src="/img/web.svg" alt="External link" />{/if}
 </a>
