@@ -157,6 +157,11 @@
       }
     }
   }
+
+  .link-container {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
 </style>
 
 <div class="event-container" use:links>
@@ -215,13 +220,13 @@
       {/if}
     </div>
     <!-- LINKS-->
-    <div class="link-container">
-      {#if event.links && Array.isArray(event.links)}
+    {#if event.links && Array.isArray(event.links)}
+      <div class="link-container">
         {#each event.links as link}
           <Link {link} />
         {/each}
-      {/if}
-    </div>
+      </div>
+    {/if}
     <!-- TAGS -->
     <div class="tag-container">
       {#if event.tags && Array.isArray(event.tags)}

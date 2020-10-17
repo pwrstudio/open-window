@@ -7,12 +7,27 @@
 
   // IMPORTS
   import { links } from "svelte-routing"
+  import get from "lodash/get"
+  import { formatDistance } from "date-fns"
 
   //   *** PROPS
-  export let leftText = "LIVE: From wood to waste"
-  export let leftLink = ""
-  export let rightText = ""
-  export let rightLink = ""
+  export let nextEvent = false
+  export let currentStream = false
+
+  let timeTilNext = ""
+
+  $: {
+    setInterval(() => {
+      if (nextEvent) {
+        const now = Date.now()
+        timeTilNext = formatDistance(
+          Date.parse(nextEvent.date + " " + nextEvent.startTime),
+          now,
+          { addSuffix: true, includeSeconds: true }
+        )
+      }
+    })
+  }
 </script>
 
 <style lang="scss">
@@ -43,6 +58,15 @@
 </style>
 
 <div class="infobar" use:links>
-  <a href={leftLink}>{leftText}</a>
-  <a href={rightLink}>{rightText}</a>
+  {#if currentStream}
+    <a
+      href={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')}>LIVE:
+      {currentStream.title}</a>
+  {/if}
+  {#if nextEvent}
+    <a
+      href={'/program/' + nextEvent.date + '/' + get(nextEvent, 'slug.current')}>NEXT:
+      {nextEvent.title}</a>
+    <div>{timeTilNext}</div>
+  {/if}
 </div>

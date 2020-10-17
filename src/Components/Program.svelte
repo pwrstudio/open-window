@@ -437,7 +437,7 @@
                 // color: $green;
                 background-color: $green;
                 background-image: linear-gradient(
-                  to right,
+                  to left,
                   rgb(163, 255, 0) 0%,
                   rgb(0, 255, 0) 25%,
                   rgb(0, 255, 173) 100%
