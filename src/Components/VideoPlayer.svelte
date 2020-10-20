@@ -29,10 +29,10 @@
     align-items: center;
 
     .embed {
-      width: 80%;
+      width: 100%;
 
       @include screen-size("small") {
-        width: 95%;
+        width: 100%;
       }
 
       .youtube-container,
@@ -64,7 +64,7 @@
           <iframe
             width="1920"
             height="1280"
-            src={'https://www.youtube.com/embed/' + getVideoId(liveEvent.streamId).id + '?autoplay=1&rel=0'}
+            src={'https://www.youtube.com/embed/' + getVideoId(liveEvent.streamId).id + '?autoplay=1&rel=0&color=white'}
             frameborder="no"
             allow="autoplay; fullscreen"
             allowfullscreen />
