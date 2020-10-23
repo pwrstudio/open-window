@@ -59,7 +59,7 @@
 </style>
 
 <div class="infobar" use:links>
-  <span>IMPORTANT INFORMATION: At the moment the venue at Kyrkogatan 26 is closed, please check the program for status about the single events and possibilities to take part in them.</span>
+  <span>IMPORTANT: At the moment the venue at Kyrkogatan 26 is closed, please check the program for status about the single events and possibilities to take part in them.</span>
   <!-- {#if currentStream}
     <a
       href={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')}>LIVE:
