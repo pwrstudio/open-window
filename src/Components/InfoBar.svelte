@@ -45,6 +45,7 @@
     padding-left: 10px;
     padding-right: 10px;
     user-select: none;
+    line-height: 1em;
 
     a {
       display: block;
@@ -58,7 +59,8 @@
 </style>
 
 <div class="infobar" use:links>
-  {#if currentStream}
+  <span>IMPORTANT INFORMATION: At the moment the venue at Kyrkogatan 26 is closed, please check the program for status about the single events and possibilities to take part in them.</span>
+  <!-- {#if currentStream}
     <a
       href={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')}>LIVE:
       {currentStream.title}</a>
@@ -68,5 +70,5 @@
       href={'/program/' + nextEvent.date + '/' + get(nextEvent, 'slug.current')}>NEXT:
       {nextEvent.title}</a>
     <div>{timeTilNext}</div>
-  {/if}
+  {/if} -->
 </div>

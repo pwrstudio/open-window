@@ -17,7 +17,7 @@
   import { loadData, client } from "./sanity.js"
 
   // *** VARIABLES
-  let infoBarActive = false
+  let infoBarActive = true
 
   // *** GLOBALS
   import { QUERY } from "./global.js"
