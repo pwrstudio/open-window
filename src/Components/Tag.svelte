@@ -59,8 +59,8 @@
   .tag {
     padding: 0px 15px;
     height: 26px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
     background: $white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     user-select: none;

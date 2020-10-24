@@ -33,6 +33,8 @@
   // import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
+  import AlertBox from "./Components/AlertBox.svelte"
+
 
   let currentStream = false
   let nextEvent = false
@@ -165,6 +167,7 @@
 <Router>
   <!-- MAIN -->
   <main class="main" use:links>
+    <AlertBox/>
     {#if currentStream}
       <VideoPlayer liveEvent={currentStream} />
     {:else}

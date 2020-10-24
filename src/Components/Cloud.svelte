@@ -55,4 +55,6 @@
   }
 </style>
 
-<div class="cloud"><video id="myVideo" class:loaded autoplay loop muted /></div>
+<div class="cloud">
+  <video id="myVideo" class:loaded autoplay loop muted />
+</div>
