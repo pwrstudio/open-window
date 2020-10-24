@@ -167,10 +167,10 @@
 <Router>
   <!-- MAIN -->
   <main class="main" use:links>
-    <AlertBox/>
     {#if currentStream}
       <VideoPlayer liveEvent={currentStream} />
     {:else}
+      <AlertBox/>
       <Cloud />
     {/if}
   </main>
