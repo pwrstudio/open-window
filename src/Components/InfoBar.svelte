@@ -9,6 +9,7 @@
   import { links } from "svelte-routing"
   import get from "lodash/get"
   import { formatDistance } from "date-fns"
+  import MediaQuery from "svelte-media-query"
 
   //   *** PROPS
   export let nextEvent = false
@@ -59,7 +60,13 @@
 </style>
 
 <div class="infobar" use:links>
-  <span>IMPORTANT: At the moment the venue at Kyrkogatan 26 is closed, please check the program for status about the single events and possibilities to take part in them.</span>
+  <MediaQuery query="(min-width: 800px)" let:matches>
+    {#if matches}
+      <span>IMPORTANT: At the moment the venue at Kyrkogatan 26 is closed, please check the program for status about the single events and possibilities to take part in them.</span>
+    {:else}
+      <span>IMPORTANT: The venue at Kyrkogatan 26 is currently closed.</span>
+    {/if}
+  </MediaQuery>
   <!-- {#if currentStream}
     <a
       href={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')}>LIVE:
