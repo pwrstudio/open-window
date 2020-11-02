@@ -17,7 +17,7 @@
   import { loadData, client } from "./sanity.js"
 
   // *** VARIABLES
-  let infoBarActive = true
+  let infoBarActive = false
 
   // *** GLOBALS
   import { QUERY } from "./global.js"
@@ -33,7 +33,7 @@
   // import MobileTitle from "./Components/Mobile/MobileTitle.svelte"
   import MobileMenu from "./Components/Mobile/MobileMenu.svelte"
   import VideoPlayer from "./Components/VideoPlayer.svelte"
-  import AlertBox from "./Components/AlertBox.svelte"
+  // import AlertBox from "./Components/AlertBox.svelte"
 
 
   let currentStream = false
@@ -82,13 +82,13 @@
 
   setInterval(getNextEvent, 10000)
 
-  const alternateBar = () => {
-    if (!currentStream) {
-      infoBarActive = !infoBarActive
-    }
-  }
+  // const alternateBar = () => {
+  //   if (!currentStream) {
+  //     infoBarActive = !infoBarActive
+  //   }
+  // }
 
-  setInterval(alternateBar, 10000)
+  // setInterval(alternateBar, 10000)
 
   // __ Listen for changes to the active streams post
   let live = loadData(QUERY.ACTIVE_STREAM).catch(err => {
@@ -170,7 +170,7 @@
     {#if currentStream}
       <VideoPlayer liveEvent={currentStream} />
     {:else}
-      <AlertBox/>
+      <!-- <AlertBox/> -->
       <Cloud />
     {/if}
   </main>

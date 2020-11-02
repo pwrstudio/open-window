@@ -60,14 +60,14 @@
 </style>
 
 <div class="infobar" use:links>
-  <MediaQuery query="(min-width: 800px)" let:matches>
+  <!-- <MediaQuery query="(min-width: 800px)" let:matches>
     {#if matches}
       <span>IMPORTANT: At the moment the venue at Kyrkogatan 26 is closed, please check the program for status about the single events and possibilities to take part in them.</span>
     {:else}
       <span>IMPORTANT: The venue at Kyrkogatan 26 is currently closed.</span>
     {/if}
-  </MediaQuery>
-  <!-- {#if currentStream}
+  </MediaQuery> -->
+ {#if currentStream}
     <a
       href={'/program/' + currentStream.date + '/' + get(currentStream, 'slug.current')}>LIVE:
       {currentStream.title}</a>
@@ -77,5 +77,5 @@
       href={'/program/' + nextEvent.date + '/' + get(nextEvent, 'slug.current')}>NEXT:
       {nextEvent.title}</a>
     <div>{timeTilNext}</div>
-  {/if} -->
+  {/if}
 </div>
