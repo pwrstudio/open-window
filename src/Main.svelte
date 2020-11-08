@@ -63,14 +63,14 @@
           //     Date.parse(e.date + " " + e.startTime)
           //   )
           // })
-
           if (nEs[0].date > currentDate) {
             nextEvent = nEs[0]
           } else {
             nextEvent = nEs.find(e => e.startTime > currentTime)
           }
-
-          console.log("nextEvent", nextEvent)
+          // console.log("nextEvent", nextEvent)
+        } else {
+          nextEvent = false
         }
       })
       .catch(err => {
@@ -82,13 +82,13 @@
 
   setInterval(getNextEvent, 10000)
 
-  // const alternateBar = () => {
-  //   if (!currentStream) {
-  //     infoBarActive = !infoBarActive
-  //   }
-  // }
+  const alternateBar = () => {
+    if (!currentStream && nextEvent) {
+      infoBarActive = !infoBarActive
+    }
+  }
 
-  // setInterval(alternateBar, 10000)
+  setInterval(alternateBar, 10000)
 
   // __ Listen for changes to the active streams post
   let live = loadData(QUERY.ACTIVE_STREAM).catch(err => {

@@ -70,7 +70,7 @@
       weekdayName: format(D, "EEEE"),
       date: getDate(D),
       month: getMonth(D),
-      monthName: format(D, "MMMM"),
+      monthName: format(D, "MMMM").toUpperCase(),
       year: format(D, "yyyy"),
       slug: format(D, "yyyy-MM-dd"),
     }
@@ -131,10 +131,11 @@
   events
     .then(events => {
       eventsList = events
-      console.log("_____ EVENTS LIST")
+      // console.log("_____ EVENTS LIST")
       // console.dir(eventsList)
       settings
         .then(settings => {
+          // console.log('___ SETTINGS')
           // console.dir(settings)
           // ___
           eventsMap = groupBy(eventsList, e => e.date)
@@ -144,7 +145,6 @@
           // console.dir(periods)
           currentPeriodIndex = periods.findIndex(p => p.isActive)
           // console.dir(periods[currentPeriodIndex].weeks[currentWeekIndex])
-          // console.dir(eventsMap)
         })
         .catch(err => {
           console.dir(err)
@@ -581,16 +581,24 @@
               <span class="arrow">&lt;</span>
               PREV
             </div>
-            <div>OCTOBER 2020</div>
+            <div>{periods[currentPeriodIndex].weeks[currentWeekIndex][0].monthName} {periods[currentPeriodIndex].weeks[currentWeekIndex][0].year}</div>
+            <!-- <div>{get(periods[currentPeriodIndex], 'weeks[currentWeekIndex][0].monthName', 'XXX')} {get(periods[currentPeriodIndex], 'weeks[currentWeekIndex][0].year', '0000')}</div> -->
             <div
               class="navigation-button"
               class:disabled={currentPeriodIndex == periods.length - 1 && currentWeekIndex == periods[currentPeriodIndex].weeks.length - 1}
               on:click={e => {
-                if (currentWeekIndex !== periods[currentPeriodIndex].length - 1) {
+                // console.log('__ currentPeriodIndex', currentPeriodIndex)
+                // console.log('__ currentWeekIndex', currentWeekIndex)
+                // console.log('__ periods', periods)
+                // console.log('__ periods[currentPeriodIndex].weeks.length', periods[currentPeriodIndex].weeks.length )
+                if (currentWeekIndex !== periods[currentPeriodIndex].weeks.length - 1) {
+                  // console.log('nav in week')
                   currentWeekIndex++
                 } else if (currentPeriodIndex !== periods.length - 1) {
+                  // console.log('nav in periods')
                   currentWeekIndex = 0
                   currentPeriodIndex++
+                  // console.log('!!! NEW currentPeriodIndex', currentPeriodIndex)
                 }
               }}>
               NEXT
