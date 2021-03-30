@@ -1,8 +1,6 @@
-# openwindow.se
+# Rights of Future Generations
 
-Frontend for [openwindow.se](https://openwindow.se/)
-
-A video-stream platform for the University of Gotheburg.
+Frontend for the site of Rights of Future Generations – the 2019 Sharjah Architecture Triennial: [rfgen.net](https://rfgen.net/)
 
 ## Development
 
