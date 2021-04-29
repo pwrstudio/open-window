@@ -12,6 +12,55 @@
   export let liveEvent = {}
 </script>
 
+<div class="outer">
+  <div class="embed">
+    <!-- // YOUTUBE -->
+    {#if liveEvent && liveEvent.streamId}
+      {#if liveEvent.streamId.includes("youtube") || liveEvent.streamId.includes("youtu.be")}
+        <div class="youtube-container">
+          <iframe
+            width="1920"
+            height="1280"
+            src={"https://www.youtube.com/embed/" +
+              getVideoId(liveEvent.streamId).id +
+              "?autoplay=1&rel=0&color=white"}
+            frameborder="no"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+          />
+        </div>
+      {:else if liveEvent.streamId.includes("vimeo")}
+        <div class="youtube-container">
+          <iframe
+            width="1920"
+            height="1280"
+            src={"https://player.vimeo.com/video/" +
+              getVideoId(liveEvent.streamId).id +
+              "?autoplay=1"}
+            frameborder="no"
+            scrolling="no"
+            byline="false"
+            color="#ffffff"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+          />
+        </div>
+      {:else}
+        <div class="youtube-container">
+          <iframe
+            width="1920"
+            height="1280"
+            src={liveEvent.streamId}
+            frameborder="no"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+          />
+        </div>
+      {/if}
+    {/if}
+  </div>
+</div>
+
 <style lang="scss">
   @import "../variables.scss";
 
@@ -54,22 +103,3 @@
     }
   }
 </style>
-
-<div class="outer">
-  <div class="embed">
-    <!-- // YOUTUBE -->
-    {#if liveEvent && liveEvent.streamId}
-      {#if liveEvent.streamId.includes('youtube') || liveEvent.streamId.includes('youtu.be')}
-        <div class="youtube-container">
-          <iframe
-            width="1920"
-            height="1280"
-            src={'https://www.youtube.com/embed/' + getVideoId(liveEvent.streamId).id + '?autoplay=1&rel=0&color=white'}
-            frameborder="no"
-            allow="autoplay; fullscreen"
-            allowfullscreen />
-        </div>
-      {/if}
-    {/if}
-  </div>
-</div>
